@@ -1,0 +1,143 @@
+﻿@using DataEntityLayer.Models.Informes;
+@using DataAccessLayer.Util;
+
+<div id="GridInformeAuditoria" style="min-height:320px">
+    @(Html.DevExtreme().DataGrid<InformeAuditoriaModel>().DataSource(ds => ds
+                                                            .Mvc()
+                                                            .Controller("InformePlanAccion")
+                                                            .LoadAction("GetInformeAuditoriaSinPa")
+                                                            .Key("codigoInformeAuditoria"))
+                                                            .ID("GridInformeAuditoriaSinPa")
+                                                            .Columns(columns =>
+                                                            {
+                                                                //columns.AddFor(m => m.codigoInformeAuditoriaEncriptado).AllowHiding(true);
+                                                                columns.AddFor(m => m.codigoInformeAuditoria).Visible(false).MinWidth(80);
+                                                                columns.AddFor(m => m.numeroInforme).Visible(true).MinWidth(80);
+                                                                columns.AddFor(m => m.numeroOficioRemision).Visible(true).MinWidth(100);
+                                                                columns.AddFor(m => m.entidad).Visible(true).MinWidth(170);
+                                                                columns.AddFor(m => m.tema).Visible(false).MinWidth(160);
+                                                                columns.AddFor(m => m.rubro).Visible(false).MinWidth(160);
+                                                                columns.AddFor(m => m.fuenteFinanciera).Visible(true).MinWidth(150);
+                                                                columns.AddFor(m => m.fechaInicio).DataType(GridColumnDataType.Date).Format("dd/MM/yyyy").Visible(true).MinWidth(150);
+                                                                columns.AddFor(m => m.fechaFin).DataType(GridColumnDataType.Date).Format("dd/MM/yyyy").Visible(true).MinWidth(150);
+                                                                columns.AddFor(m => m.entidadAuditora).Visible(true).MinWidth(150);
+                                                                columns.AddFor(m => m.departamento).Visible(false).MinWidth(150);
+                                                                columns.AddFor(m => m.municipio).Visible(false).MinWidth(150);
+                                                                columns.AddFor(m => m.estado).Visible(true).MinWidth(150);
+                                                                columns.AddFor(m => m.codigoOrganigrama).Visible(false).Width(150);
+                                                                columns.AddFor(m => m.fechaHoraCreacion).DataType(GridColumnDataType.Date).Format("dd/MM/yyyy").Visible(false).MinWidth(150);
+                                                                columns.AddFor(m => m.usuarioCreacion).Visible(false).MinWidth(150);
+                                                                columns.AddFor(m => m.usuarioAuditor).Visible(false).MinWidth(150);
+                                                                columns.AddFor(m => m.fechaIngreso).DataType(GridColumnDataType.Date).Format("dd/MM/yyyy").Visible(false).MinWidth(150);
+                                                                columns.AddFor(m => m.fechaVen1).DataType(GridColumnDataType.Date).Format("dd/MM/yyyy").Visible(false).MinWidth(150);
+                                                                columns.AddFor(m => m.fechaVen2).DataType(GridColumnDataType.Date).Format("dd/MM/yyyy").Visible(false).MinWidth(150);
+                                                                columns.AddFor(m => m.fechaVen3).DataType(GridColumnDataType.Date).Format("dd/MM/yyyy").Visible(false).MinWidth(150);
+                                                            })
+                                                            .ShowBorders(true)
+                                                            .SearchPanel(p => p.Visible(true).Width(210).Placeholder("Buscar..."))
+                                                            .Paging(paging => paging.PageSize(10))
+                                                            .FilterRow(f => f.Visible(true))
+                                                            .HeaderFilter(h => h.Visible(true))
+                                                            .ShowColumnLines(true)
+                                                            .ShowRowLines(true)
+                                                            .RowAlternationEnabled(true)
+                                                            .HoverStateEnabled(true)
+                                                            .Pager(pager =>
+                                                            {
+                                                                pager.ShowPageSizeSelector(true);
+                                                                pager.AllowedPageSizes(new List<int> { 5, 10, 20 });
+                                                                pager.ShowInfo(true);
+                                                                pager.Visible(true);
+                                                            }
+                                                            )
+                                                            .ColumnResizingMode(ColumnResizingMode.Widget)
+                                                            .AllowColumnReordering(true)
+                                                            .AllowColumnResizing(true)
+                                                            .Selection(s => s.Mode(SelectionMode.Single))
+                                                            .ColumnHidingEnabled(true)
+                                                            .NoDataText("No hay información")
+                                                            .ColumnChooser(c => c.Enabled(true).AllowSearch(true))
+                                                            .ColumnFixing(c => c.Enabled(true))
+                                                            .OnSelectionChanged("SelectionChangedInfSinPa")
+                                                            .Scrolling(scrolling => scrolling.ColumnRenderingMode(GridColumnRenderingMode.Virtual))
+                                                            .Export(e => e.Enabled(true).AllowExportSelectedData(true))
+                                                            .OnExporting("ExportingInfSinPa")
+                                                            .WordWrapEnabled(true)
+                                                            .Toolbar(toolbar =>
+                                                            {
+                                                                toolbar.Items(items =>
+                                                                {
+
+                                                                    items.Add()
+                                                                        .Location(ToolbarItemLocation.Before)
+                                                                        .LocateInMenu(ToolbarItemLocateInMenuMode.Auto)
+                                                                        .Widget(w =>
+                                                                            w.Button()
+                                                                                .Icon("plus")
+                                                                                .Text("Crear")
+                                                                                .ID("BtnAgregarInfPa")
+                                                                                .OnClick("CrearPlanAccion")
+                                                                                .Disabled(true)
+                                                                        );
+                                                                    items.Add().Location(ToolbarItemLocation.After)
+                                                                        .LocateInMenu(ToolbarItemLocateInMenuMode.Auto)
+                                                                        .Widget(w =>
+                                                                                w.Button()
+                                                                                .ID("Refrescar")
+                                                                                .Icon("refresh")
+                                                                                .Hint("Refrescar")
+                                                                                .Text("")
+                                                                                .OnClick("RefreshGridInfSinPa")
+                                                                           );
+                                                                    items.Add()
+                                                                        .Location(ToolbarItemLocation.After)
+                                                                        .Widget(w =>
+                                                                            w.Button()
+                                                                                .ID("exportCSV")
+                                                                                .Icon("export")
+                                                                                .Hint("Exportar CSV")
+                                                                                .Text("")
+                                                                                .OnClick("ExportToCsvInfSinPa")
+                                                                        );
+                                                                    items.Add()
+                                                                        .Location(ToolbarItemLocation.After)
+                                                                        .Widget(w =>
+                                                                            w.Button()
+                                                                                .ID("exportPDF")
+                                                                                .Icon("pdffile")
+                                                                                .Hint("Exportar PDF")
+                                                                                .Text("")
+                                                                                .OnClick("ExportToPdfInfSinPa")
+                                                                        );
+                                                                    items.Add().Name("exportButton").LocateInMenu(ToolbarItemLocateInMenuMode.Auto);
+                                                                    items.Add().Name("columnChooserButton")
+                                                                            .LocateInMenu(ToolbarItemLocateInMenuMode.Auto);
+                                                                    items.Add().Name("searchPanel").Location(ToolbarItemLocation.After).LocateInMenu(ToolbarItemLocateInMenuMode.Auto);
+                                                                });
+                                                            })
+
+    )
+</div>
+
+<div style="padding-top:10px" class="dx-field-value">
+    @(Html.DevExtreme().Button()
+                            .Text("Cerrar")
+                            .ID("btnCerrarInfSinPa")
+                            //.Icon("fas fa-times")
+                            .Type(ButtonType.Normal)
+                            .Width(90)
+                            .OnClick("CerrarPopCrearPa")
+                            
+
+
+    )
+    @*@(Html.DevExtreme().Button()
+                                                                                    .Text("Guardar")
+                                                                                    .ID("btnGuardarInfSinPa")
+                                                                                    .Icon("save")
+                                                                                    .Type(ButtonType.Normal)
+                                                                                    .Width(90)
+            //.OnClick("InsertHallazgoInformeAuditoria")
+    )*@
+
+</div>

@@ -1,0 +1,394 @@
+﻿
+@using DataAccessLayer.Util;
+@{
+    ViewBag.Title = "Informe de Auditoria";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string menu = ViewBag.urlMenuEncrip;
+    string urlMenu = ViewBag.urlMenu;
+    string bandejaNotificado = UtilClass.bandejaNoNotificado;
+    int tipoOperacion = UtilClass.tipEstadoRegistrado;
+}
+<nav aria-label="breadcrumb" class="menu">
+    <ol class="breadcrumb">
+        @if (ViewBag.urlMenu == UtilClass.bandejaNoNotificado)
+        {
+            <li class="breadcrumb-item active" aria-current="page">Informes de Auditoría</li>
+        }
+        @if (ViewBag.urlMenu == UtilClass.bandejaNotificado)
+        {
+            <li class="breadcrumb-item active" aria-current="page">Informes Notificados</li>
+        }
+        @if (ViewBag.urlMenu == UtilClass.bandejaVerificado)
+        {
+            <li class="breadcrumb-item active" aria-current="page">Informes Verificados</li>
+        }
+
+    </ol>
+</nav>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12" style="padding:5px;">
+            @Html.Partial("~/Views/InformeAuditoria/_GridGetInformesAuditoria.cshtml", new { urlMenu = ViewBag.urlMenu })
+        </div>
+    </div>
+</div>
+
+<div id="Pop" class="col-lg-12 ">
+    @Html.Partial("~/Views/InformeAuditoria/_PopInformeAuditoria.cshtml")
+    @Html.Partial("~/Views/InformeAuditoria/_PopEnviarNotificarInforme.cshtml")
+
+</div>
+
+<script src="@Url.Content("~/Scripts/jquery-confirm.min.js")"></script>
+<script>
+    //Notificacion informe auditoria
+    function AbrirPopEnviarNotInforme() {
+
+        MostrarPanelLoad();
+        $.ajax({
+            url: '@Url.Action("FormEnviarNotInforme", "InformeAuditoria")',
+            type: 'POST',
+            async: true,
+            cache:false,
+            success: function (response)
+            {
+
+                $("#PopEnviarNotificarInforme").dxPopup("instance").option("title", "Enviar a Notificar Informe No. " + InformeSeleccionado.numeroInforme);
+                $("#PopEnviarNotificarInforme").dxPopup("instance").show();
+                $("#ContNotificarInforme").html(response);
+                 OcultarPanelLoad();
+            },
+            error: function (error) {
+                OcultarPanelLoad();
+                Alert(error.statusText, "error");
+            }
+        });
+    }
+
+    function AbrirReporteInforme() {
+        MostrarPanelLoad();
+        window.location.href = '@Url.Action("ReporteInformeAuditoria", "InformeAuditoria")' + "?" + "ci=" + InformeSeleccionado.codigoInformeAuditoriaEncriptado + "&urlMenu=" + "@menu" ;
+    }
+
+    function CerrarPopEnviarNotInforme() {
+        var popup = $("#PopEnviarNotificarInforme").dxPopup("instance");
+        popup.hide();
+    }
+
+    function NotificarInforme() {
+        var menu = '@menu';
+        MostrarPanelLoad();
+        var form = $("#FormEnviarNotificarInforme").dxForm("instance").option("formData");
+
+        form.codigoInformeAuditoria = InformeSeleccionado.codigoInformeAuditoria;
+        if (form.numeroOficio != null && form.numeroOficio != "" && form.fechaOficio != null && form.fechaRecepcion != null 
+            && form.numeroIdentidadRecibe != null && form.numeroIdentidadRecibe != "" && form.nombreRecibe != null && form.nombreRecibe != "" &&
+            form.cargoRecibe != null && form.cargoRecibe != "") {
+            $.ajax({
+                url: '@Url.Action("EnviarNotificarInforme", "InformeAuditoria")',
+                type: 'POST',
+                async: true,
+                cache: false,
+                data: { values: form, fechaOficio: DateShort(form.fechaOficio), fechaNotificacion: DateShort(form.fechaNotificacion) },
+                success: function (response) {
+                    CerrarPopEnviarNotInforme();
+                    OcultarPanelLoad();
+                    Alert("La notificación se ha registrado exitosamente", "success");
+                    RefreshGridInformeAuditoria();
+                },
+                error: function (error) {
+                    OcultarPanelLoad();
+                    Alert(error.statusText, "Error al crear el informe de auditoría");
+                }
+            });
+        }
+        else {
+            OcultarPanelLoad();
+            Alert('Debe llenar todos los campos !! ', "error");
+        }
+    }
+
+    function ReversarEnvioNotificar() {
+
+        $.confirm({
+            title: "Reversar Notificación",
+            animation: "zoom",
+            closeAnimation: "zoom",
+            animateFromElement: false,
+            content: '<div>¿Está seguro que desea reversar la notificación de este informe? <br></div>',
+            type: "orange",
+            buttons: {
+                confirm: {
+                    //btnClass: 'btn-primary',
+                    text: "  Si  ",
+                    action: () => {
+                        ReversarNotificacionInforme();
+                    }
+                }, cancel: {
+                    text: "  No  "
+                }
+            }
+        });
+    }
+
+    function ReversarNotificacionInforme()
+    {
+        var menu = '@urlMenu';
+        var codInforme = InformeSeleccionado.codigoInformeAuditoria;
+        var codEstado=@tipoOperacion;
+        MostrarPanelLoad();
+        $.ajax({
+                url: '@Url.Action("CambiarEstadoInforme", "InformeAuditoria")',
+                type: 'POST',
+                async: true,
+                cache: false,
+            data: { tipoOperacion: codEstado, codigoInforme: codInforme, comentario:" "},
+            success: function (response) {
+                    Alert("Se reverso la notificación exitosamente ", "success");
+                    OcultarPanelLoad();
+                    RefreshGridInformeAuditoria();
+                },
+                error: function (error) {
+                    OcultarPanelLoad();
+                    Alert(error.statusText, "error");
+                }
+        });
+    }
+    //////////////////////// Informe de Auditoria /////////////////////////////////////////////////////
+
+    function SolicitudPlanAccion() {
+        window.location.href = '@Url.Action("DetalleSolicitudPlanAccion", "SolicitudPlanAccion")?codInf=' + InformeSeleccionado.codigoInformeAuditoriaEncriptado + '&urlMenu=' + "@menu";
+    }
+
+    function PresentacionPlanAccion() {
+        window.location.href = '@Url.Action("DetallePresentacionPlanAccion", "InformePlanAccion")?codInf=' + InformeSeleccionado.codigoInformeAuditoriaEncriptado + '&urlMenu=' + "@menu";
+    }
+    
+
+    function RefreshGridInformeAuditoria() {
+        $("#GridInformeAuditoria").dxDataGrid("instance").refresh();
+    }
+
+
+    function CerrarPopAgregarInforme() {
+        var popup = $("#PopInformeAuditoria").dxPopup("instance");
+        popup.hide();
+    }
+
+    function AbrirPopAgregarInforme() {
+
+        MostrarPanelLoad();
+        $.ajax({
+            url: '@Url.Action("FormAgregarInformeAuditoria", "InformeAuditoria")',
+            type: 'POST',
+            async: true,
+            cache:false,
+            success: function (response)
+			{
+                $("#PopInformeAuditoria").dxPopup("instance").option("title", "Crear Nuevo Informe de Auditoria");
+                $("#PopInformeAuditoria").dxPopup("instance").show();
+                $("#ContInformeAuditoria").html(response);
+                 OcultarPanelLoad();
+            },
+            error: function (error) {
+                OcultarPanelLoad();
+                Alert(error.statusText, "error");
+            }
+        });
+    }
+
+    function SelectionChangedInformeAuditoria(e) {
+        if (e.selectedRowsData[0]) {
+
+            InformeSeleccionado = e.selectedRowsData[0];
+        }
+
+        if (e.selectedRowsData[0] == undefined) {
+            $("#BtnDetallarInforme").dxButton("instance").option("disabled", true);
+            $("#BtnAgregarInforme").dxButton("instance").option("disabled", false);
+            $("#BtnSolicitudPlanAccion").dxButton("instance").option("disabled", true);
+            $("#BtnDetallarPresentacionPa").dxButton("instance").option("disabled", true);
+            $("#btnNotificar").dxButton("instance").option("disabled", true);
+            $("#btnAbrirReporte").dxButton("instance").option("disabled", true);
+            $("#btnReversarNotificacion").dxButton("instance").option("disabled", true);
+        }
+
+        if (e.selectedRowKeys.length == 1) {
+            $("#BtnDetallarInforme").dxButton("instance").option("disabled", false);
+            $("#BtnAgregarInforme").dxButton("instance").option("disabled", true);
+            $("#BtnSolicitudPlanAccion").dxButton("instance").option("disabled", false);
+            $("#BtnDetallarPresentacionPa").dxButton("instance").option("disabled", false);
+            $("#btnNotificar").dxButton("instance").option("disabled", false);
+            $("#btnAbrirReporte").dxButton("instance").option("disabled", false);
+            $("#btnReversarNotificacion").dxButton("instance").option("disabled", false);
+        }
+
+        if (e.selectedRowKeys.length > 1) {
+            $("#BtnDetallarInforme").dxButton("instance").option("disabled", true);
+            $("#BtnAgregarInforme").dxButton("instance").option("disabled", true);
+            $("#BtnSolicitudPlanAccion").dxButton("instance").option("disabled", true);
+            $("#BtnDetallarPresentacionPa").dxButton("instance").option("disabled", true);
+            $("#btnNotificar").dxButton("instance").option("disabled", true);
+            $("#btnAbrirReporte").dxButton("instance").option("disabled", true);
+            $("#btnReversarNotificacion").dxButton("instance").option("disabled", true);
+        }
+
+        if (e.selectedRowsData[0].fechaVen1 == null) {
+            $("#BtnSolicitudPlanAccion").dxButton("instance").option("disabled", true);
+        }
+    }
+
+    function OnSelectionChangedDepartamento(e) {
+        console.log("funcion onSelectionChangedDepartamento");
+        if (e.selectedItem != null) {
+            var codGeograficoDep = e.selectedItem.codigoGeografico;
+
+            var SELECTBOXMUN = $("#SELECTBOXMUN").dxSelectBox("instance");
+            var url = '@Url.Action("GetMunicipio", "Catalogo")';
+
+
+            $.get(url, { codDepto: codGeograficoDep}, function (data) {
+                $("#SELECTBOXMUN").dxSelectBox({
+                    dataSource: new DevExpress.data.DataSource({
+                        store: data.data,
+                    }),
+                    displayExpr: "nombre",
+                    valueExpr: "codigoGeografico"
+                });
+                SELECTBOXMUN.option("disabled", false);
+            })
+        }
+
+    }
+
+    //Corregir esta url
+    function DetallarInformeAuditoria() {
+        var uriMenu = '@urlMenu';
+        var bandeja = '@bandejaNotificado';
+        if (uriMenu == bandeja) {
+            window.location.href = '@Url.Action("DetalleInformeAuditoria", "InformeAuditoria")?codInf=' + InformeSeleccionado.codigoInformeAuditoriaEncriptado + '&urlMenu=' + "@menu";
+        }
+        
+
+    }
+
+
+    function ExportToPdfInformeA() {
+        window.jsPDF = window.jspdf.jsPDF;
+        applyPlugin(window.jsPDF);
+        var options = {
+            orientation: 'l',
+            format: 'a4',
+            unit: 'mm',
+        };
+        var doc = new jsPDF(options);
+        doc.setTextColor('#FFFFFF');
+        doc.autoTable({
+            headStyles: { textColor: 21, horizontalPageBreak: true },
+            styles: { textColor: 21, horizontalPageBreak: true },
+            columnStyles: { 0: { halign: 'center'} },
+            body: [
+                [{ content: 'Informe de Auditoría', colSpan: 2, rowSpan: 20, styles: { halign: 'center' }, lineColor: 11 }],
+            ],
+        });
+        var dataGrid = $("#GridInformeAuditoria").dxDataGrid("instance");
+        DevExpress.pdfExporter.exportDataGrid({
+            jsPDFDocument: doc,
+            component: dataGrid,
+            customizeCell: function (options) {
+                test = options;
+                const { gridCell, pdfCell } = options;
+                if (gridCell.rowType === 'data') {
+                    pdfCell.styles = {
+                        font: 'times',
+                        fontSize: 14,
+                        overflow: 'linebreak'
+                    }
+                }
+            }
+        }).then(function () {
+            doc.save("Informe_Auditoria.pdf");
+        });
+    }
+    function Exporting(e) {
+        var workbook = new ExcelJS.Workbook();
+        var worksheet = workbook.addWorksheet('Informes_Auditoria');
+
+        DevExpress.excelExporter.exportDataGrid({
+            component: e.component,
+            worksheet: worksheet,
+            autoFilterEnabled: true
+        }).then(function () {
+            workbook.xlsx.writeBuffer().then(function (buffer) {
+                saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Informes_Auditoria.xlsx');
+            });
+        });
+        e.cancel = true;
+    }
+
+    function ExportToCsvInformeA(e) {
+        var dataGrid = $("#GridInformeAuditoria").dxDataGrid("instance");
+        var workbook = new ExcelJS.Workbook();
+        var worksheet = workbook.addWorksheet('Informes_Auditoria');
+
+        DevExpress.excelExporter.exportDataGrid({
+            component: dataGrid,
+            worksheet: worksheet,
+        }).then(function () {
+            workbook.csv.writeBuffer().then(function (buffer) {
+                saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Informes_Auditoria.csv');
+            });
+        });
+        e.cancel = true;
+    }
+
+
+
+    /////////////////////////////////////////Agregar informe //////////////////////////////////////////////////
+    function InsertInformeAuditoria()
+    {
+
+        MostrarPanelLoad();
+        var form = $("#FormAgregarInformeAuditoria").dxForm("instance").option("formData");
+
+        var entidadVersion = form.codigoCompuestoEntidadVersion;
+
+        
+
+        if (form.numeroInforme != null && form.numeroOficioRemision != null && form.fechaIngreso != null && form.codigoFuenteFinanciera != null
+            && form.tema != null && form.codigoEstado != null && form.rubro != null && form.fechaInicio != null &&
+            form.fechaFin != null && form.codigoCompuestoEntidadVersion != null && form.codigoGeografico != null && form.codigoGeograficoMunicipio != null
+            && form.codigoEntidadAuditora != null && form.codigoUsuarioAuditor != null && form.codigoUsuarioSupervisor != null)
+        {
+            var myArray = entidadVersion.split(",");
+            form.codigoEntidadVersion = parseInt(myArray[1]);
+            form.codigoEntidad = parseInt(myArray[0]);
+            $.ajax({
+                    url: '@Url.Action("InsertInformeAuditoria", "InformeAuditoria")',
+                    type: 'POST',
+                    async: true,
+                    cache: false,
+                data: { values: form, fechaIngreso: DateTime(form.fechaIngreso), fechaInicio: DateShort(form.fechaInicio), fechaFin: DateShort(form.fechaFin)  },
+                    success: function (response) {
+                        CerrarPopAgregarInforme()
+                        OcultarPanelLoad();
+                        Alert("El informe se ha registrado exitosamente", "success");
+                        RefreshGridInformeAuditoria();
+                    },
+                    error: function (error) {
+                        OcultarPanelLoad();
+                        Alert(error.statusText, "Error al crear el informe de auditoría");
+                    }
+                });
+        }
+        else {
+            OcultarPanelLoad();
+            Alert('Debe llenar todos los campos !! ', "error");
+        }
+
+    }
+
+
+</script>
+

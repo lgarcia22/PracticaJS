@@ -1,0 +1,22 @@
+﻿@using System.Web.Configuration
+@using BussinessLayer.Util;
+@{
+    ViewBag.Title = "ErroUserPage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string message = TempData["message"] == null ? "No existen mensajes para mostrar" : TempData["message"].ToString();
+    string loginUrlReturn = "";
+ 
+    loginUrlReturn = Url.Action("Login", "Account");
+
+}
+<div class="container" style="padding: 30px 20px; background:#ececec;box-shadow: 0 0 1px gray;border-radius: 20px">
+    <div class="row">
+        <div class="col-md-12" style="padding: 10px">
+            <h2>Mensaje de información:</h2>
+            <h4>@message</h4>
+            <div style="padding: 5px 10px;">
+                <a href="@loginUrlReturn">Volver al login</a>
+            </div>
+        </div>
+    </div>
+</div>

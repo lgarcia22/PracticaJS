@@ -1,0 +1,36 @@
+﻿@using DataAccessLayer.Util
+
+<li class="dropdown">
+    <a href="" class="dropdown-toggle no-after " title="Opciones" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span class="fas fa-user-circle  go_logof"></span> @UtilClass.GetUsuarioSesion().Nombre.ToUpper()
+    </a>
+    <ul class="dropdown-menu" style="width:150px;">
+        <div class="row">
+            <div class="col-lg-12 center-center " style="text-align:center">
+                <span class="fa fa-user-circle fa-w-16 fa-5x"></span>
+            </div>
+            <div class="col-lg-12 center-center" style="text-align:center">
+                <span>@UtilClass.GetUsuarioSesion().Nombre.ToUpper()</span>
+            </div>
+            <br />
+            <div class="col-lg-12 col-12" style="text-align:center; display:flex">
+                <div class="col-lg-6 col-6 tab-pane" style="text-align:right; padding-left:35%" >
+                    <div onclick="Restablecer()"> <div class="fas fa-key" style="color:green; cursor: pointer; " data-toggle="tooltip" data-placement="bottom" title="Restablecer contraseña"></div> </div>
+                </div>
+                <div class="col-lg-6 col-6 " style="text-align:left">
+                    <li><a href="@Url.Action("LogOff","Account")"><i class="fas fa-power-off" style="color:#ea7a2a" data-toggle="tooltip" data-placement="bottom" title="Cerrar Sesión"></i> </a></li>
+                </div>
+            </div>
+        </div>
+    </ul>
+</li>
+
+<script>
+
+    function Restablecer()
+    {
+        $("#formReset").dxPopup("instance").show();
+    }
+
+</script>
+ 

@@ -1,0 +1,353 @@
+﻿@using DataEntityLayer.Models.Informes;
+@using DataAccessLayer.Util;
+@{
+    ViewBag.Title = "Detalle Plan Accion Aprobado";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string codigoInformeEncrip =ViewBag.codigoInformeEncrip;
+    string menu = ViewBag.urlMenu;
+    string menuEncrip = ViewBag.urlMenuEncrip;
+    string codigoVersionPaEncrip = ViewBag.codigoVersionPaEncrip;
+    string codigoPaEncrip = ViewBag.codigoPaEncrip;
+}
+
+<nav aria-label="breadcrumb" class="menu">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="@Url.Action("Index","InformePlanAccion" )?urlMenu=@ViewBag.urlMenu"> Plan de Acción Aprobado</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Detalle Plan de Acción</li>
+    </ol>
+</nav>
+
+<div class="box">
+    <div class="contendor-botones">
+        @*@(Html.DevExtreme()
+                                   .Button()
+                                   .Text("Enviar a Revisar")
+                                   .Icon("check")
+                                   .ID("btnRevisarPa")
+                                   .Visible(ViewBag.isBtnRevisarPa)
+                                   .OnClick("RevisarInformePa")
+        )*@
+
+
+        @(Html.DevExtreme()
+                                   .Button()
+                                   .Text("Abrir Reporte")
+                                   .ID("btnAbrirReporte")
+                                   .Icon("far fa-file-pdf")
+                                   .OnClick("AbrirReporteInforme")
+                                   .Visible(ViewBag.isBtnAbrirReporte)
+        )
+    </div>
+</div>
+
+
+<div style="padding-top: 10px;">
+    @(Html.DevExtreme().TabPanel()
+                                                        .ID("TabDetallePaAprobado")
+                                                        .SelectedIndex(0)
+                                                        .Loop(false)
+                                                        .AnimationEnabled(true)
+                                                        .SwipeEnabled(true)
+                                                        .Items(items =>
+                                                        {
+                                                            //items.Add().Title("Versiones").Template(@<text> @Html.Partial("~/Views/InformePlanAccion/_TabVersiones.cshtml", Model)</text>);
+                                                            items.Add().Title("Adendas").Template(@<text> @Html.Partial("~/Views/InformePlanAccion/_TabAdendas.cshtml")</text>);
+                                                            items.Add().Title("Bitácora");
+                                                        })
+    )
+</div>
+
+
+<div id="Pop" class="col-lg-12 ">
+    @Html.Partial("~/Views/InformePlanAccion/_PopAdenda.cshtml")
+   
+</div>
+
+
+<script src="@Url.Content("~/Scripts/jquery-confirm.min.js")"></script>
+<script>
+    
+    function RefreshSolicitudAdenda() {
+        $("#SolicitudAdendaPlanAccion").dxDataGrid("instance").refresh();
+    }
+
+    function SelectionChangedSaPa(e) {
+
+        if (e.selectedRowsData[0]) {
+
+            solicitudAdendaSeleccionado = e.selectedRowsData[0];
+            keySeleccionado = e.selectedRowKeys[0];
+        }
+
+        if (e.selectedRowsData[0] == undefined) {
+            $("#BtnDetallarSaPa").dxButton("instance").option("disabled", true);
+            $("#BtnAgregarSaPa").dxButton("instance").option("disabled", false);
+
+        }
+
+        if (e.selectedRowKeys.length == 1) {
+            $("#BtnDetallarSaPa").dxButton("instance").option("disabled", false);
+            $("#BtnAgregarSaPa").dxButton("instance").option("disabled", false);
+        }
+
+        if (e.selectedRowKeys.length > 1) {
+            $("#BtnDetallarSaPa").dxButton("instance").option("disabled", true);
+            $("#BtnAgregarSaPa").dxButton("instance").option("disabled", true);
+        }
+    }
+
+    function AbrirReporteInforme() {
+        MostrarPanelLoad();
+         window.location.href = '@Url.Action("ReporteInformePlanAccion", "InformePlanAccion")' + "?" + "ci=" + "@codigoInformeEncrip" + "&vr=" + "@codigoVersionPaEncrip" + "&urlMenu=" + "@menuEncrip" + "&cpa=" + "@codigoPaEncrip";
+    }
+    
+    function ExportingSaPa(e) {
+        var workbook = new ExcelJS.Workbook();
+        var worksheet = workbook.addWorksheet('Solicitud_adenda');
+
+        DevExpress.excelExporter.exportDataGrid({
+            component: e.component,
+            worksheet: worksheet,
+            autoFilterEnabled: true
+        }).then(function () {
+            workbook.xlsx.writeBuffer().then(function (buffer) {
+                saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Solicitud_adenda.xlsx');
+            });
+        });
+        e.cancel = true;
+    }
+
+    function ExportToCsvSaPa(e) {
+        var dataGrid = $("#SolicitudAdendaPlanAccion").dxDataGrid("instance");
+        var workbook = new ExcelJS.Workbook();
+        var worksheet = workbook.addWorksheet('Solicitud_adenda');
+
+        DevExpress.excelExporter.exportDataGrid({
+            component: dataGrid,
+            worksheet: worksheet,
+        }).then(function () {
+            workbook.csv.writeBuffer().then(function (buffer) {
+                saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Solicitud_adenda.csv');
+            });
+        });
+        e.cancel = true;
+    }
+
+
+
+    function ExportToPdfSaPa() {
+        window.jsPDF = window.jspdf.jsPDF;
+        applyPlugin(window.jsPDF);
+        var options = {
+            orientation: 'l',
+            format: 'a4',
+            unit: 'mm',
+        };
+        var doc = new jsPDF(options);
+        doc.setTextColor('#FFFFFF');
+        doc.autoTable({
+            headStyles: { textColor: 21, horizontalPageBreak: true },
+            styles: { textColor: 21, horizontalPageBreak: true },
+            columnStyles: { 0: { halign: 'center' } },
+            body: [
+                [{ content: 'Solicitudes de adendas de Plan de Acción', colSpan: 2, rowSpan: 20, styles: { halign: 'center' }, lineColor: 11 }],
+            ],
+        });
+        var dataGrid = $("#SolicitudAdendaPlanAccion").dxDataGrid("instance");
+        DevExpress.pdfExporter.exportDataGrid({
+            jsPDFDocument: doc,
+            component: dataGrid,
+            customizeCell: function (options) {
+                test = options;
+                const { gridCell, pdfCell } = options;
+                if (gridCell.rowType === 'data') {
+                    pdfCell.styles = {
+                        font: 'times',
+                        fontSize: 14,
+                        overflow: 'linebreak'
+                    }
+                }
+            }
+        }).then(function () {
+            doc.save("Solicitud_adenda.pdf");
+        });
+    }
+
+    //////////////////////////////////////registro de adenda///////////////////////////////////////
+    function ExportingRecPA(e) {
+        var workbook = new ExcelJS.Workbook();
+        var worksheet = workbook.addWorksheet('Rec_Hallazo_Plan_Accion');
+
+        DevExpress.excelExporter.exportDataGrid({
+            component: e.component,
+            worksheet: worksheet,
+            autoFilterEnabled: true
+        }).then(function () {
+            workbook.xlsx.writeBuffer().then(function (buffer) {
+                saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Rec_Hallazo_Plan_Accion.xlsx');
+            });
+        });
+        e.cancel = true;
+    }
+
+
+    function RefreshGridRecPA() {
+        $("#GridRecomendacionAdenda").dxDataGrid("instance").refresh();
+    }
+
+
+
+    function ExportToCsvRecPA(e) {
+        var dataGrid = $("#GridRecomendacionAdenda").dxDataGrid("instance");
+        var workbook = new ExcelJS.Workbook();
+        var worksheet = workbook.addWorksheet('Rec_Hallazo_Plan_Accion');
+
+        DevExpress.excelExporter.exportDataGrid({
+            component: dataGrid,
+            worksheet: worksheet,
+        }).then(function () {
+            workbook.csv.writeBuffer().then(function (buffer) {
+                saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Rec_Hallazo_Plan_Accion.csv');
+            });
+        });
+        e.cancel = true;
+    }
+
+
+
+    function ExportToPdfRecPA() {
+        window.jsPDF = window.jspdf.jsPDF;
+        applyPlugin(window.jsPDF);
+        var options = {
+            orientation: 'l',
+            format: 'a4',
+            unit: 'mm',
+        };
+        var doc = new jsPDF(options);
+        doc.setTextColor('#FFFFFF');
+        doc.autoTable({
+            headStyles: { textColor: 21, horizontalPageBreak: true },
+            styles: { textColor: 21, horizontalPageBreak: true },
+            columnStyles: { 0: { halign: 'center' } },
+            body: [
+                [{ content: 'Recomendaciones de Hallazgos de Plan de Acción', colSpan: 2, rowSpan: 20, styles: { halign: 'center' }, lineColor: 11 }],
+            ],
+        });
+        var dataGrid = $("#GridRecomendacionAdenda").dxDataGrid("instance");
+        DevExpress.pdfExporter.exportDataGrid({
+            jsPDFDocument: doc,
+            component: dataGrid,
+            customizeCell: function (options) {
+                test = options;
+                const { gridCell, pdfCell } = options;
+                if (gridCell.rowType === 'data') {
+                    pdfCell.styles = {
+                        font: 'times',
+                        fontSize: 14,
+                        overflow: 'linebreak'
+                    }
+                }
+            }
+        }).then(function () {
+            doc.save("Rec_Hallazo_Plan_Accion.pdf");
+        });
+    }
+
+    function CerrarPopAdenda() {
+        var popup = $("#PopAdendaPlaAccion").dxPopup("instance");
+        popup.hide();
+    }
+
+
+    function AbrirPopAdenda() {
+
+        MostrarPanelLoad();
+        $.ajax({
+            url: '@Url.Action("GetRecomendacionAdenda", "InformePlanAccion")',
+            type: 'POST',
+            async: true,
+            cache: false,
+            data: { codPa:'@ViewBag.codPa', codPaV:'@ViewBag.codPaV', codigoInforme:'@ViewBag.codigoInforme'},
+            success: function (response)
+			{
+                $("#PopAdendaPlaAccion").dxPopup("instance").option("title", "Crear Solicitud Adenda");
+                $("#PopAdendaPlaAccion").dxPopup("instance").show();
+                $("#ContAdenda").html(response);
+                 OcultarPanelLoad();
+            },
+            error: function (error) {
+                OcultarPanelLoad();
+                Alert(error.statusText, "error");
+            }
+        });
+    }
+
+    function SelectionChangedRecPa(e) {
+        if (e.selectedRowsData) {
+
+            RecomendacionSeleccionado = e.selectedRowsData;
+            keySeleccionadoRec = e.selectedRowKeys;
+        }
+
+        if (e.selectedRowsData == undefined) {
+            $("#BtnAgregarSolAden").dxButton("instance").option("disabled", true);
+
+        }
+        
+
+        if (e.selectedRowKeys.length > 0) {
+            $("#BtnAgregarSolAden").dxButton("instance").option("disabled", false);
+        }
+    }
+    
+    
+    function CrearSolicitudAdenda(e) {
+        // se crea cabecera de solicitud de adenda 
+            MostrarPanelLoad();
+            $.ajax({
+                url: '@Url.Action("CrearCabeceraSolicitudAdenda", "InformePlanAccion")',
+                type: 'POST',
+                async: true,
+                cache: false,
+                data: { codInforme: '@ViewBag.codigoInforme', codPa: '@ViewBag.codPa', codPaV:'@ViewBag.codPaV'},
+                success: function (response)
+			    {
+                    for (var i = 0; i < keySeleccionadoRec.length; i++) {
+                        $.ajax({
+                            url: '@Url.Action("CrearDetalleSolicitudAdenda", "InformePlanAccion")',
+                            type: 'POST',
+                            async: true,
+                            cache: false,
+                            data: { codAdenda: response, codInforme: keySeleccionadoRec[i].codigoInformeAuditoria, codPa: keySeleccionadoRec[i].codigoPa, codPaV: keySeleccionadoRec[i].codigoPaVersion, codRecomendacion: keySeleccionadoRec[i].codigoRecomendacion, codHallazgo: keySeleccionadoRec[i].codigoHallazgo},
+                            success: function (response)
+			                {
+                                
+                            },
+                            error: function (error) {
+                                OcultarPanelLoad();
+                                Alert(error.statusText, "error");
+                            }
+                        });
+                    }
+                    // creamos detalle solicitud adenda
+                    OcultarPanelLoad();
+                    CerrarPopAdenda();
+                    RefreshSolicitudAdenda();
+                    Alert("La solicitud de adenda se ha registrado exitosamente", "success");
+                    window.location.href = '@Url.Action("DetalleSolicitudAdenda", "InformePlanAccion")?codInf=' + '@ViewBag.codigoInformeEncrip' + '&pa=' + '@ViewBag.codigoPaEncrip' + '&pav=' + '@ViewBag.codigoVersionPaEncrip' + '&codA=' + response;
+                },
+                error: function (error) {
+                    OcultarPanelLoad();
+                    Alert(error.statusText, "error");
+                }
+            });
+        
+    }
+    
+
+    function DetallarAdenda() {
+        window.location.href = '@Url.Action("DetalleSolicitudAdenda", "InformePlanAccion")?codInf=' + keySeleccionado.codInfAudtEncrip + '&pa=' + keySeleccionado.codPlanAccionEncrip + '&pav=' + keySeleccionado.codVersionPaEncrip + '&codA=' + keySeleccionado.codAdendaEncrip;
+    }
+</script>

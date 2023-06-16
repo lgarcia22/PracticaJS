@@ -1,0 +1,190 @@
+﻿
+
+<div>
+    <button class="btn dropdown-toggle" type="button" id="alertas-dropdown" name="alertas-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="background: transparent">
+        <span class="counter bgc-red" id="contador-alertas">0</span>
+        <i class="fas fa-bell" style="font-size: 18px; color:white"></i>
+    </button>
+
+
+    <ul class="dropdown-menu" aria-labelledby="alertas-dropdown" id="alertas-container"></ul>
+
+</div>
+
+<script src="@Url.Content("~/Scripts/jquery-confirm.min.js")"></script>
+<script>
+
+    var alertas = [];
+    var totalAlertasSinLeer = 0;
+
+    $(".alerta").click(function (e) {
+        console.log(e);
+    });
+
+    $(document).ready(function () {
+        $.ajax({
+            url: '@Url.Action("GetTotalAlertasSinLeer", "Alerta")',
+            type: 'POST',
+            async: true,
+            cache: false,
+            data: {},
+            success: function (response) {
+                totalAlertasSinLeer = response.result;
+
+                GetAlertas();
+            },
+            error: function (error) {
+                console.log("error", error);
+                Alert(error.statusText, "error");
+            }
+        });
+
+
+    });
+
+    function GetAlertas() {
+         $.ajax({
+            url: '@Url.Action("GetAlertas", "Alerta")',
+            type: 'POST',
+            async: true,
+            cache: false,
+            data: {},
+            success: (response) => {
+                alertas = response.result.data;
+
+                RenderizarAlertas();
+
+            },
+            error: function (error) {
+                console.log("error", error);
+                Alert(error.statusText, "error");
+            }
+        });
+    }
+
+    function RenderizarAlertas() {
+        let htmlContent = "";
+
+        if (!alertas.length) {
+            htmlContent = "<div style='padding: 20px;'>No se encontraron alertas.</div>"
+        } else {
+            for (let alerta of alertas) {
+                const diasRestantes = CalcularDiasRestantes(alerta.fechaVencimiento)
+
+                htmlContent += `
+                <li class="alerta ${GetIndicadorAlerta(diasRestantes)} ${alerta.estado ? '' : 'alerta-no-leida'}" id="alerta-${alerta.codigoAlerta}" onclick="event.stopPropagation()">
+                    <button class="close-icon"><i class="fas fa-times" id="leer-alerta-${alerta.codigoAlerta}" name="leer-alerta-${alerta.codigoAlerta}" onclick="ConfirmarLeerAlerta(event, ${alerta.codigoAlerta})"></i></button>
+                    
+                    <div>
+                        <b>${alerta.mensaje}</b>
+                        <div class="mt-5">
+                            <div style="display: flex; gap: 5px;">
+                                <small><i class="fas fa-file-alt"></i> Informe</small>
+                                <small>(Notificado ${new Date(alerta.fechaNotificacion).toLocaleDateString("es-ES")})</small>
+                            </div>
+                            <div style="color: #337ab7;">${alerta.numeroInforme}</div>
+                        </div>
+
+                        <div class="mt-5" style="display: flex; justify-content: space-between; align-items: end">
+                            <div>
+                                <small><i class="fas fa-calendar"></i> Fecha Vencimiento</small>
+                                <div>${new Date(alerta.fechaVencimiento).toLocaleDateString("es-ES")} </div>
+                            </div>
+                            <div>${GetMensajeDiasRestantes(diasRestantes)}</div>
+                        </div>
+                    </div>
+                </li>`;
+            }
+        }
+        $("#contador-alertas").html(totalAlertasSinLeer);
+        $("#alertas-container").html(htmlContent);
+    }
+
+    function GetIndicadorAlerta(diasRestantes) {
+        if (diasRestantes < 0) {
+            return ' alerta-vencida ';
+        } else if (diasRestantes >= 0 && diasRestantes <= 1) {
+            return ' alerta-por-vencer ';
+        } else {
+            return ' alerta-vigente ';
+        }
+    }
+
+    function GetMensajeDiasRestantes(diasRestantes) {
+
+        if (diasRestantes > 1) {
+            return `<span class="dias-alerta dias-alerta-vigente"><i class="fas fa-calendar-check"></i> Vence en ${diasRestantes} días</span>`;
+        } else if (diasRestantes == 1) {
+            return `<span class="dias-alerta dias-alerta-por-vencer"><i class="fas fa-exclamation-triangle"></i> Vence en ${diasRestantes} día</span>`;
+        } else if (diasRestantes == 0) {
+            return `<span class="dias-alerta dias-alerta-por-vencer"><i class="fas fa-exclamation-triangle"></i> Vence hoy</span>`;
+        }
+        else if (diasRestantes == -1) {
+            return `<span class="dias-alerta dias-alerta-vencida"><i class="fas fa-calendar-times"></i></i> Vencido hace ${diasRestantes * -1} día</span>`;
+        } else if (diasRestantes < -1) {
+            return `<span class="dias-alerta dias-alerta-vencida"><i class="fas fa-calendar-times"></i></i> Vencido hace ${diasRestantes * -1} días</span>`;
+        }
+    }
+
+
+    function CalcularDiasRestantes(fechaVencimiento) {
+
+        var fechaActual = new Date();
+        var fechaVencimiento = new Date(fechaVencimiento);
+        // Obtener fecha en milisegundos
+        var fechaActual = new Date(`${fechaActual.getMonth() + 1}-${fechaActual.getDate()}-${fechaActual.getFullYear()}`);
+
+        var diferenciaEntreFechas = fechaVencimiento - fechaActual;
+
+
+
+        return Math.ceil(diferenciaEntreFechas / (1000 * 60 * 60 * 24));
+
+    }
+
+    function ConfirmarLeerAlerta(e, codigoAlerta) {
+        e.stopPropagation();
+        $.confirm({
+            title: "Marcar alerta como leída",
+            animation: "zoom",
+            closeAnimation: "zoom",
+            animateFromElement: false,
+            content: '<div>¿Está seguro que desea marcar esta alerta como leída? <br></div>',
+            type: "orange",
+            buttons: {
+                confirm: {
+                    //btnClass: 'btn-primary',
+                    text: " Si ",
+                    action: () => {
+                        LeerAlerta(codigoAlerta);
+                    }
+                },
+                cancel: {
+                    text: " No "
+                }
+            }
+        });
+    }
+
+    function LeerAlerta(codigoAlerta) {
+        MostrarPanelLoad();
+         $.ajax({
+             url: '@Url.Action("MarcarAlertaComoLeida", "Alerta")',
+             type: 'POST',
+             data: { codigoAlerta },
+             success: (response) => {
+                 alertas = alertas.filter(alerta => alerta.codigoAlerta !== codigoAlerta);
+                 totalAlertasSinLeer--;
+                 RenderizarAlertas();
+
+                 OcultarPanelLoad();
+                 Alert(response.message, "success");
+             },
+             error: function (error) {
+                 console.log("error", error);
+                 Alert(error.statusText, "error");
+             }
+        });
+
+    }
+</script>

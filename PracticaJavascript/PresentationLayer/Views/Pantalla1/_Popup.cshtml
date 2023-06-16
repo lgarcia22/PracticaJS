@@ -1,0 +1,26 @@
+﻿@(Html.DevExtreme().Popup()
+.ID("Popup1")
+.Width("auto")
+.Height("auto")
+.Visible(false)
+.CloseOnOutsideClick(false)
+.Position(pos => pos
+.My(HorizontalAlignment.Center, VerticalAlignment.Center)
+.At(HorizontalAlignment.Center, VerticalAlignment.Center)
+.Of(new JS("window"))).ContentTemplate(new TemplateName("ContenidoPopup1"))
+)
+
+@using (Html.DevExtreme().NamedTemplate("ContenidoPopup1"))
+{
+    @(Html.DevExtreme().ScrollView()
+    .ScrollByContent(true)
+    .ScrollByThumb(true)
+    .Height("100%")
+    .ReachBottomText("Updating...")
+    .ShowScrollbar(ShowScrollbarMode.Always)
+    .Direction(ScrollDirection.Vertical)
+    .ID("scrollView1")
+    .Content(@<text><div id="ContPopup1" style="padding:10px"></div>
+    </text>)
+    )
+}

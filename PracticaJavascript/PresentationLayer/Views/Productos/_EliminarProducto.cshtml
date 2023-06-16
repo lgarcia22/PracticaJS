@@ -1,0 +1,27 @@
+﻿@{ 
+    int idProducto = ViewBag.IdProducto;
+}
+
+<div class="row " style="padding: 10px;">
+    <div class="col-lg-12">
+        <p> ¿Está seguro que desea eliminar a este producto?</p>
+    </div>
+    <div class="dx-field-value col-lg-12" style="margin-top:10px">
+        @(Html.DevExtreme().Button()
+        .Text("No")
+        .ID("btnCerrar")
+        .Type(ButtonType.Normal)
+        .Width(90)
+        .OnClick(@<text>(e) =>CerrarPopup("PopProductos")</text>)
+        )
+        @(Html.DevExtreme().Button()
+        .Text("Si")
+        .ID("btnSi")
+        .Icon("save")
+        .Type(ButtonType.Normal)
+        .Width(90)
+        .OnClick(@<text>(e) =>EliminarProducto("@idProducto")</text>)
+        )
+    </div>
+    </div>
+</div>

@@ -1,0 +1,279 @@
+﻿@using DataEntityLayer.Models.Notificaciones;
+@using DataAccessLayer.Util;
+@model NotificacionModel
+@{ 
+    bool camposSoloLectura = true;
+    bool botonActualizarVisible = false;
+    bool botonCrearVisible = false;
+    bool visibleCrear = true;
+
+    if (ViewBag.TipoOperacion == UtilClass.tipoOperacionCrear) {
+        camposSoloLectura = false;
+        botonCrearVisible = true;
+        visibleCrear = false;
+    }
+    else if(ViewBag.TipoOperacion == UtilClass.tipoOperacionModificar)
+    {
+        camposSoloLectura = true;
+        botonActualizarVisible = ViewBag.btnActualizarSolicitudPaActivo;
+    }
+
+}
+
+<div class="row " style="padding: 10px;">
+    <div class="col-lg-12">
+        @(Html.DevExtreme().Form<NotificacionModel>()
+                                                            .ID("FormSolicitudPlanAccion" + Model.index)
+                                                            .ColCount(3)
+                                                            .FormData(Model)
+                                                            .LabelLocation(FormLabelLocation.Left)
+                                                            .ShowColonAfterLabel(true)
+                                                            .LabelMode(FormLabelMode.Outside)
+                                                            .Items(items =>
+                                                            {
+                                                                items.AddGroup()
+                                                                .Items(groupItems =>
+                                                                {
+                                                                    groupItems.AddSimpleFor(m => m.numeroOficio).IsRequired(true)
+                                                                            .Editor(e => e.TextBox().ReadOnly(camposSoloLectura).Name("numeroOficio").ID("numeroOficio").MaxLength(50)
+                                                                            ).ColSpan(2);
+                                                                    groupItems.AddSimpleFor(m => m.fechaOficio).IsRequired(true)
+                                                                         .Editor(e => e.DateBox().Type(DateBoxType.Date).Name("fechaOficio").ID("fechaOficio")
+                                                                             ).ColSpan(1);
+                                                                    groupItems.AddSimpleFor(m => m.fechaVencimiento)
+                                                                           .Editor(e => e.DateBox().Type(DateBoxType.Date).Name("fechaVencimiento").ID("fechaVencimiento").ReadOnly(true)
+                                                                               ).ColSpan(1).Visible(visibleCrear);
+                                                                    groupItems.AddSimpleFor(m => m.fechaNotificacion)
+                                                                           .Editor(e => e.DateBox().Type(DateBoxType.Date).Name("fechaNotificacion").ID("fechaNotificacion").Width(105)
+                                                                               ).ColSpan(1).Visible(false);
+                                                                    groupItems.AddSimpleFor(m => m.fechaRecepcion)
+                                                                          .Editor(e => e.DateBox().Type(DateBoxType.Date).Name("fechaRecepcion").ID("fechaRecepcion").Width(105)
+                                                                              ).ColSpan(1);
+                                                                    groupItems.AddSimpleFor(m => m.numeroSolicitud)
+                                                                           .Editor(e => e.TextBox().ReadOnly(true).Name("numeroSolicitud").ID("numeroSolicitud").MaxLength(20)
+                                                                           ).ColSpan(1).Visible(visibleCrear);
+                                                                }).ColCount(4).ColSpan(3);
+
+                                                                items.AddGroup()
+                                                                .Items(groupItems =>
+                                                                {
+                                                                    groupItems.AddSimpleFor(m => m.numeroIdentidadEntrega)
+                                                                           .Editor(e => e.TextBox().Name("numeroIdentidadEntrega").ID("numeroIdentidadEntrega").MaxLength(13)
+                                                                           ).ColSpan(2);
+                                                                    groupItems.AddSimpleFor(m => m.nombreEntrega)
+                                                                         .Editor(e => e.TextBox().Name("nombreEntrega").ID("nombreEntrega").MaxLength(100)
+                                                                         ).ColSpan(2);
+                                                                }).ColCount(5).ColSpan(3);
+
+                                                                items.AddGroup()
+                                                                .Items(groupItems =>
+                                                                {
+                                                                    groupItems.AddSimpleFor(m => m.numeroIdentidadRecibe).IsRequired(true)
+                                                                           .Editor(e => e.TextBox().Name("numeroIdentidadRecibe").ID("numeroIdentidadRecibe").MaxLength(13)
+                                                                           ).ColSpan(2);
+                                                                    groupItems.AddSimpleFor(m => m.nombreRecibe).IsRequired(true)
+                                                                           .Editor(e => e.TextBox().Name("nombreRecibe").ID("nombreRecibe").MaxLength(100)
+                                                                           ).ColSpan(2);
+                                                                    groupItems.AddSimpleFor(m => m.cargoRecibe).IsRequired(true)
+                                                                          .Editor(e => e.TextBox().Name("cargoRecibe").ID("cargoRecibe").MaxLength(50)
+                                                                          ).ColSpan(2);
+                                                                }).ColCount(5).ColSpan(3);
+                                                                items.AddSimpleFor(m => m.observacion).Editor(E => E.TextArea().Height(125)
+                                                                .Name("observacion").ID("observacion").MaxLength(500)).ColSpan(3).Label(l => l.Text("Observación"));
+
+                                                            }).ColCountByScreen(cs => cs.Md(3).Lg(3).Sm(1))
+        )
+    </div>
+  
+    <div class="dx-field-value col-lg-12">
+        @*Se les concatena el id de notificacion a los botones y al formulario ya que si tienen el mismo id no renderizará*@
+        <div class="contendor-botones-form">
+            @(Html.DevExtreme().Button()
+              .Text("Actualizar")
+              .ID("btnActualizarSolicitud" + Model.codigoNotificacion)
+              .Icon("edit")
+              .Type(ButtonType.Normal)
+              .Width(110)
+              .OnClick("ActualizarSolicitud" + (Convert.ToInt32(Model.index) == 0 ? 1 : Model.index))
+              .Visible(botonActualizarVisible)
+              )
+
+            @(Html.DevExtreme().Button()
+              .Text("Cerrar")
+              .ID("btnCerrarPopAgregarSolicitud" + Model.codigoNotificacion)
+              .Type(ButtonType.Normal)
+              .Width(110)
+              .Visible(botonCrearVisible)
+              .OnClick("CerrarPopAgregarSolicitudPlanAccion"))
+
+            @(Html.DevExtreme().Button()
+              .Text("Guardar")
+              .ID("btnGuardarSolicitud" + Model.codigoNotificacion)
+              .Icon("save")
+              .Type(ButtonType.Normal)
+              .Width(110)
+              .OnClick("AgregarSegundaSolicitudPlanAccion")
+              .Visible(botonCrearVisible)
+              )
+        </div>
+    </div>
+</div>
+<script src="@Url.Content("~/Scripts/jquery-confirm.min.js")"></script>
+<script>
+    function ActualizarSolicitud1() {
+        $.confirm({
+            title: "Actualizar",
+            animation: "zoom",
+            closeAnimation: "zoom",
+            animateFromElement: false,
+            content: '<div>¿Está seguro que desea actualizar la solicitud de Plan de Acción? <br></div>',
+            type: "orange",
+            buttons: {
+                confirm: {
+                    text: "  Si  ",
+                    action: () => {
+                        ModificarSolicitudPlanAccion1();
+                    }
+                }, cancel: {
+                    text: "  No  "
+                }
+            }
+        });
+    }
+
+    function ActualizarSolicitud2() {
+        $.confirm({
+            title: "Actualizar",
+            animation: "zoom",
+            closeAnimation: "zoom",
+            animateFromElement: false,
+            content: '<div>¿Está seguro que desea actualizar la solicitud de Plan de Acción? <br></div>',
+            type: "orange",
+            buttons: {
+                confirm: {
+                    text: "  Si  ",
+                    action: () => {
+                        ModificarSolicitudPlanAccion2();
+                    }
+                }, cancel: {
+                    text: "  No  "
+                }
+            }
+        });
+    }
+
+    function AgregarSegundaSolicitudPlanAccion()
+    {
+        MostrarPanelLoad();
+        //Form con id 0 ya que es el de crear y toma el valor del modelo vacío
+        var form = $("#FormSolicitudPlanAccion0").dxForm("instance").option("formData");
+
+        if (form.numeroOficio != null && form.numeroOficio != "" && form.numeroIdentidadRecibe != null && form.numeroIdentidadRecibe != "" && form.fechaOficio != null
+            && form.fechaOficio != "" && form.nombreRecibe != null && form.nombreRecibe != "" && form.cargoRecibe != null && form.cargoRecibe != ""
+            && form.fechaRecepcion != null && form.fechaRecepcion != "")
+        {
+            if (form.observacion == "/n") {
+                form.observacion == null;
+            }
+
+            $.ajax({
+                    url: '@Url.Action("AgregarSegundaSolicitudPlanAccion", "SolicitudPlanAccion")',
+                    type: 'POST',
+                    async: true,
+                    cache: false,
+                    data: { values: form, fechaOficio: DateTime(form.fechaOficio), fechaNotificacion: DateTime(form.fechaNotificacion), fechaRecepcion: DateTime(form.fechaRecepcion)},
+                    success: function (response) {
+                        CerrarPopAgregarSolicitudPlanAccion();
+                        OcultarPanelLoad();
+                        Alert("La solicitud se ha registrado exitosamente", "success");
+                        setTimeout(location.reload(), 2000);
+                    },
+                    error: function (error) {
+                        OcultarPanelLoad();
+                        Alert(error.statusText, "Error al crear la solicitud de plan de acción");
+                    }
+                });
+        }
+        else {
+            OcultarPanelLoad();
+            Alert('Debe llenar todos los campos !! ', "error");
+        }
+    }
+
+    function CerrarPopAgregarSolicitudPlanAccion() {
+        var popup = $("#PopSolicitudPlanAccion").dxPopup("instance");
+        popup.hide();
+    }
+
+    function ModificarSolicitudPlanAccion1()
+    {
+        MostrarPanelLoad();
+        var idFormulario = "#FormSolicitudPlanAccion1";
+
+        // El código de notificación es necesario para identificar de que formulario se debe extraer la información
+        var form = $(idFormulario).dxForm("instance").option("formData");
+
+        if (form.numeroOficio != null && form.numeroIdentidadRecibe != null && form.fechaOficio != null
+            && form.nombreRecibe != null && form.cargoRecibe != null)
+        {
+            if (form.observacion == "/n") {
+                form.observacion == null;
+            }
+            $.ajax({
+                    url: '@Url.Action("ModificarSolicitudPlanAccion", "SolicitudPlanAccion")',
+                    type: 'POST',
+                    async: true,
+                    cache: false,
+                    data: { values: form, fechaOficio: DateTime(form.fechaOficio) },
+                    success: function (response) {
+                        OcultarPanelLoad();
+                        Alert("La solicitud se ha actualizado exitosamente", "success");
+                    },
+                    error: function (error) {
+                        OcultarPanelLoad();
+                        Alert(error.statusText, "Error al actualizar la solicitud de plan de acción");
+                    }
+                });
+        }
+        else {
+            OcultarPanelLoad();
+            Alert('Debe llenar todos los campos !! ', "error");
+        }
+    }
+
+    function ModificarSolicitudPlanAccion2()
+    {
+        MostrarPanelLoad();
+        var idFormulario = "#FormSolicitudPlanAccion2";
+
+        // El código de notificación es necesario para identificar de que formulario se debe extraer la información
+        var form = $(idFormulario).dxForm("instance").option("formData");
+
+        if (form.numeroOficio != null && form.numeroIdentidadRecibe != null && form.fechaOficio != null
+            && form.nombreRecibe != null && form.cargoRecibe != null)
+        {
+            if (form.observacion == "/n") {
+                form.observacion == null;
+            }
+            $.ajax({
+                    url: '@Url.Action("ModificarSolicitudPlanAccion", "SolicitudPlanAccion")',
+                    type: 'POST',
+                    async: true,
+                    cache: false,
+                    data: { values: form, fechaOficio: DateTime(form.fechaOficio) },
+                    success: function (response) {
+                        OcultarPanelLoad();
+                        Alert("La solicitud se ha actualizado exitosamente", "success");
+                    },
+                    error: function (error) {
+                        OcultarPanelLoad();
+                        Alert(error.statusText, "Error al actualizar la solicitud de plan de acción");
+                    }
+                });
+        }
+        else {
+            OcultarPanelLoad();
+            Alert('Debe llenar todos los campos !! ', "error");
+        }
+    }
+</script>

@@ -1,0 +1,25 @@
+﻿@(Html.DevExtreme().Popup()
+.ID("PopPersonaEnrolamientoEntidad")
+.Width("80%")
+.Height("590px")
+.Visible(false)
+.CloseOnOutsideClick(false)
+.Position(pos => pos
+.My(HorizontalAlignment.Center, VerticalAlignment.Center)
+.At(HorizontalAlignment.Center, VerticalAlignment.Center)
+.Of(new JS("window"))).ContentTemplate(new TemplateName("_FormPersonaEnrolamiento"))
+)
+
+@using (Html.DevExtreme().NamedTemplate("_FormPersonaEnrolamiento"))
+{
+    @(Html.DevExtreme().ScrollView()
+    .ScrollByContent(true)
+    .ScrollByThumb(true)
+    .Height("100%")
+    .ReachBottomText("Updating...")
+    .ShowScrollbar(ShowScrollbarMode.OnScroll)
+    .Direction(ScrollDirection.Both)
+    .ID("scrollView")
+    .Content(@<text><div>Persona</div></text>)
+    )
+}

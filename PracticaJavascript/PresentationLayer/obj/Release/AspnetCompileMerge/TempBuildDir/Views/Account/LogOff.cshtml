@@ -1,0 +1,35 @@
+﻿@using System.Web.Configuration;
+@using BussinessLayer.Util;
+
+
+@{
+    string loginUrlReturn = "";
+    if (UtilClass.aplicacionProd)
+    {
+        loginUrlReturn = WebConfigurationManager.AppSettings["loginUrl"].ToString() + "url=" + Url.Action("Login", "Account", null, Request.Url.Scheme);
+    }
+    else
+    {
+        loginUrlReturn = Url.Action("Login", "Account");
+    }
+}
+
+<div class="container" style=" background:#ececec;box-shadow: 0 0 1px gray;border-radius: 20px;">
+    <div class="row">
+        <div class="col-md-12" style="padding: 10px">
+            <h3>Cerró la sesión de su cuenta</h3>
+            
+            <div tabindex='1'>
+                <button onclick="Login()" type="button" class="btn btn-link">Volver al login</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    
+    $(".login-bottom").focus();
+    function Login() {
+        window.location = '@loginUrlReturn';
+    }
+</script>

@@ -1,0 +1,132 @@
+﻿@using DataEntityLayer.Models.Pantalla1;
+
+<div class="row " style="padding: 10px;">
+    <div class="col-lg-12">
+        @(Html.DevExtreme().Form<Pantalla1Model>()
+        .ID("Formulario1")
+        .LabelLocation(FormLabelLocation.Left)
+        .LabelLocation(FormLabelLocation.Left)
+        .LabelMode(FormLabelMode.Outside)
+        .ScrollingEnabled(true)
+        .Items(items =>
+        {
+            items.AddGroup()
+            .Items(groupItems =>
+            {
+                groupItems.AddSimpleFor(m => m.Nombre).Editor(E => E.TextBox().Name("Nombre").ID("Nombre").MaxLength(50)).IsRequired(true).ColSpan(1);
+                groupItems.AddSimpleFor(m => m.Apellido).Editor(E => E.TextBox().Name("Apellido").ID("Apellido").MaxLength(50)).IsRequired(true).ColSpan(1);
+
+                groupItems.AddSimpleFor(m => m.codigoJefe).Editor(E => E.SelectBox()
+                .DataSource(ds => ds.Mvc()
+                .Controller("Pantalla1")
+                .LoadAction("GetPersonas")
+                .Key("Nombre"))
+                .DisplayExpr("Nombre")
+                .ValueExpr("codigoEmpleado")
+                .Name("codigoEmpleado1")
+                .ID("codigoEmpleado1")
+                .OnSelectionChanged("SeleccionSelectbox1")
+                .MaxLength(50)
+                ).IsRequired(true).ColSpan(1);
+
+            //groupItems.AddSimpleFor(m => m.codigoJefe2).Editor(E => E.SelectBox()
+            //.DataSource(ds => ds.Mvc()
+            //.Controller("Pantalla1")
+            //.LoadAction("GetPersonas")
+            //.Key("Nombre")                )
+            //.DisplayExpr("Nombre")
+            //.ValueExpr("codigoEmpleado")
+            //.Name("codigoEmpleado2")
+            //.ID("codigoEmpleado2")
+            //.MaxLength(50).Disabled(true)
+            //).IsRequired(true).ColSpan(1);
+
+                groupItems.AddSimpleFor(m => m.codigoJefe2)
+                .Editor(E => E.SelectBox()
+                    .DataSource(new JS("[]"))
+                    .DisplayExpr("Nombre")
+                    .ValueExpr("codigoEmpleado")
+                    .Name("codigoEmpleado2")
+                    .ID("codigoEmpleado2")
+                    .MaxLength(50).Disabled(true)
+                    ).IsRequired(true).ColSpan(1);
+
+                groupItems.AddSimpleFor(m => m.CodigoDepto).Editor(E => E.SelectBox()
+                      .DataSource(ds => ds.Mvc()
+                      .Controller("Pantalla1")
+                      .LoadAction("GetDepartamento")
+                      .Key("NombreDepto"))
+                      .DisplayExpr("NombreDepto")
+                      .ValueExpr("CodigoDepto")
+                      .Name("CodigoDepto1")
+                      .ID("CodigoDepto1")
+                      .OnSelectionChanged("SeleccionSelectbox2")
+                      .MaxLength(50)
+                      ).IsRequired(true).ColSpan(1);
+
+                groupItems.AddSimpleFor(m => m.CodigoMuni)
+               .Editor(E => E.SelectBox()
+                   .DataSource(new JS("[]"))
+                   .DisplayExpr("NombreMuni")
+                   .ValueExpr("CodigoMuni")
+                   .Name("CodigoMuni2")
+                   .ID("CodigoMuni2")
+                   .MaxLength(50).Disabled(true)
+                   ).IsRequired(true).ColSpan(1);
+
+
+
+            }).ColCountByScreen(cs => cs.Md(2).Lg(2).Sm(1)).ColCount(2).ColSpan(1);
+
+            items.AddGroup()
+            .Items(groupItems =>
+            {
+                groupItems.AddSimpleFor(m => m.Edad).Editor(e => e.TextBox().Name("Edad").ID("Edad")).IsRequired(false).ColSpan(1);
+                groupItems.AddSimpleFor(m => m.Identidad).Editor(e => e.TextBox().Name("Identidad").ID("Identidad")).ColSpan(1);
+                groupItems.AddSimpleFor(m => m.Conyuge).Editor(e => e.TextBox().Name("Conyuge").ID("Conyuge")).ColSpan(1);
+            }).ColCountByScreen(cs => cs.Md(2).Lg(2).Sm(1)).ColCount(2).ColSpan(1);
+
+            items.AddGroup()
+            .Items(groupItems =>
+            {
+                groupItems.AddSimpleFor(m => m.Fecha_Inicial).Editor(e => e.DateBox().Type(DateBoxType.Date).DisplayFormat("dd/MM/yyyy")
+                .Name("Fecha_Inicial").ID("Fecha_Inicial")
+                .OnValueChanged(@<text>function(e){ ValidarFechaMinima(e, "Fecha_Final") }</text>)
+                ).IsRequired(false).ColSpan(1);
+
+                groupItems.AddSimpleFor(m => m.Fecha_Final).Editor(e => e.DateBox().Type(DateBoxType.Date).DisplayFormat("dd/MM/yyyy")
+                .Name("Fecha_Final").ID("Fecha_Final")
+                .OnValueChanged(@<text>function(e){ ValidarFechaMinima(e, "Fecha_Minima") }</text>)
+                .DateOutOfRangeMessage("Fecha de Final debe ser mayor a la fecha Inicial"))
+                .IsRequired(true).ColSpan(1);
+
+
+             groupItems.AddSimpleFor(m => m.Fecha_Minima).Editor(e => e.DateBox().Type(DateBoxType.Date).DisplayFormat("dd/MM/yyyy")// Ejercicio #3
+            .Name("Fecha_Minima").ID("Fecha_Minima")
+            .DateOutOfRangeMessage("Fecha de Minima debe ser mayor a la Fecha Final"))
+            .IsRequired(true).ColSpan(1);
+          
+
+
+            }).ColCountByScreen(cs => cs.Md(2).Lg(2).Sm(1)).ColCount(2).ColSpan(1);
+        })
+        )
+    </div>
+    <div class="dx-field-value col-lg-12" style="margin-top:10px">
+        @(Html.DevExtreme().Button()
+        .Text("Cerrar")
+        .ID("btnCerrar")
+        .Type(ButtonType.Normal)
+        .Width(90)
+        .OnClick(@<text>(e) =>CerrarPopup("Popup1")</text>)
+        )
+        @(Html.DevExtreme().Button()
+        .Text("Guardar")
+        .ID("btnGuardar")
+        .Icon("save")
+        .Type(ButtonType.Normal)
+        .Width(90)
+        .OnClick(@<text>function(e) { EjecutarAccionForm('@Url.Action("GuardarPersona", "Pantalla1")',"Formulario1", () => console.log("prueba") )}</text>)
+        )
+    </div>
+</div>

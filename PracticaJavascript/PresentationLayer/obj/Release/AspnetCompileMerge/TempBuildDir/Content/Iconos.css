@@ -1,0 +1,341 @@
+﻿/**celdas*/
+.WrappedColumnClass {
+    white-space: normal;
+    word-wrap: break-word;
+}
+/*Botones*/
+#btnRevVerificarInf {
+    color: #fff;
+    background-color: #f9b92f;
+    border-color: #f9b92f;
+}
+
+/*Botones*/
+#btnReversarNotificacion {
+    color: #fff;
+    background-color: #f9b92f;
+    border-color: #f9b92f;
+}
+
+#exportCSV {
+    color: #fff;
+    background-color: #5c636a;
+    border-color: #5c636a;
+}
+
+#Refrescar {
+    color: #fff;
+    background-color: #02aff9;
+    border-color: #02aff9;
+}
+
+
+
+.dx-icon-export {
+    font: 14px/1 DXIcons;
+    font-size: 14px;
+    line-height: 1;
+    color: white !important;
+}
+
+#exportPDF {
+    color: #fff;
+    background-color: #f65f54;
+    border-color: #f65f54;
+}
+
+.dx-icon-pdffile {
+    font: 14px/1 DXIcons;
+    font-size: 14px;
+    line-height: 1;
+    color: white !important;
+}
+
+.dx-icon-refresh {
+    font: 14px/1 DXIcons;
+    font-size: 14px;
+    line-height: 1;
+    color: white !important;
+}
+
+.dx-icon-plus {
+    font: 14px/1 DXIcons;
+    font-size: 14px;
+    line-height: 1;
+    color: white !important;
+}
+
+.dx-icon-revert {
+    font: 14px/1 DXIcons;
+    font-size: 14px;
+    line-height: 1;
+    color: white !important;
+}
+
+.dx-icon-check {
+    font: 14px/1 DXIcons;
+    font-size: 14px;
+    line-height: 1;
+    color: white !important;
+}
+
+.dx-icon-rename {
+    font: 14px/1 DXIcons;
+    font-size: 14px;
+    line-height: 1;
+    color: white !important;
+}
+.dx-icon-edit {
+    font: 14px/1 DXIcons;
+    font-size: 14px;
+    line-height: 1;
+    color: white !important;
+}
+
+.dx-icon-save {
+    font: 14px/1 DXIcons;
+    font-size: 14px;
+    line-height: 1;
+    color: white !important;
+}
+
+.dx-icon-remove {
+    font: 14px/1 DXIcons;
+    font-size: 14px;
+    line-height: 1;
+    color: white !important;
+}
+
+#btnReversarNotificacion:hover {
+    color: #fff;
+    background-color: #f9b92f;
+    border-color: #f9b92f;
+}
+
+.fas-icon {
+    font-weight: bold;
+    color: white !important;
+}
+
+.btn-primary {
+    color: #fff !important;
+    background-color: #42A6F5 !important;
+    border-color: #42A6F5 !important;
+}
+
+.btn-info {
+    color: #fff !important;
+    background-color: #26c6da !important;
+    border-color: #26c6da !important;
+}
+
+.btn-succes {
+    color: #fff !important;
+    background-color: #67bb6a !important;
+    border-color: #67bb6a !important;
+}
+
+.btn-danger {
+    color: #fff !important;
+    background-color: #f65f54 !important;
+    border-color: #f65f54 !important;
+}
+
+.btn-warning {
+    color: #fff !important;
+    background-color: #f9b92f !important;
+    border-color: #f9b92f !important;
+}
+
+.btn-blue {
+    color: #fff !important;
+    background-color: #d3eafd !important;
+    border-color: #d3eafd !important;
+}
+
+
+.dx-button-mode-contained .dx-icon2 {
+    color: white !important;
+}
+
+/**GRID*/
+/**Icono de grid */
+.dx-datagrid-header-panel .dx-toolbar-menu-container .dx-button {
+    background-color: #046E9E;
+    color: white;
+}
+
+/**bordes del filtro grid*/
+.dx-datagrid-borders > .dx-datagrid-pager, .dx-datagrid-borders > .dx-datagrid-headers, .dx-datagrid-borders > .dx-datagrid-filter-panel {
+    border-top: 1px solid #046E9E;
+}
+
+/**bordes del pie grid*/
+.dx-datagrid-borders > .dx-datagrid-headers, .dx-datagrid-borders > .dx-datagrid-rowsview, .dx-datagrid-borders > .dx-datagrid-total-footer {
+    border-left: 1px solid #046E9E;
+    border-right: 1px solid #046E9E;
+}
+
+/**bordes de la columnas grid*/
+.dx-datagrid .dx-column-lines > td {
+    border-left: 1px solid #046E9E;
+    border-right: 1px solid #046E9E;
+}
+
+/**bordes de la filas grid*/
+.dx-datagrid .dx-row-lines > td {
+    border-bottom: 1px solid #046E9E;
+}
+
+/**Encabezado del grid*/
+.dx-header-row {
+    background-color: #046E9E;
+    color: white;
+}
+
+.dx-datagrid > tbody > tr > .dx-datagrid-headers {
+    background-color: #046E9E;
+    color: white;
+}
+
+/**Icono de Filtro */
+.dx-datagrid .dx-header-filter-empty {
+    color: white;
+}
+
+/**Fondo de botones page*/
+.dx-pager .dx-pages .dx-selection, .dx-pager .dx-page-sizes .dx-selection {
+    color: white;
+    background-color: #046E9E;
+}
+
+/**treelist*/
+
+/**bordes del filtro grid*/
+.dx-treelist-borders > .dx-treelist-pager, .dx-treelist-borders > .dx-treelist-headers, .dx-treelist-borders > .dx-treelist-filter-panel {
+    border-top: 1px solid #046E9E;
+}
+
+/**bordes del pie grid*/
+.dx-treelist-borders > .dx-treelist-headers, .dx-treelist-borders > .dx-treelist-rowsview, .dx-treelist-borders > .dx-treelist-total-footer {
+    border-left: 1px solid #046E9E;
+    border-right: 1px solid #046E9E;
+}
+
+/**bordes de la columnas treelist*/
+.dx-treelist .dx-column-lines > td {
+    border-left: 1px solid #046E9E;
+    border-right: 1px solid #046E9E;
+}
+
+/**bordes de la filas treelist*/
+.dx-treelist .dx-row-lines > td {
+    border-bottom: 1px solid #046E9E;
+}
+
+/**Icono de Filtro */
+.dx-treelist .dx-header-filter-empty {
+    color: white;
+}
+
+
+/*.dx-datagrid .dx-datagrid-content-fixed .dx-datagrid-table .dx-col-fixed {
+    background-color: #1466b2;
+}*/
+
+
+/*Cambio de color de selector en el grid*/
+dx-datagrid-rowsview .dx-selection.dx-row.dx-row-lines > td, .dx-datagrid-rowsview .dx-selection.dx-row:hover.dx-row-lines > td, .dx-datagrid-rowsview .dx-selection.dx-row.dx-row-lines > tr > td, .dx-datagrid-rowsview .dx-selection.dx-row:hover.dx-row-lines > tr > td {
+    color: white;
+    background: #046E9E;
+    border-bottom-color: #046E9E;
+}
+
+
+
+.dx-datagrid-rowsview .dx-selection.dx-row.dx-column-lines > td, .dx-datagrid-rowsview .dx-selection.dx-row:hover.dx-column-lines > td, .dx-datagrid-rowsview .dx-selection.dx-row.dx-column-lines > tr > td, .dx-datagrid-rowsview .dx-selection.dx-row:hover.dx-column-lines > tr > td {
+    background: #046E9E;
+    color: white;
+    border-left-color: #046E9E;
+    border-right-color: #046E9E;
+}
+
+
+
+/*Cambiode tamaño de los botones en el toolbars del grid*/
+.dx-button-has-icon .dx-button-content {
+    padding: 6px;
+}
+
+
+/*label devExtreme*/
+label {
+    font-weight: normal;
+}
+
+.dx-box-item-content {
+    font-size: 12px;
+}
+
+
+/*Paginacion*/
+.dx-pager .dx-page-sizes .dx-selection, .dx-pager .dx-pages .dx-selection {
+    cursor: inherit;
+    text-shadow: none;
+    color: #333;
+    border-color: transparent;
+    background-color: #046E9E !important;
+    color: white !important;
+}
+
+/*Filtros del grid */
+.dx-datagrid .dx-header-filter-empty {
+    color: rgba(255, 255, 255, 0.5) !important;
+}
+
+/*icons de busqueda filtro */
+.dx-datagrid-container.dx-filter-menu .dx-menu-item-has-icon .dx-icon, .dx-datagrid.dx-filter-menu .dx-menu-item-has-icon .dx-icon {
+    color: #0d2e8a !important;
+}
+
+
+.dx-searchbox .dx-icon-search::before {
+    content: "\f027";
+    color: #0d2e8a !important;
+}
+
+
+.dx-dropdowneditor-icon {
+    background-position: center;
+    background-repeat: no-repeat;
+    border: 1px solid transparent;
+    color: #0d2e8a !important;
+    font: 18px/18px DXIcons;
+    width: 32px;
+    height: 100%;
+    text-align: center;
+    border-radius: 3px;
+}
+
+/*Margin de botones de guardar */
+.dx-field-value.dx-widget, .dx-field-value:not(.dx-widget) > .dx-widget {
+    margin: 3px !important;
+}
+
+.dx-datagrid-borders > .dx-datagrid-headers, .dx-datagrid-borders > .dx-datagrid-rowsview, .dx-datagrid-borders > .dx-datagrid-total-footer {
+    /*border-left: 1px solid #046E9E;
+    border-right: 1px solid #046E9E;*/
+    border: 1px solid #046E9E !important;
+}
+
+.dx-field-value-static, .dx-field-value:not(.dx-switch):not(.dx-checkbox):not(.dx-button) {
+    width: 100%;
+}
+
+
+
+/*slider*/
+.dx-gallery-item-image {
+    max-width: 750px !important;
+    height: 500px !important;
+}

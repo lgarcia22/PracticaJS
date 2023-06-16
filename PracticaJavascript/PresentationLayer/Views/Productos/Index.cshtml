@@ -1,0 +1,197 @@
+﻿
+@using DataAccessLayer.Util;
+@{
+    ViewBag.Title = "Productos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+<nav aria-label="breadcrumb" class="menu">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item active" aria-current="page">CRUD Productos</li>
+        <li class="breadcrumb-item" id="classManual" style="float:right;">
+            <a style="text-align: right;" title="Manual de Usuario" href="#" target="_blank">
+                <i class="fa fa-book" style="padding-left: inherit;padding-right: inherit;"></i>
+                Manual Usuario
+            </a>
+        </li>
+    </ol>
+</nav>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12" style="padding:5px;">
+            @Html.Partial("~/Views/Productos/_GridProductos.cshtml")
+
+        </div>
+    </div>
+</div>
+@Html.Partial("~/Views/Productos/_PopupProductos.cshtml")
+
+
+<script>
+
+    function AbrirPopupProductos() {
+
+        MostrarPanelLoad();
+        $.ajax({
+            url: '@Url.Action("AbrirPopupAgregarProductos", "Productos")', //Metodo y controlador
+            type: 'POST',
+            success: function (response)
+            {
+                AbrirPopup("#PopProductos", "Agregar Producto", "#ContPopupProducto", response);//abir popup, etiqueta a inserta
+                OcultarPanelLoad();
+            },
+            error: function (error) {
+                OcultarPanelLoad();
+                Alert(error.responseText, "error");
+            }
+        });
+    }
+
+    @*function AgregarProducto() {
+         var datos = $("#FormularioAgregarProducto").dxForm("instance");
+         var esValido = datos.validate().isValid;
+
+         if (!esValido) {
+             Alert("Campos requeridos se enviaron vacios.", "error");
+             return;
+         }
+
+         datos = datos.option("formData");
+         console.log("datos", datos);
+
+        MostrarPanelLoad();
+        $.ajax({
+            url: '@Url.Action("AgregarProducto", "Productos")', //Metodo y controlador
+            type: 'POST',
+            data: { model: datos },
+            success: function (response)
+            {
+                Alert(response, "success");
+                CerrarPopup("PopProductos");
+                RefrescarGrid("GridProductos");
+                OcultarPanelLoad();
+            },
+            error: function (error) {
+                OcultarPanelLoad();
+                Alert(error.responseText, "error");
+            }
+        });
+     }*@
+
+
+    function AbrirPopupEditarProductos() {
+            //var form = $("#FormularioEditarCliente").dxForm("instance").option("formData");
+        MostrarPanelLoad();
+        $.ajax({
+            url: '@Url.Action("AbrirPopupEditarProductos", "Productos")', //Metodo y controlador
+            type: 'POST',
+            data: {model: fila},
+            success: function (response)
+            {
+                AbrirPopup("#PopProductos", "Editar Producto", "#ContPopupProducto", response);//abir popup, etiqueta a inserta, idpopup
+                OcultarPanelLoad();
+            },
+            error: function (error) {
+                OcultarPanelLoad();
+                Alert(error.responseText, "error");
+            }
+        });
+    }
+
+    var fila;
+    function FilaSeleccionada(e) {
+        if (e.selectedRowsData.length = 1) {
+            fila = e.selectedRowsData[0];
+            $("#Editar").dxButton("instance").option("disabled", false);
+            $("#Eliminar").dxButton("instance").option("disabled", false);
+            $("#Detallar").dxButton("instance").option("disabled", false);
+        }
+        else {
+            $("#Editar").dxButton("instance").option("disabled", true);
+            $("#Eliminar").dxButton("instance").option("disabled", true);
+            $("#Detallar").dxButton("instance").option("disabled", true);
+        }
+    }
+
+
+
+    @*function EditarProducto() {
+
+         var datos = $("#FormularioEditarProducto").dxForm("instance");
+         var esValido = datos.validate().isValid;
+
+         if (!esValido) {
+             Alert("Campos requeridos se enviaron vacios.", "error");
+             return;
+         }
+
+         datos = datos.option("formData");
+         console.log("datos", datos);
+
+        MostrarPanelLoad();
+        $.ajax({
+            url: '@Url.Action("EditarProducto", "Producto")', //Metodo y controlador
+            type: 'POST',
+            data: { model: datos },
+            success: function (response)
+            {
+                Alert(response, "success");
+                CerrarPopup("PopProductos");
+                RefrescarGrid("GridProductos");
+                OcultarPanelLoad();
+            },
+            error: function (error) {
+                OcultarPanelLoad();
+                Alert(error.responseText, "error");
+            }
+        });
+    }*@
+
+    function AbrirPopupEliminarProductos() {
+
+        MostrarPanelLoad();
+        $.ajax({
+            url: '@Url.Action("AbrirPopupEliminarProductos", "Productos")', //Metodo y controlador
+            type: 'POST',
+            data: { IdProducto: fila.productID },
+            success: function (response)
+            {
+                AbrirPopup("#PopProductos", "Eliminar Producto", "#ContPopupProducto", response);//abir popup, etiqueta a inserta, idpopup
+                OcultarPanelLoad();
+            },
+            error: function (error) {
+                OcultarPanelLoad();
+                Alert(error.responseText, "error");
+            }
+        });
+    }
+
+    function EliminarProducto(idProducto) {
+
+        MostrarPanelLoad();
+        $.ajax({
+            url: '@Url.Action("EliminarProducto", "Productos")', //Metodo y controlador
+            type: 'POST',
+            data: { IdProducto: idProducto },
+            success: function (response)
+            {
+                Alert(response, "success");
+                CerrarPopup("PopProductos");
+                RefrescarGrid("GridProductos");
+                OcultarPanelLoad();
+            },
+            error: function (error) {
+                OcultarPanelLoad();
+                Alert(error.responseText, "error");
+            }
+        });
+    }
+
+    function AbrirDetalleProducto() {
+        MostrarPanelLoad();
+        window.location.href = '@Url.Action("DetallarProducto", "Productos")?id_Producto=' + fila.productID;
+
+    }
+
+</script>

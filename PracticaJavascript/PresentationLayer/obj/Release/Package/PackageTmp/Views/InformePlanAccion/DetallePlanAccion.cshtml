@@ -1,0 +1,430 @@
+﻿@using DataEntityLayer.Models.Informes;
+@using DataAccessLayer.Util;
+@model InformeAuditoria
+
+@{
+    ViewBag.Title = "Detalle Plan Accion";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int codigoInforme = int.Parse(ViewBag.codigoInforme);
+    string codigoInformeEncrip =ViewBag.codigoInformeEncrip;
+    string menu = ViewBag.urlMenu;
+    string menuEncrip = ViewBag.urlMenuEncrip;
+    string codigoVersionPaEncrip = ViewBag.codigoVersionPaEncrip;
+    string codigoPaEncrip = ViewBag.codigoPaEncrip;
+    int tipoOperacionV = UtilClass.tipoEstadoVerificado;
+    int codPa = Convert.ToInt32(Model.codigoPlanAccion);
+    int codPaV = Convert.ToInt32(Model.codigoPlanAccionVersion);
+
+    bool isAceptarPa = ViewBag.isAceptarPa;
+    bool isRechazarPa = ViewBag.isRechazarPa;
+    int tipoOperacionA = UtilClass.tipoEstadoAprobado;
+    int tipoOperacionR = UtilClass.tipoEstadoRegistrado;
+}
+
+<nav aria-label="breadcrumb" class="menu">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            @if (ViewBag.urlMenu == UtilClass.bandejaPaR)
+            {
+                <a href="@Url.Action("Index","InformePlanAccion" )?urlMenu=@ViewBag.urlMenu"> Plan de Acción</a>
+            }
+            @if (ViewBag.urlMenu == UtilClass.bandejaPaV)
+            {
+                <a href="@Url.Action("Index","InformePlanAccion" )?urlMenu=@ViewBag.urlMenu"> Plan de Acción Verificado</a>
+            }
+            @if (ViewBag.urlMenu == UtilClass.bandejaPaA)
+            {
+                <a href="@Url.Action("Index","InformePlanAccion" )?urlMenu=@ViewBag.urlMenu"> Plan de Acción Aprobado</a>
+            }
+
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Detalle Plan de Acción</li>
+    </ol>
+</nav>
+
+<div class="box">
+    <div class="contendor-botones">
+        @(Html.DevExtreme()
+                                   .Button()
+                                   .Text("Enviar a Revisar")
+                                   .Icon("check")
+                                   .ID("btnRevisarPa")
+                                   .Visible(ViewBag.isBtnRevisarPa)
+                                   .OnClick("RevisarInformePa")
+        )
+
+        @(Html.DevExtreme()
+                                   .Button()
+                                   .Text("Aprobar")
+                                   .Icon("check")
+                                   .ID("btnAceptarPa")
+                                   .Visible(isAceptarPa)
+                                   .OnClick("ConfirmAprobarPa")
+        )
+
+        @(Html.DevExtreme()
+                                   .Button()
+                                   .Text("Rechazar")
+                                   .Icon("remove")
+                                   .ID("btnRechazarPa")
+                                   .Visible(isRechazarPa)
+                                   .OnClick("ConfirmRechazarPa")
+        )
+
+        @(Html.DevExtreme()
+                                   .Button()
+                                   .Text("Abrir Reporte")
+                                   .ID("btnAbrirReporte")
+                                   .Icon("far fa-file-pdf")
+                                   .OnClick("AbrirReporteInforme")
+                                   .Visible(ViewBag.isBtnAbrirReporte)
+        )
+    </div>
+</div>
+
+
+<div style="padding-top: 10px;">
+    @(Html.DevExtreme().TabPanel()
+                                                        .ID("TabDetallePaRegistrado")
+                                                        .SelectedIndex(0)
+                                                        .Loop(false)
+                                                        .AnimationEnabled(true)
+                                                        .SwipeEnabled(true)
+                                                        .Items(items =>
+                                                        {
+                                                            items.Add().Title("Cabecera").Template(@<text> @Html.Partial("~/Views/InformePlanAccion/_TabDetallePlanAccion.cshtml", Model)</text>);
+                                                            items.Add().Title("Recomendaciones").Template(@<text> @Html.Partial("~/Views/InformePlanAccion/_TabHallazgoRecPa.cshtml", Model)</text>);
+                                                            items.Add().Title("Bitácora");
+                                                        })
+    )
+</div>
+
+
+<div id="Pop" class="col-lg-12 ">
+    @Html.Partial("~/Views/InformePlanAccion/_PopRegistrarActividad.cshtml")
+   
+</div>
+
+
+<script src="@Url.Content("~/Scripts/jquery-confirm.min.js")"></script>
+<script>
+
+    function ConfirmAprobarPa() {
+        $.confirm({
+            title: "Aprobar",
+            animation: "zoom",
+            closeAnimation: "zoom",
+            animateFromElement: false,
+            content: '<div>¿Está seguro que desea aprobar el Plan de Acción? <br></div>',
+            type: "orange",
+            buttons:
+            {
+                confirm:
+                {
+                    text: "  Si  ",
+                    action: () => {
+                       CambiarEstadoPlanAccion('@tipoOperacionA');
+                    }
+                }, cancel:
+                {
+                    text: "  No  "
+                }
+            }
+        });
+    }
+
+    function ConfirmRechazarPa() {
+        $.confirm({
+            title: "Rechazar",
+            animation: "zoom",
+            closeAnimation: "zoom",
+            animateFromElement: false,
+            content: '<div>¿Está seguro que desea rechazar el Plan de Acción? <br></div>',
+            type: "orange",
+            buttons:
+            {
+                confirm:
+                {
+                    text: "  Si  ",
+                    action: () => {
+                        CambiarEstadoPlanAccion('@tipoOperacionR');
+                    }
+                }, cancel:
+                {
+                    text: "  No  "
+                }
+            }
+        });
+    }
+
+     function AbrirReporteInforme() {
+        MostrarPanelLoad();
+         window.location.href = '@Url.Action("ReporteInformePlanAccion", "InformePlanAccion")' + "?" + "ci=" + "@codigoInformeEncrip" + "&vr=" + "@codigoVersionPaEncrip" + "&urlMenu=" + "@menuEncrip" + "&cpa=" + "@codigoPaEncrip";
+    }
+
+    function SelectionChangedInfPlanAccion(e) {
+        if (e.selectedRowsData[0]) {
+
+            PlanAccionSeleccionado = e.selectedRowsData[0];
+            keySeleccionado = e.selectedRowKeys[0];
+        }
+
+        if (e.selectedRowsData[0] == undefined) {
+            $("#BtnAgregarActi").dxButton("instance").option("disabled", true);
+
+        }
+    }
+
+
+    function ExportingRecHallazgoPa(e) {
+        var workbook = new ExcelJS.Workbook();
+        var worksheet = workbook.addWorksheet('Rec_Hallazo_Plan_Accion');
+
+        DevExpress.excelExporter.exportDataGrid({
+            component: e.component,
+            worksheet: worksheet,
+            autoFilterEnabled: true
+        }).then(function () {
+            workbook.xlsx.writeBuffer().then(function (buffer) {
+                saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Rec_Hallazo_Plan_Accion.xlsx');
+            });
+        });
+        e.cancel = true;
+    }
+
+
+    function RefreshGridRecHallazgoPa() {
+        $("#GridRecomendacionHallazgoPa").dxDataGrid("instance").refresh();
+    }
+
+
+
+    function ExportToCsvRecHallazgoPa(e) {
+        var dataGrid = $("#GridRecomendacionHallazgoPa").dxDataGrid("instance");
+        var workbook = new ExcelJS.Workbook();
+        var worksheet = workbook.addWorksheet('Rec_Hallazo_Plan_Accion');
+
+        DevExpress.excelExporter.exportDataGrid({
+            component: dataGrid,
+            worksheet: worksheet,
+        }).then(function () {
+            workbook.csv.writeBuffer().then(function (buffer) {
+                saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Rec_Hallazo_Plan_Accion.csv');
+            });
+        });
+        e.cancel = true;
+    }
+
+
+
+    function ExportToPdfRecHallazgoPa() {
+        window.jsPDF = window.jspdf.jsPDF;
+        applyPlugin(window.jsPDF);
+        var options = {
+            orientation: 'l',
+            format: 'a4',
+            unit: 'mm',
+        };
+        var doc = new jsPDF(options);
+        doc.setTextColor('#FFFFFF');
+        doc.autoTable({
+            headStyles: { textColor: 21, horizontalPageBreak: true },
+            styles: { textColor: 21, horizontalPageBreak: true },
+            columnStyles: { 0: { halign: 'center' } },
+            body: [
+                [{ content: 'Recomendaciones de Hallazgos de Plan de Acción', colSpan: 2, rowSpan: 20, styles: { halign: 'center' }, lineColor: 11 }],
+            ],
+        });
+        var dataGrid = $("#GridRecomendacionHallazgoPa").dxDataGrid("instance");
+        DevExpress.pdfExporter.exportDataGrid({
+            jsPDFDocument: doc,
+            component: dataGrid,
+            customizeCell: function (options) {
+                test = options;
+                const { gridCell, pdfCell } = options;
+                if (gridCell.rowType === 'data') {
+                    pdfCell.styles = {
+                        font: 'times',
+                        fontSize: 14,
+                        overflow: 'linebreak'
+                    }
+                }
+            }
+        }).then(function () {
+            doc.save("Rec_Hallazo_Plan_Accion.pdf");
+        });
+    }
+
+
+
+    /////////////////////////////actividades pa ///////////////////////
+    var validarJustificacion = false;
+    function OnSelectionChangedFecha(e) {
+       if (PlanAccionSeleccionado.codigoPrioridadRecomendacion!= 4) {
+           validarJustificacion = true;
+        }
+
+    }
+
+    function CerrarPopCrearActividadPa() {
+        var popup = $("#PopRegistraActividad").dxPopup("instance");
+        popup.hide();
+    }
+
+    function AbrirPopCrearActividadPa() {
+        var codInforme = keySeleccionado.codigoInformeAuditoria;
+        var codPa = keySeleccionado.codigoPa;
+        var codPaversion = keySeleccionado.codigoPaVersion;
+        var codRecomendacion = keySeleccionado.codigoRecomendacion;
+        var codHallazgo = keySeleccionado.codigoHallazgo;
+        var menu = "@ViewBag.urlMenu";
+        MostrarPanelLoad();
+        $.ajax({
+            url: '@Url.Action("FormActividadPa", "InformePlanAccion")',
+            type: 'POST',
+            async: true,
+            cache: false,
+            data: { codigoInforme: codInforme, codigoPa: codPa, codigoPaVersion: codPaversion, codigoRecomendacion: codRecomendacion, codigoHallazgo: codHallazgo, urlMenu:menu},
+            success: function (response)
+			{
+                $("#PopRegistraActividad").dxPopup("instance").option("title", "Actualizar Actividad Plan Acción");
+                $("#PopRegistraActividad").dxPopup("instance").show();
+                $("#ContActividad").html(response);
+                 OcultarPanelLoad();
+            },
+            error: function (error) {
+                OcultarPanelLoad();
+                Alert(error.statusText, "error");
+            }
+        });
+    }
+
+    function AbrirPopCrearActividadPaEdit(e) {
+        var codInforme = e.row.key.codigoInformeAuditoria;
+        var codPa = e.row.key.codigoPa;
+        var codPaversion = e.row.key.codigoPaVersion;
+        var codRecomendacion = e.row.key.codigoRecomendacion;
+        var codHallazgo = e.row.key.codigoHallazgo;
+        var menu = "@ViewBag.urlMenu";
+        MostrarPanelLoad();
+        $.ajax({
+            url: '@Url.Action("FormActividadPa", "InformePlanAccion")',
+            type: 'POST',
+            async: true,
+            cache: false,
+            data: { codigoInforme: codInforme, codigoPa: codPa, codigoPaVersion: codPaversion, codigoRecomendacion: codRecomendacion, codigoHallazgo: codHallazgo, urlMenu:menu },
+            success: function (response)
+			{
+                $("#PopRegistraActividad").dxPopup("instance").option("title", "Actualizar Actividad Plan Acción");
+                $("#PopRegistraActividad").dxPopup("instance").show();
+                $("#ContActividad").html(response);
+                 OcultarPanelLoad();
+            },
+            error: function (error) {
+                OcultarPanelLoad();
+                Alert(error.statusText, "error");
+            }
+        });
+    }
+
+
+    function UpdateActividadPa()
+    {
+        MostrarPanelLoad();
+        var form = $("#FormAgregarActividad").dxForm("instance").option("formData");
+        console.log(form);
+        if (form.responsableEjecucion != null && form.responsableEjecucion != "" && form.fechaCumplimiento != null && form.actividad != null && form.actividad != "" && form.actividad != "\n")
+        {
+            
+            if (validarJustificacion == true && (form.justificacion == null || form.justificacion == "" || form.justificacion == "\n")) {
+                Alert('Esta Cambiando la fecha de cumplimiento por lo que debe ingresar una justificación!! ', "error");
+                OcultarPanelLoad();
+            }
+            else {
+                $.ajax({
+                    url: '@Url.Action("UpdateRecomendacionPa", "InformePlanAccion")',
+                    type: 'POST',
+                    async: true,
+                    cache: false,
+                data: { values: form, fechaCumplimiento: DateShort(form.fechaCumplimiento) },
+                    success: function (response) {
+                        CerrarPopCrearActividadPa();
+                        OcultarPanelLoad();
+                        Alert("La actividad se ha actualizado exitosamente", "success");
+                        RefreshGridRecHallazgoPa();
+                    },
+                    error: function (error) {
+                        OcultarPanelLoad();
+                        Alert(error.statusText, "error");
+                    }
+                });
+            }
+            
+        }
+        else {
+            OcultarPanelLoad();
+            Alert('Debe llenar todos los campos !! ', "error");
+        }
+
+    }
+
+    function RevisarInformePa() {
+
+        $.confirm({
+            title: "Validar Plan de Acción",
+            animation: "zoom",
+            closeAnimation: "zoom",
+            animateFromElement: false,
+            content: '<div>¿Está seguro que desea enviar a validar <br> este plan de acción? <br></div>',
+            type: "orange",
+            buttons: {
+                confirm: {
+                    text: "  Si  ",
+                    action: () => {
+                        CambiarEstadoPlanAccion('@tipoOperacionV');
+                    }
+                }, cancel: {
+                    text: "  No  "
+                }
+            }
+        });
+    }
+
+    function CambiarEstadoPlanAccion(estadoPa)
+    {
+        var menu = '@menu';
+        var codPa = '@codPa';
+        var codPaV = '@codPaV';
+        var codEstado = estadoPa;
+        var msjAlerta = "";
+
+        if (estadoPa == '@tipoOperacionV') {
+            msjAlerta = "envió a revisar";
+        }
+        else if (estadoPa == '@tipoOperacionA') {
+            msjAlerta = "aprobó";
+        }
+        else if (estadoPa == '@tipoOperacionR') {
+            msjAlerta = "rechazó";
+        }
+
+        MostrarPanelLoad();
+        $.ajax({
+                url: '@Url.Action("CambiarEstadoPlanAccion", "InformePlanAccion")',
+                type: 'POST',
+                async: true,
+                cache: false,
+                data: { tipoOperacion: codEstado, codPaVersion: codPaV, codPa: codPa, comentario:""},
+                success: function (response) {
+                        Alert("Se " + msjAlerta + " el plan de acción exitosamente", "success");
+                        OcultarPanelLoad();
+                        window.location.href = '@Url.Action("Index", "InformePlanAccion")?urlMenu=' + menu;
+                    },
+                    error: function (error) {
+                        OcultarPanelLoad();
+                        Alert(error.statusText, "error");
+                    }
+        });
+    }
+
+</script>

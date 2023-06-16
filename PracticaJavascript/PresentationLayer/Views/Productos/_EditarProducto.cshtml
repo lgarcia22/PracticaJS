@@ -1,0 +1,88 @@
+﻿@using DataEntityLayer.Models.Productos;
+@model ProductosModel
+
+
+@{ 
+}
+<div class="row " style="padding: 10px;">
+    <div class="col-lg-12">
+        @(Html.DevExtreme().Form<ProductosModel>()
+        .ID("FormularioEditarProducto")
+        .FormData(Model) //enviar o trae informACION
+        .LabelLocation(FormLabelLocation.Left)
+        .LabelLocation(FormLabelLocation.Left)
+        .LabelMode(FormLabelMode.Outside)
+        .ScrollingEnabled(true)
+        .Items(items =>
+        {
+            items.AddGroup()
+            .Items(groupItems =>
+            {
+                groupItems.AddSimpleFor(m => m.productName)
+               .Editor(E => E.TextBox().Name("nombreproducto")
+               .ID("nombreproducto").MaxLength(50))
+               .IsRequired(true).ColSpan(1);
+
+                groupItems.AddSimpleFor(m => m.supplier)
+                .Editor(E => E.TextBox().Name("proveedor")
+                .ID("proveedor").MaxLength(50))
+                .IsRequired(false).ColSpan(1);
+
+                groupItems.AddSimpleFor(m => m.category)
+                .Editor(E => E.TextBox().Name("category")
+                .ID("category").MaxLength(50))
+                .IsRequired(false).ColSpan(1);
+
+                groupItems.AddSimpleFor(m => m.quantityPerUnit)
+                .Editor(E => E.TextBox().Name("quantityPerUnit")
+                .ID("quantityPerUnit").MaxLength(50))
+                .IsRequired(false).ColSpan(1);
+
+                groupItems.AddSimpleFor(m => m.unitPrice)
+                .Editor(E => E.TextBox().Name("unitPrice")
+                .ID("unitPrice").MaxLength(50))
+                .IsRequired(false).ColSpan(1);
+
+                groupItems.AddSimpleFor(m => m.unitsInStock)
+                .Editor(E => E.TextBox().Name("unitsInStock")
+                .ID("unitsInStock").MaxLength(50))
+                .IsRequired(false).ColSpan(1);
+
+                groupItems.AddSimpleFor(m => m.unitsOnOrder)
+                .Editor(E => E.TextBox().Name("unitsOnOrder")
+                .ID("unitsOnOrder").MaxLength(50))
+                .IsRequired(false).ColSpan(1);
+
+                groupItems.AddSimpleFor(m => m.reorderLevel)
+                .Editor(E => E.TextBox().Name("reorderLevel")
+                .ID("reorderLevel").MaxLength(50))
+                .IsRequired(false).ColSpan(1);
+
+                groupItems.AddSimpleFor(m => m.discontinued)
+                .Editor(E => E.CheckBox().Name("discontinued")
+                .ID("discontinued"))
+                .IsRequired(false).ColSpan(1);
+
+            }).ColCountByScreen(cs => cs.Md(2).Lg(2).Sm(1)) //cambiar la cantidad de columnas
+            .ColCount(2).ColSpan(1);
+        })
+        )
+    </div>
+    <div class="dx-field-value col-lg-12" style="margin-top:10px">
+        @(Html.DevExtreme().Button()
+        .Text("Cerrar")
+        .ID("btnCerrar")
+        .Type(ButtonType.Normal)
+        .Width(90)
+        .OnClick(@<text>(e) =>CerrarPopup("PopProductos")</text>)
+        )
+        @(Html.DevExtreme().Button()
+        .Text("Actualizar")
+        .ID("btnGuardar")
+        .Icon("save")
+        .Type(ButtonType.Normal)
+        .Width(90)
+        .OnClick(@<text>function(e) { EjecutarAccionForm('@Url.Action("EditarProducto", "Productos")',"FormularioEditarProducto", "PopProductos", "GridProductos" )}</text>)
+        )
+    </div>
+</div>

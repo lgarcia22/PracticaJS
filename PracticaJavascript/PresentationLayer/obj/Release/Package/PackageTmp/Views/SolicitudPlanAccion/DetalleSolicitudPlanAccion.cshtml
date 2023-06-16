@@ -1,0 +1,252 @@
+﻿@using DataEntityLayer.Models.Solicitudes;
+@using DataEntityLayer.Models.Notificaciones;
+@using DataAccessLayer.Util;
+@model DataEntityLayer.Models.Informes.InformeAuditoria
+@{
+    ViewBag.Title = "Solicitud Plan de Acción";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string numeroInforme = ViewBag.numeroInforme;
+    int codigoInforme = int.Parse(ViewBag.codigoInforme);
+    List<NotificacionModel> ModeloSolPlanAccion = ViewBag.ModeloSolicitudPlanAccion;
+    SolicitudProrrogaModel ModeloProrroga = ViewBag.ModeloProrroga;
+    bool btnCrearSolPlanAccionActivo = ViewBag.btnCrearSolPlanAccionActivo;
+    bool btnCrearSolProrrogaActivo = ViewBag.btnCrearSolProrrogaActivo;
+    NotificacionModel ModeloNotificacion = ViewBag.ModeloNotificacion;
+
+    string urlMenu = ViewBag.urlMenu;
+    string primeraSolicitud = UtilClass.primeraSolicitudPa;
+    string segundaSolicitud = UtilClass.segundaSolicitudPa;
+
+    bool btnAprobarSolProrrogaActivo = ViewBag.btnAprobarSolProrrogaActivo;
+    bool btnRechazarSolProrrogaActivo = ViewBag.btnRechazarSolProrrogaActivo;
+}
+
+<nav aria-label="breadcrumb" class="menu">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Action("Index","InformeAuditoria" )?urlMenu=@ViewBag.urlMenu">Informe de Auditoría</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Solicitud Plan de Acción</li>
+    </ol>
+</nav>
+<div class="Pop">
+    @Html.Partial("~/Views/SolicitudPlanAccion/_PopSolicitudPlanAccion.cshtml")
+    @Html.Partial("~/Views/SolicitudProrroga/_PopAgregarSolicitudProrroga.cshtml")
+</div>
+<div class="container" name="secciones-ia-notificados">
+    @if (btnCrearSolPlanAccionActivo == true || btnCrearSolProrrogaActivo == true) {
+        <div class="box">
+            <div class="contendor-botones">
+                @(Html.DevExtreme().Button()
+                                    .Text("Crear Solicitud")
+                                    .ID("btnAgregarSolicitud")
+                                    .Icon("add")
+                                    .Type(ButtonType.Success)
+                                    .Width(130)
+                                    .OnClick("AbrirPopAgregarSolicitudPlanAccion")
+                                    .Visible(btnCrearSolPlanAccionActivo)
+                                    )
+                @(Html.DevExtreme().Button()
+                                    .Text("Crear Prórroga")
+                                    .ID("btnAgregarProrroga")
+                                    .Icon("add")
+                                    .Type(ButtonType.Success)
+                                    .Width(130)
+                                    .OnClick("AbrirPopAgregarSolicitudProrroga")
+                                    .Visible(btnCrearSolProrrogaActivo)
+                                    )
+            </div>
+        </div>
+    }
+    <div class="row">
+        <div class="col-lg-12" name="encabezado-ia" style="padding:5px;">
+            @Html.Partial("~/Views/InformeAuditoria/_EncabezadoInformeAuditoria.cshtml", Model)
+        </div>
+        @foreach (var item in ModeloSolPlanAccion)
+        {
+            <div class="row">
+                @if (item.numeroSolicitud == primeraSolicitud)
+                {
+                    <div class="col-md-12">
+                        <p class="encabezado-panel2">Notificación Informe Auditoría y @item.numeroSolicitud Solicitud del Plan de Acción</p>
+                    </div>
+                }
+                else if (item.numeroSolicitud == segundaSolicitud)
+                {
+                    <div class="col-md-12">
+                        <p class="encabezado-panel2">@item.numeroSolicitud Solicitud del Plan de Acción</p>
+                    </div>
+                }
+            </div>
+            <div class="col-lg-12" name="solicitud-pa-@item.codigoNotificacion" id="@item.codigoNotificacion" style="padding:5px;">
+                @Html.Partial("~/Views/SolicitudPlanAccion/_FormSolicitudPlanAccion.cshtml", item)
+            </div>
+        }
+        @if (ModeloProrroga.codigoSolicitudProrroga > 0)
+        {
+            <div class="col-lg-12" name="prorroga-pa" style="padding:5px;">
+                <div class="row">
+                    <div class="col-md-12">
+                        <p class="encabezado-panel2">Prórroga de Solicitud de Plan de Acción</p>
+                    </div>
+                </div>
+                @if(btnAprobarSolProrrogaActivo == true && btnRechazarSolProrrogaActivo == true)
+                {
+                    <div class="box">
+                        <div class="contendor-botones">
+                            @(Html.DevExtreme().Button()
+                                        .Text("Aprobar")
+                                        .ID("btnAprobarProrroga")
+                                        .Icon("check")
+                                        .Type(ButtonType.Normal)
+                                        .Width(110)
+                                        .OnClick("AprobarSolicitud")
+                                        .Visible(btnAprobarSolProrrogaActivo)
+                                        )
+                            @(Html.DevExtreme().Button()
+                                        .Text("Rechazar")
+                                        .ID("btnRechazarProrroga")
+                                        .Icon("remove")
+                                        .Type(ButtonType.Normal)
+                                        .Width(110)
+                                        .OnClick("RechazarSolicitud")
+                                        .Visible(btnRechazarSolProrrogaActivo)
+                                        )
+                        </div>
+                    </div>
+                 }
+
+                @Html.Partial("~/Views/SolicitudProrroga/_FormSolicitudProrroga.cshtml", ModeloProrroga)
+                @Html.Partial("~/Views/SolicitudProrroga/_FormNotificacion.cshtml", ModeloNotificacion)
+            </div>
+        }
+    </div>
+</div>
+<script src="@Url.Content("~/Scripts/jquery-confirm.min.js")"></script>
+<script>
+    function AbrirPopAgregarSolicitudPlanAccion() {
+
+        MostrarPanelLoad();
+        $.ajax({
+            url: '@Url.Action("FormAgregarSegundaSolicitudPlanAccion", "SolicitudPlanAccion")',
+            type: 'POST',
+            async: true,
+            cache: false,
+            data: { codigoInforme: @codigoInforme },
+            success: function (response)
+			{
+                $("#PopSolicitudPlanAccion").dxPopup("instance").option("title", "Crear Nueva Solicitud Plan de Acción");
+                $("#PopSolicitudPlanAccion").dxPopup("instance").show();
+                $("#ContSolicitudPlanAccion").html(response);
+                 OcultarPanelLoad();
+            },
+            error: function (error) {
+                OcultarPanelLoad();
+                console.log("error", error);
+                Alert(error.statusText, "error");
+            }
+        });
+    };
+
+    function AbrirPopAgregarSolicitudProrroga() {
+        MostrarPanelLoad();
+        $.ajax({
+            url: '@Url.Action("FormAgregarSolicitudProrroga", "SolicitudProrroga")',
+            type: 'POST',
+            async: true,
+            cache: false,
+            data: { codigoInforme: @codigoInforme },
+            success: function (response)
+			{
+                $("#PopAgregarSolicitudProrroga").dxPopup("instance").option("title", "Crear Nueva Solicitud de Prórroga");
+                $("#PopAgregarSolicitudProrroga").dxPopup("instance").show();
+                $("#ContAgregarSolicitudProrroga").html(response);
+                 OcultarPanelLoad();
+            },
+            error: function (error) {
+                OcultarPanelLoad();
+                console.log("error", error);
+                Alert(error.statusText, "error");
+            }
+        });
+    };
+
+     function AprobarSolicitud() {
+        $.confirm({
+            title: "Aprobar",
+            animation: "zoom",
+            closeAnimation: "zoom",
+            animateFromElement: false,
+            content: '<div>¿Está seguro que desea aprobar la solicitud de prórroga? <br></div>',
+            type: "orange",
+            buttons: {
+                confirm: {
+                    text: "  Si  ",
+                    action: () => {
+                        validarCamposProrroga(@UtilClass.tipoOperacionModificarAprobado);
+                    }
+                }, cancel: {
+                    text: "  No  "
+                }
+            }
+        });
+    }
+
+    function RechazarSolicitud() {
+        $.confirm({
+            title: "Rechazar",
+            animation: "zoom",
+            closeAnimation: "zoom",
+            animateFromElement: false,
+            content: '<div>¿Está seguro que desea rechazar la solicitud de prórroga? <br></div>',
+            type: "orange",
+            buttons: {
+                confirm: {
+                    text: "  Si  ",
+                    action: () => {
+                        validarCamposProrroga(@UtilClass.tipoOperacionModificarRechazado);
+                    }
+                }, cancel: {
+                    text: "  No  "
+                }
+            }
+        });
+    }
+
+    function validarCamposProrroga(tipoOperacion) {
+        var form = $("#FormNotificacion").dxForm("instance").option("formData");
+        form.codigoInformeAuditoria = @codigoInforme;
+        
+        if (form.numeroOficio != null && form.numeroOficio != "" && form.numeroIdentidadRecibe != null && form.numeroIdentidadRecibe != "" && form.fechaOficio != null
+            && form.fechaOficio != "" && form.nombreRecibe != null && form.nombreRecibe != "" && form.cargoRecibe != null && form.cargoRecibe != ""
+            && form.fechaRecepcion != null && form.fechaRecepcion != "") {
+            if (form.observacion == "/n") {
+                form.observacion == null;
+            }
+            CambiarEstadoSolicitudProrroga(tipoOperacion, form);
+        }
+        else {
+            OcultarPanelLoad();
+            Alert('Debe llenar todos los campos !! ', "error");
+        }        
+    }
+
+    function CambiarEstadoSolicitudProrroga(tipoOperacion, datos) {
+        MostrarPanelLoad();
+            $.ajax({
+                url: '@Url.Action("CambiarEstadoSolicitudProrroga", "SolicitudProrroga")',
+                type: 'POST',
+                async: true,
+                cache: false,
+                data: { values: datos, tipoOperacion: tipoOperacion, fechaOficio: DateTime(datos.fechaOficio), fechaNotificacion: DateTime(datos.fechaNotificacion), fechaRecepcion: DateTime(datos.fechaRecepcion), codigoSolicitudProrroga: @ModeloProrroga.codigoSolicitudProrroga},
+                success: function (response) {
+                    CerrarPopAgregarSolicitudPlanAccion();
+                    OcultarPanelLoad();
+                    Alert("La solicitud se ha " + (tipoOperacion == @UtilClass.tipoOperacionModificarAprobado ? "aprobado" : "rechazado") + " exitosamente", "success");
+                    setTimeout(location.reload(), 8000);
+                },
+                error: function (error) {
+                    OcultarPanelLoad();
+                    Alert(error.statusText, "Error al "+ (tipoOperacion == @UtilClass.tipoOperacionModificarAprobado ? "aprobar" : "rechazar") +" la solicitud de prórroga");
+                }
+            });
+    }
+</script>

@@ -1,0 +1,102 @@
+﻿@using DataEntityLayer.Models.Mantenimientos;
+@using DataAccessLayer.Util;
+@{
+    string llave = ViewBag.llave;
+    string componente = ViewBag.componente;
+}
+<div id="GridBitacoraAuditoria" style="padding-top: 10px;">
+    @(Html.DevExtreme().DataGrid<BitacoraAuditoriaModel>().DataSource(ds => ds
+      .Mvc()
+      .Controller("Mantenimiento")
+      .LoadAction("GetBitacoraAuditoria")
+      .LoadParams(new { llave = llave, componente = componente })
+      .Key("codigoAuditoria"))
+      .ID("GridBitacoraAuditoria")
+      .Columns(columns =>
+      {
+          columns.AddFor(m => m.codigoAuditoria).Visible(false);
+          columns.AddFor(m => m.codigoUsuario).Visible(false);
+          columns.AddFor(m => m.nombreUsuario).Width(120);
+          columns.AddFor(m => m.fechaHora).DataType(GridColumnDataType.DateTime).Format("dd/MM/yyyy HH:mm:ss").Width(120);
+          columns.AddFor(m => m.modulo).Visible(false);
+          //columns.AddFor(m => m.entidad).Visible(false);
+          //columns.AddFor(m => m.componente).Visible(false).Width(160);
+          columns.AddFor(m => m.tipoSentencia).Visible(true).Width(100);
+          columns.AddFor(m => m.llave).Visible(false);
+          columns.AddFor(m => m.valoresAnteriores);
+          columns.AddFor(m => m.valoresActuales).Visible(true);
+      })
+      .ShowBorders(true)
+      .SearchPanel(p => p.Visible(true).Width(210).Placeholder("Buscar..."))
+      .Paging(paging => paging.PageSize(10))
+      .FilterRow(f => f.Visible(true))
+      .HeaderFilter(h => h.Visible(true))
+      .ShowColumnLines(true)
+      .ShowRowLines(true)
+      .RowAlternationEnabled(true)
+      .HoverStateEnabled(true)
+      .Pager(pager =>
+      {
+          pager.ShowPageSizeSelector(true);
+          pager.AllowedPageSizes(new List<int> { 5, 10, 20 });
+          pager.ShowInfo(true);
+          pager.Visible(true);
+      })
+      //.OnRowDblClick("DetallarInformeAuditoria")
+      .ColumnResizingMode(ColumnResizingMode.Widget)
+      .AllowColumnReordering(true)
+      .AllowColumnResizing(true)
+      .Selection(s => s.Mode(SelectionMode.Single))
+      .ColumnHidingEnabled(true)
+      .NoDataText("No hay información")
+      .ColumnChooser(c => c.Enabled(true).AllowSearch(true))
+      .ColumnFixing(c => c.Enabled(true))
+      //.OnSelectionChanged("SelectionChangedInformeAuditoria")
+      .Scrolling(scrolling => scrolling.ColumnRenderingMode(GridColumnRenderingMode.Virtual))
+      .Export(e => e.Enabled(true).AllowExportSelectedData(true))
+      .OnExporting("Exporting")
+      .WordWrapEnabled(true)
+      .Toolbar(toolbar =>
+      {
+          toolbar.Items(items =>
+          {
+              items.Add().Location(ToolbarItemLocation.After)
+                  .LocateInMenu(ToolbarItemLocateInMenuMode.Auto)
+                  .Widget(w =>
+                          w.Button()
+                          .ID("Refrescar")
+                          .Icon("refresh")
+                          .Hint("Refrescar")
+                          .Text("")
+                          .OnClick("RefreshGridBitacoraAuditoria"));
+              items.Add()
+                  .Location(ToolbarItemLocation.After)
+                  .Widget(w =>
+                      w.Button()
+                          .ID("exportCSV")
+                          .Icon("export")
+                          .Hint("Exportar CSV")
+                          .Text("")
+                          .OnClick("ExportToCsvBitacoraAuditoria")
+                  );
+              items.Add()
+                  .Location(ToolbarItemLocation.After)
+                  .Widget(w =>
+                      w.Button()
+                          .ID("exportPDF")
+                          .Icon("pdffile")
+                          .Hint("Exportar PDF")
+                          .Text("")
+                          .OnClick("ExportToPdfBitacoraAuditoria")
+                  );
+              items.Add().Name("exportButton").LocateInMenu(ToolbarItemLocateInMenuMode.Auto);
+              items.Add().Name("columnChooserButton")
+                      .LocateInMenu(ToolbarItemLocateInMenuMode.Auto);
+              items.Add().Name("searchPanel").Location(ToolbarItemLocation.After).LocateInMenu(ToolbarItemLocateInMenuMode.Auto);
+          });
+      })
+    )
+</div>
+<script>
+    
+</script>

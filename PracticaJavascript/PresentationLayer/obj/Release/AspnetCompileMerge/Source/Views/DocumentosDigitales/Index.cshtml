@@ -1,0 +1,127 @@
+﻿@using BussinessLayer.Util;
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="demo-container">
+    <div id="container">
+        <form id="form" method="post" action="" enctype="multipart/form-data">
+            <h3>Profile Settings</h3>
+            
+        </form>
+    </div>
+</div>
+
+@(Html.DevExtreme().FileUploader()
+                                                    .ID("myFile")
+                                                    .Name("myFile")
+                                                    .Multiple(false)
+                                                    .UploadMode(FileUploadMode.Instantly)
+                                                    .LabelText("o Arrastre un Archivo")
+                                                    .ElementAttr("seleccionArchivos")
+                                                    .SelectButtonText("Seleccionar Archivo")
+                                                    .Accept(string.Join(",", UtilClass.ArchivoAdmitido.Select(s => s.mediaType).ToList()))
+                                                    .OnValueChanged("UploadFile")
+)
+
+@using (Html.DevExtreme().NamedTemplate("BtnUploadFile"))
+{
+    <div class="seleccionArchivos dx-widget dx-fileuploader dx-fileuploader-show-file-list dx-fileuploader-empty">
+        <div class="dx-fileuploader-wrapper">
+            @(Html.DevExtreme().FileUploader()
+                                                        .ID("myFile")
+                                                        .Name("myFile")
+                                                        .Multiple(false)
+                                                        .UploadMode(FileUploadMode.Instantly)
+                                                        .LabelText("o Arrastre un Archivo")
+                                                        .ElementAttr("seleccionArchivos")
+                                                        .SelectButtonText("Seleccionar Archivo")
+                                                        .Accept(string.Join(",", UtilClass.ArchivoAdmitido.Select(s => s.mediaType).ToList()))
+                                                        .OnValueChanged("UploadFile")
+            )
+        </div>
+    </div>
+}
+
+<script>
+    function UploadFile()
+    {
+        MostrarPanelLoad();
+        var form = new FormData();
+        //var Date = $("#FECHADOCUMENTO").dxDateBox("instance").option("value");
+
+        var FileUpload = $("#myFile").dxFileUploader("instance");
+        var archivo = FileUpload.option("value")[0];
+
+        if (archivo == null || Date == null)
+        {
+            Alert("Se debe ingresar una fecha para el documento o selecionar un archivo para ser guardado.", "warning");
+            OcultarPanelLoad();
+        }
+        else
+        {
+            form.append("file", archivo);
+            form.append("CodigoSolicitud", '1');
+            form.append("codigoCondicion", '1');
+            form.append("fechaDocumento", Date);
+
+            $.ajax({
+                        url: '@Url.Action("GuardarArchivo", "Documentodigital")',
+                        type: 'POST',
+                        cache: false,
+                processData: false,
+                    dataType: false,
+                contentType: false,
+                        data:  form ,
+                    success: function (data)
+                    {
+                        Alert("El archivo fue guardo existosamente.", "success")
+                        //$("#GridDocumentosDigitales").dxDataGrid("instance").refresh();
+                        //$("#UploadDocument").dxPopup("instance").hide();
+                        OcultarPanelLoad();
+                    },
+                    error: function (error)
+                    {
+                        OcultarPanelLoad();
+
+                        var msjerror = error.statusText;
+                        if (msjerror.includes(msjerror, "factura duplicado")) {
+                            $("#GridDocumentosDigitales").dxDataGrid("instance").refresh();
+                            $("#UploadDocument").dxPopup("instance").hide();
+                            Alert(error.statusText, "error");
+                        }
+                        else {
+                            Alert(error.statusText, "error");
+                        }
+
+                    }
+                });
+        }
+    }
+
+    function onValueChangedTipoDocumento(e)
+    {
+        var formulario = $("#formUploadDocument").dxForm("instance");
+
+        if (e.value == 1)
+        {
+            formulario.itemOption("NOFACTURA", "label", { text: "No. Factura" });
+
+            formulario.itemOption("MONTO", "visible", true);
+            formulario.itemOption("NOFACTURA", "visible", true);
+        }
+        else if (e.value == 2)
+        {
+            formulario.itemOption("MONTO", "visible", false);
+            formulario.itemOption("NOFACTURA", "visible", false);
+        }
+
+        if (e.value == 5)
+        {
+            formulario.itemOption("MONTO", "visible", false);
+            formulario.itemOption("NOFACTURA", "visible", false);
+        }
+
+    }
+</script>
+

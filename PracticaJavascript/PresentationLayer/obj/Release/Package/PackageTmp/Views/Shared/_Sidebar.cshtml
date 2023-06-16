@@ -1,0 +1,95 @@
+﻿@using DataAccessLayer.Util;
+
+@if (UtilClass.GetUsuarioSesion() != null)
+{
+    <!-- ### $Sidebar Menu ### -->
+<ul class="sidebar-menu mT-10 scrollable pos-r" id="sideBarElements">
+    @*<li class="nav-item dropdown">
+        <a class="dropdown-toggle" href="javascript:void(0);">
+            <span class="icon-holder">
+                <i class="ti-layout-list-thumb" style="color:orange"></i>
+            </span>
+            <span class="title">Tables</span>
+            <span class="arrow">
+                <i class="ti-angle-right"></i>
+            </span>
+        </a>
+        <ul class="dropdown-menu" id="SubLista">
+            <li class="sub-menu">
+                <a class='sidebar-link' href="basic-table.html">Basic Table</a>
+            </li>
+            <li class="sub-menu">
+                <a class='sidebar-link' href="datatable.html">Data Table</a>
+            </li>
+        </ul>
+    </li>*@
+
+</ul>
+}
+
+
+<script>
+    sideBarGeneral();
+
+    
+    function sideBarGeneral() {
+        let datos = {
+            CodigoPantalla: '@ViewBag.CodigoPantalla'
+        };
+
+        let url = '@Url.Action("Index", "Menu")';
+
+        $.get(url, function (data) {
+            establecerElementos(data);
+        });
+    }
+
+    function establecerElementos(data) {
+        $("#sideBarElements").empty();
+        let urlAction = '';
+        if (data.length > 0) {
+            data.forEach(function (elemento) {
+                     if (elemento.accionElementoMenu!="#" ) {
+                        switch (elemento.tipoUrl) {
+                            case 0:
+                                urlAction = '@Html.Raw(Url.Action("Accion", "Controlador"))';
+                                break;
+                            case 1:
+                                urlAction = '@Html.Raw(Url.Action("Accion", "Controlador", new { urlMenu = "urlMenuPantalla" }))';
+                                break;
+                        }
+                        urlAction = urlAction.replace("Accion", elemento.accionElementoMenu).replace("Controlador", elemento.controladorElementoMenu).replace("urlMenuPantalla", elemento.url);
+                        $("#sideBarElements").append('<li class="nav-item  actived"> <a class="sidebar-link" href="'+urlAction+'"><span class="icon-holder"> <i class="' + elemento.iconoElementoMenu + '" style="color:' + elemento.color + '"></i> </span> <span class="title">' + elemento.tituloElementoMenu + '</span></a>  </li>');
+                    }
+                    else{
+                         $("#sideBarElements").append('<li class="nav-item dropdown"> <a class="dropdown-toggle" href="javascript:void(0);"> <span class="icon-holder"> <i class="' + elemento.iconoElementoMenu + '" style="color:' + elemento.color + '"></i></span> <span class="title">' + elemento.tituloElementoMenu + '</span> <span class="arrow"> <i class="fas fa-angle-right"></i> </span> </a> <ul class="dropdown-menu" id="SubLista' + elemento.idElementoMenu + '"></ul> </li>');
+                         CrearSubLista(elemento.SubElemento, elemento.idElementoMenu);
+                    }
+            });
+        }
+    }
+    
+    function CrearSubLista(data, id) {
+        $("#SubLista"+id).empty();
+		data.forEach(function (elemento) {
+            if (elemento.accionElementoMenu !=null || elemento.accionElementoMenu !=""){
+                
+                urlAction = '@Html.Raw(Url.Action("Accion", "Controlador"))';
+                switch (elemento.tipoUrl) {
+                                case 0:
+                                   break;
+                                     urlAction = '@Html.Raw(Url.Action("Accion", "Controlador"))';
+                                case 1:
+                                    urlAction = '@Html.Raw(Url.Action("Accion", "Controlador", new { urlMenu = "GetUsuario" }))';
+                                    break;
+                            }
+			    urlAction = urlAction.replace("Accion", elemento.accionElementoMenu).replace("Controlador", elemento.controladorElementoMenu);
+
+                $("#SubLista" + id).append('<li class="sub-menu"> <a class="sidebar-link" href="' + urlAction + '">' + elemento.tituloElementoMenu + '</a> </li>');
+            }
+		});
+    }
+
+    
+</script>
+

@@ -1,0 +1,76 @@
+﻿@using DataEntityLayer.Models.Informes;
+
+<div class="row " style="padding: 10px;">
+    <div class="col-lg-12">
+        @(Html.DevExtreme().Form<EnviarNotificarInforme>()
+                                                            .ID("FormEnviarNotificarInforme")
+                                                            .LabelLocation(FormLabelLocation.Left)
+                                                            .LabelLocation(FormLabelLocation.Left)
+                                                            .LabelMode(FormLabelMode.Outside)
+                                                            .Items(items =>
+                                                            {
+                                                                items.AddGroup()
+                                                                .Items(groupItems =>
+                                                                {
+
+                                                                    groupItems.AddSimpleFor(m => m.numeroOficio).Editor(E => E.TextBox().Name("numeroOficio").ID("numeroOficio").MaxLength(50)).IsRequired(true).ColSpan(1);
+                                                                    groupItems.AddSimpleFor(m => m.fechaOficio).Editor(e => e.DateBox().Type(DateBoxType.Date).DisplayFormat("dd/MM/yyyy").Name("fechaOficio").ID("fechaOficio").Disabled(false)).Visible(true).IsRequired(true).ColSpan(1);
+                                                                }).ColCount(2).ColSpan(1);
+
+                                                                items.AddGroup()
+                                                                .Items(groupItems =>
+                                                                {
+
+                                                                    groupItems.AddSimpleFor(m => m.fechaRecepcion).Editor(e => e.DateBox().Type(DateBoxType.Date).DisplayFormat("dd/MM/yyyy").Name("fechaNotificacion").ID("fechaNotificacion").Disabled(false)).Visible(true).IsRequired(true).ColSpan(1);
+                                                                }).ColCount(2).ColSpan(1);
+
+                                                                items.AddGroup()
+                                                                .Items(groupItems =>
+                                                                {
+
+                                                                    groupItems.AddSimpleFor(m => m.numeroIdentidadEntrega).Editor(E => E.TextBox().Name("numeroIdentidadEntrega").ID("numeroIdentidadEntrega").MaxLength(50)).IsRequired(false).ColSpan(1);
+                                                                    groupItems.AddSimpleFor(m => m.nombreEntrega).Editor(E => E.TextBox().Name("nombreEntrega").ID("nombreEntrega").MaxLength(100)).IsRequired(false).ColSpan(1);
+                                                                }).ColCount(2).ColSpan(1);
+
+                                                                items.AddGroup()
+                                                                .Items(groupItems =>
+                                                                {
+
+                                                                    groupItems.AddSimpleFor(m => m.numeroIdentidadRecibe).Editor(E => E.TextBox().Name("numeroIdentidadRecibe").ID("numeroIdentidadRecibe").MaxLength(50)).IsRequired(true).ColSpan(1);
+                                                                    groupItems.AddSimpleFor(m => m.nombreRecibe).Editor(E => E.TextBox().Name("nombreRecibe").ID("nombreRecibe").MaxLength(100)).IsRequired(true).ColSpan(1);
+                                                                }).ColCount(2).ColSpan(1);
+
+                                                                items.AddGroup()
+                                                                .Items(groupItems =>
+                                                                {
+                                                                    groupItems.AddSimpleFor(m => m.cargoRecibe).Editor(E => E.TextBox().Name("cargoRecibe").ID("cargoRecibe").MaxLength(50)).IsRequired(true).ColSpan(1);
+                                                                }).ColCount(2).ColSpan(1);
+
+                                                                items.AddGroup()
+                                                                .Items(groupItems =>
+                                                                {
+                                                                    groupItems.AddSimpleFor(m => m.observacion).Editor(E => E.TextArea().Name("observacion").ID("observacion").MaxLength(500).Height(100)).IsRequired(false).ColSpan(2);
+                                                                }).ColCount(2).ColSpan(1);
+
+                                                            })
+        )
+    </div>
+    <div class="dx-field-value col-lg-12">
+        @(Html.DevExtreme().Button()
+                            .Text("Cerrar")
+                            .ID("btnCerrarEnvNot")
+                            //.Icon("fas fa-times")
+                            .Type(ButtonType.Normal)
+                            .Width(90)
+                            .OnClick("CerrarPopEnviarNotInforme")
+        )
+        @(Html.DevExtreme().Button()
+                            .Text("Guardar")
+                            .ID("btnGuardarEnvNot")
+                            .Icon("save")
+                            .Type(ButtonType.Normal)
+                            .Width(90)
+                            .OnClick("NotificarInforme")
+        )
+    </div>
+</div>

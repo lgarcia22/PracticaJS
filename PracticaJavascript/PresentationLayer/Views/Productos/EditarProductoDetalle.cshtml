@@ -1,0 +1,113 @@
+﻿@using DataEntityLayer.Models.Productos;
+@{ 
+    string CerrarDetalle = ViewBag.CerrarDetalle;
+    ProductosModel ModelProducto = new ProductosModel();
+    if (ViewBag.Modelo != null)
+    {
+        ModelProducto = ViewBag.Modelo;
+    }
+}
+<div class="row " style="padding: 10px;">
+    <div class="col-lg-12">
+        @(Html.DevExtreme().Form<ProductosModel>()
+        .ID("FormularioProductoDetalle")
+        .FormData(ModelProducto)
+        .LabelLocation(FormLabelLocation.Left)
+        .LabelLocation(FormLabelLocation.Left)
+        .LabelMode(FormLabelMode.Outside)
+        .ScrollingEnabled(true)
+        .Items(items =>
+        {
+            items.AddGroup()
+            .Items(groupItems =>
+            {
+                // groupItems.AddSimpleFor(m => m.productID)
+                //.Editor(E => E.TextBox().ReadOnly(true)
+                //.ID("ProductID").MaxLength(50))
+                //.Visible(true)
+                //.IsRequired(true).ColSpan(1);
+
+                groupItems.AddSimpleFor(m => m.productName)
+              .Editor(E => E.TextBox().Name("nombreproducto")
+              .ID("nombreproducto").MaxLength(50))
+              .IsRequired(true).ColSpan(1);
+
+                groupItems.AddSimpleFor(m => m.supplier).Editor(E => E.SelectBox()
+                 .DataSource(ds => ds.Mvc()
+                 .Controller("Productos")
+                 .LoadAction("ObtenerProveedor")
+                 .Key("SupplierID"))
+                 .DisplayExpr("CompanyName")
+                 .ValueExpr("SupplierID")
+                 .Name("SupplierID")
+                 .ID("SupplierID")
+                 .MaxLength(50)
+                 ).IsRequired(true).ColSpan(1);
+
+                groupItems.AddSimpleFor(m => m.category).Editor(E => E.SelectBox()
+                 .DataSource(ds => ds.Mvc()
+                 .Controller("Productos")
+                 .LoadAction("ObtenerCategoria")
+                 .Key("categoryID"))
+                 .DisplayExpr("CategoryName")
+                 .ValueExpr("CategoryID")
+                 .Name("categoryID")
+                 .ID("categoryID")
+                 .MaxLength(50)
+                 ).IsRequired(true).ColSpan(1);
+
+                groupItems.AddSimpleFor(m => m.quantityPerUnit)
+                .Editor(E => E.TextBox().Name("quantityPerUnit")
+                .ID("quantityPerUnit").MaxLength(50))
+                .IsRequired(false).ColSpan(1);
+
+                groupItems.AddSimpleFor(m => m.unitPrice)
+                .Editor(E => E.TextBox().Name("unitPrice")
+                .ID("unitPrice").MaxLength(50))
+                .IsRequired(false).ColSpan(1);
+
+                groupItems.AddSimpleFor(m => m.unitsInStock)
+                .Editor(E => E.TextBox().Name("unitsInStock")
+                .ID("unitsInStock").MaxLength(50))
+                .IsRequired(false).ColSpan(1);
+
+                groupItems.AddSimpleFor(m => m.unitsOnOrder)
+                .Editor(E => E.TextBox().Name("unitsOnOrder")
+                .ID("unitsOnOrder").MaxLength(50))
+                .IsRequired(false).ColSpan(1);
+
+                groupItems.AddSimpleFor(m => m.reorderLevel)
+                .Editor(E => E.TextBox().Name("reorderLevel")
+                .ID("reorderLevel").MaxLength(50))
+                .IsRequired(false).ColSpan(1);
+
+                groupItems.AddSimpleFor(m => m.discontinued)
+                .Editor(E => E.CheckBox().Name("discontinued")
+                .ID("discontinued"))
+                .IsRequired(false).ColSpan(1);
+
+            })
+            .ColCountByScreen(cs => cs.Md(2).Lg(2).Sm(1))
+            .ColCount(2).ColSpan(1);
+        })
+        )
+    </div>
+    <div class="dx-field-value col-lg-12" style="margin-top:10px">
+        @*@(Html.DevExtreme().Button()
+        .Text("Cerrar")
+        .ID("btnCerrar")
+        .Type(ButtonType.Normal)
+        .Width(90)
+        .OnClick("CerrarDetalle")
+        )*@
+        @(Html.DevExtreme().Button()
+        .Text("Actualizar")
+        .ID("btnActualizar")
+        .Icon("save")
+        .Type(ButtonType.Normal)
+        .Width(90)
+        .OnClick(@<text>function(e) { EjecutarAccionForm2('@Url.Action("ActualizaProducto", "Productos")', "FormularioProductoDetalle")}</text>)
+        )
+    </div>
+</div>
+

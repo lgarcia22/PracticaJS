@@ -1,0 +1,18 @@
+﻿@using DataEntityLayer.Models.Informes;
+@using DataAccessLayer.Util;
+@model InformeAuditoria
+@{
+    PresentacionPlanAccionModel presentacionPa = ViewBag.presentacionPa;
+}
+
+<div class="row" >
+    <div class="col-lg-12" name="encabezado-ia" >
+        @Html.Partial("~/Views/InformeAuditoria/_EncabezadoInformeAuditoria.cshtml", Model)
+    </div>
+    @if (presentacionPa.codigoInformeAuditoria > 0)
+    {
+        <div class="col-lg-12" name="cuerpo-presentacion-pa">
+            @Html.Partial("~/Views/InformePlanAccion/_FormPresentacionPlanAccion.cshtml", presentacionPa)
+        </div>
+    }
+</div>

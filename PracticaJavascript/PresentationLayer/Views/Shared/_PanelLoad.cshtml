@@ -1,0 +1,29 @@
+﻿@(Html.DevExtreme().LoadPanel()
+            .ID("LoadPanelControl")
+            .ShadingColor("rgba(0,0,0,0.4)")
+            //.ElementAttr("center-center")
+            .Position(p => p.Of("#body"))
+            .Visible(false)
+            .ShowIndicator(true)
+            .ShowPane(true)
+            .Shading(false)
+            .CloseOnOutsideClick(false)
+)
+<script type="text/javascript">
+
+    function getLoadPanelControlInstance()
+    {
+        return $("#LoadPanelControl").dxLoadPanel("instance");
+    }
+
+    function MostrarPanelLoad()
+    {
+        let componente = getLoadPanelControlInstance().option("visible", true);
+    }
+
+    function OcultarPanelLoad()
+    {
+        let componente = getLoadPanelControlInstance().option("visible", false);
+    }
+
+</script>

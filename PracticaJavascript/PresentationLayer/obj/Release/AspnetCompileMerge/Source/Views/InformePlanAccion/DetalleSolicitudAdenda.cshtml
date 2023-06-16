@@ -1,0 +1,609 @@
+﻿@using DataEntityLayer.Models.Informes;
+@using DataAccessLayer.Util;
+@model InformeAuditoria
+@{
+    ViewBag.Title = "Detalle Solicitud de Adenda";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int codigoInforme = ViewBag.codigoInforme;
+    int tipoOperacionEnviado = UtilClass.tipoEstadoAdendaEnviado;
+    string urlMenu = ViewBag.urlMenu;
+    SolicitudAdendaPlanAccion modeloAdenda = ViewBag.modeloAdenda;
+
+}
+
+<nav aria-label="breadcrumb" class="menu">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Action("DetallePlanAccionAprobado","InformePlanAccion" )?codInf=@ViewBag.codigoInformeEncrip&urlMenu=@ViewBag.urlMenuEncrip&pa=@ViewBag.codigoPaEncrip&pav=@ViewBag.codigoVersionPaEncrip">Detalle Plan de Acción Notificado</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Solicitud Adenda</li>
+    </ol>
+</nav>
+
+
+<div class="box">
+    <div class="contendor-botones">
+        @(Html.DevExtreme()
+                        .Button()
+                        .Text("Enviar")
+                        .Icon("check")
+                        .ID("btnEnviarAdenda")
+                        .Visible(ViewBag.isBtnEnviarAdenda)
+                        .OnClick("EnviarAdenda")
+        )
+    </div>
+</div>
+<div style="padding-top: 10px;">
+    <div class="row">
+        <div class="col-md-12">
+            <p class="encabezado-panel2">Generales Informe de Auditoría y Plan de Acción</p>
+        </div>
+    </div>
+    <div class="row " style="padding: 10px;">
+
+        <div class="col-lg-12">
+            @(Html.DevExtreme().Form<InformeAuditoria>()
+                                                                .ID("formDatosInformeAuditoria")
+                                                                .ColCount(3)
+                                                                .FormData(Model)
+                                                                .LabelLocation(FormLabelLocation.Left)
+                                                                .ReadOnly(false)
+                                                                .ShowColonAfterLabel(true)
+                                                                .LabelMode(FormLabelMode.Outside)
+                                                                .Items(items =>
+                                                                {
+                                                                    items.AddGroup()
+                                                                    .Items(groupItems =>
+                                                                    {
+                                                                        groupItems.AddSimpleFor(m => m.codigoInformeAuditoria)
+                                                                                .Editor(e => e.NumberBox()
+                                                                                .ReadOnly(true)
+                                                                                ).Visible(false);
+                                                                        groupItems.AddSimpleFor(m => m.tema).Editor(E => E.TextArea().Name("tema").ID("tema").MaxLength(200).ReadOnly(true)).ColSpan(2).Label(l => l.Text("Alcance")).Visible(false);
+                                                                        groupItems.AddSimpleFor(m => m.codigoFuenteFinanciera).Editor(e => e.SelectBox().ReadOnly(true)
+                                                                                    .Name("codigoFuenteFinanciera")
+                                                                                    .ID("codigoFuenteFinanciera")
+                                                                                    .DataSource(d => d.Mvc()
+                                                                                                    .Controller("Catalogo")
+                                                                                                    .LoadAction("GetFuente").Key("codigoFuenteFinanciera"))
+                                                                                                    .SearchEnabled(true)
+                                                                                                    .ShowClearButton(true)
+                                                                                                    .DisplayExpr("descripcion")
+                                                                                                    .ValueExpr("codigoFuenteFinanciera")
+                                                                                    ).ColSpan(1).Visible(false);
+                                                                        groupItems.AddSimpleFor(m => m.rubro).Editor(E => E.TextArea().Name("rubro").ID("rubro").MaxLength(200).ReadOnly(true)).ColSpan(2).Visible(false);
+                                                                        groupItems.AddSimpleFor(m => m.numeroInforme)
+                                                                                .Editor(e => e.TextBox()
+                                                                                .ReadOnly(true)
+                                                                                );
+                                                                        groupItems.AddSimpleFor(m => m.codigoEstado)
+                                                                                .Editor(e => e.SelectBox()
+                                                                                                    .Name("codigoEstado")
+                                                                                                    .ID("codigoEstado")
+                                                                                                    .DataSource(d => d.Mvc()
+                                                                                                                    .Controller("Catalogo")
+                                                                                                                    .LoadAction("GetEstadoInformeAuditoria").Key("codigoEstadoProceso"))
+                                                                                                                    .SearchEnabled(true)
+                                                                                                                    .ShowClearButton(true)
+                                                                                                                    .DisplayExpr("estadoProceso")
+                                                                                                                    .ValueExpr("codigoEstadoProceso")
+                                                                                                    .ReadOnly(true)
+                                                                                    );
+                                                                        groupItems.AddSimpleFor(m => m.codigoCompuestoEntidadVersion)
+                                                                                .Editor(e => e.SelectBox()
+                                                                                            .Name("codigoEntidad")
+                                                                                            .ID("codigoEntidad")
+                                                                                            .DataSource(d => d.Mvc()
+                                                                                                            .Controller("Catalogo")
+                                                                                                            .LoadAction("GetEntidadFiscalizada").Key("codigoCompuestoEntidadVersion"))
+                                                                                                            .SearchEnabled(true)
+                                                                                                            .ShowClearButton(true)
+                                                                                                            .DisplayExpr("nombre")
+                                                                                                            .ValueExpr("codigoCompuestoEntidadVersion")
+                                                                                                    .ReadOnly(true)
+                                                                                    );
+                                                                        groupItems.AddSimpleFor(m => m.codigoGeografico)
+                                                                                .Editor(e => e.SelectBox()
+                                                                                            .Name("codigoGeografico")
+                                                                                            .ID("codigoGeografico")
+                                                                                            .DataSource(d => d.Mvc()
+                                                                                                            .Controller("Catalogo")
+                                                                                                            .LoadAction("GetDepartamento").Key("codigoGeografico"))
+                                                                                                            .SearchEnabled(true)
+                                                                                                            .ShowClearButton(true)
+                                                                                                            .DisplayExpr("nombre")
+                                                                                                            .ValueExpr("codigoGeografico")
+                                                                                                    .ReadOnly(true)
+                                                                                    );
+                                                                        groupItems.AddSimpleFor(m => m.codigoUsuarioAuditor)
+                                                                                .Editor(e => e.SelectBox()
+                                                                                            .Name("codigoUsuarioAuditor")
+                                                                                            .ID("codigoUsuarioAuditor")
+                                                                                            .DataSource(d => d.Mvc()
+                                                                                                            .Controller("Catalogo")
+                                                                                                            .LoadAction("GetUsuario").Key("codigoUsuario"))
+                                                                                                            .SearchEnabled(true)
+                                                                                                            .ShowClearButton(true)
+                                                                                                            .DisplayExpr("usuario")
+                                                                                                            .ValueExpr("codigoUsuario")
+                                                                                                    .ReadOnly(true)
+                                                                                    );
+                                                                        groupItems.AddSimpleFor(m => m.codigoPlanAccionVersion)
+                                                                                .Editor(e => e.TextBox()
+                                                                                .ReadOnly(true)
+                                                                                );
+                                                                    });
+                                                                    items.AddGroup()
+                                                                    .Items(groupItems =>
+                                                                    {
+                                                                        groupItems.AddSimpleFor(m => m.fechaIngreso)
+                                                                                .Editor(e => e.DateBox().ReadOnly(true).Type(DateBoxType.DateTime)
+                                                                                    .DisplayFormat("dd/MM/yyyy HH:mm:ss")
+                                                                                    );
+                                                                        groupItems.AddSimpleFor(m => m.fechaInicio)
+                                                                                .Editor(e => e.DateBox().ReadOnly(true)
+                                                                                    .DisplayFormat("dd/MM/yyyy")
+                                                                                    ).Label(e => e.Text("Periodo de Fiscalización Del"));
+                                                                        groupItems.AddSimpleFor(m => m.codigoEntidadAuditora)
+                                                                                .Editor(e => e.SelectBox()
+                                                                                            .Name("codigoEntidadAuditora")
+                                                                                            .ID("codigoEntidadAuditora")
+                                                                                            .DataSource(d => d.Mvc()
+                                                                                                            .Controller("Catalogo")
+                                                                                                            .LoadAction("GetEntidadAuditora").Key("codigoEntidad"))
+                                                                                                            .SearchEnabled(true)
+                                                                                                            .ShowClearButton(true)
+                                                                                                            .DisplayExpr("descripcion")
+                                                                                                            .ValueExpr("codigoEntidad")
+                                                                                                    .ReadOnly(true)
+                                                                                    );
+                                                                        groupItems.AddSimpleFor(m => m.codigoGeograficoMunicipio)
+                                                                                .Editor(e => e.SelectBox()
+                                                                                            .Name("codigoGeograficoMunicipio")
+                                                                                            .ID("codigoGeograficoMunicipio")
+                                                                                            .DataSource(d => d.Mvc()
+                                                                                                            .Controller("Catalogo")
+                                                                                                            .LoadAction("GetMunicipioGrid").Key("codigoGeografico"))
+                                                                                                            .SearchEnabled(true)
+                                                                                                            .ShowClearButton(true)
+                                                                                                            .DisplayExpr("nombre")
+                                                                                                            .ValueExpr("codigoGeografico")
+                                                                                                    .ReadOnly(true)
+                                                                                    );
+                                                                        groupItems.AddSimpleFor(m => m.codigoUsuarioSupervisor)
+                                                                                .Editor(e => e.SelectBox()
+                                                                                            .Name("codigoUsuarioSupervisor")
+                                                                                            .ID("codigoUsuarioSupervisor")
+                                                                                            .DataSource(d => d.Mvc()
+                                                                                                            .Controller("Catalogo")
+                                                                                                            .LoadAction("GetUsuario").Key("codigoUsuario"))
+                                                                                                            .SearchEnabled(true)
+                                                                                                            .ShowClearButton(true)
+                                                                                                            .DisplayExpr("usuario")
+                                                                                                            .ValueExpr("codigoUsuario")
+                                                                                                    .ReadOnly(true)
+                                                                                    );
+                                                                    });
+                                                                    items.AddGroup()
+                                                                    .Items(groupItems =>
+                                                                    {
+                                                                        groupItems.AddSimpleFor(m => m.codigoFuenteFinanciera)
+                                                                                .Editor(e => e.SelectBox()
+                                                                                                    .Name("codigoFuenteFinanciera")
+                                                                                                    .ID("codigoFuenteFinanciera")
+                                                                                                    .DataSource(d => d.Mvc()
+                                                                                                                    .Controller("Catalogo")
+                                                                                                                    .LoadAction("GetFuente").Key("codigoFuenteFinanciera"))
+                                                                                                                    .SearchEnabled(true)
+                                                                                                                    .ShowClearButton(true)
+                                                                                                                    .DisplayExpr("descripcion")
+                                                                                                                    .ValueExpr("codigoFuenteFinanciera")
+                                                                                                    .ReadOnly(true)
+                                                                                    );
+                                                                        groupItems.AddSimpleFor(m => m.fechaFin)
+                                                                                .Editor(e => e.DateBox().ReadOnly(true)
+                                                                                    .DisplayFormat("dd/MM/yyyy")
+                                                                                    ).Label(e => e.Text("Al"));
+                                                                        groupItems.AddSimpleFor(m => m.numeroOficioRemision)
+                                                                                .Editor(e => e.TextBox()
+                                                                                .ReadOnly(true)
+                                                                                );
+                                                                        groupItems.AddSimpleFor(m => m.codigoOrganigrama)
+                                                                                .Editor(e => e.SelectBox()
+                                                                                                    .Name("codigoOrganigrama")
+                                                                                                    .ID("codigoOrganigrama")
+                                                                                                    .DataSource(d => d.Mvc()
+                                                                                                                    .Controller("Catalogo")
+                                                                                                                    .LoadAction("GetOrganigrama").Key("codigoOrganigrama"))
+                                                                                                                    .SearchEnabled(true)
+                                                                                                                    .ShowClearButton(true)
+                                                                                                                    .DisplayExpr("descripcion")
+                                                                                                                    .ValueExpr("codigoOrganigrama")
+                                                                                                    .ReadOnly(true)
+                                                                                    );
+                                                                        groupItems.AddSimpleFor(m => m.codigoPlanAccion)
+                                                                                .Editor(e => e.TextBox()
+                                                                                .ReadOnly(true)
+                                                                                );
+                                                                    });
+                                                                }).ColCountByScreen(cs => cs.Md(3).Lg(3).Sm(1))
+            )
+        </div>
+    </div>
+
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <p class="encabezado-panel">Solicitud Adenda</p>
+        </div>
+    </div>
+    <div class="row " style="padding: 10px;">
+        <div class="col-lg-12">
+            @(Html.DevExtreme().Form<SolicitudAdendaPlanAccion>()
+                                                                        .ID("formDatosAdenda")
+                                                                        .ColCount(3)
+                                                                        .FormData(modeloAdenda)
+                                                                        .LabelLocation(FormLabelLocation.Left)
+                                                                        .ReadOnly(false)
+                                                                        .ShowColonAfterLabel(true)
+                                                                        .LabelMode(FormLabelMode.Outside)
+                                                                        .Items(items =>
+                                                                        {
+                                                                            items.AddGroup()
+                                                                            .Items(groupItems =>
+                                                                            {
+                                                                                groupItems.AddSimpleFor(m => m.codigoSolicitudAdenda)
+                                                                                        .Editor(e => e.NumberBox()
+                                                                                        .ReadOnly(true)
+                                                                                        ).Visible(true);
+                                                                                groupItems.AddSimpleFor(m => m.fechaSolicitud)
+                                                                                        .Editor(e => e.DateBox().ReadOnly(true).Type(DateBoxType.DateTime)
+                                                                                            .DisplayFormat("dd/MM/yyyy HH:mm:ss")
+                                                                                            );
+
+                                                                            });
+                                                                            items.AddGroup()
+                                                                            .Items(groupItems =>
+                                                                            {
+                                                                                groupItems.AddSimpleFor(m => m.usuarioCreacion)
+                                                                                        .Editor(e => e.TextBox()
+                                                                                        .ReadOnly(true)
+                                                                                        ).Visible(true);
+                                                                                groupItems.AddSimpleFor(m => m.estado)
+                                                                                        .Editor(e => e.TextBox()
+                                                                                        .ReadOnly(true)
+                                                                                        ).Visible(true);
+                                                                            });
+                                                                            items.AddGroup()
+                                                                            .Items(groupItems =>
+                                                                            {
+                                                                                groupItems.AddSimpleFor(m => m.usuarioAprobacion)
+                                                                                        .Editor(e => e.TextBox()
+                                                                                        .ReadOnly(true)
+                                                                                        ).Visible(true);
+                                                                                groupItems.AddSimpleFor(m => m.fechaAprobado)
+                                                                                        .Editor(e => e.DateBox().ReadOnly(true).Type(DateBoxType.DateTime)
+                                                                                            .DisplayFormat("dd/MM/yyyy HH:mm:ss")
+                                                                                            );
+                                                                            });
+                                                                        }).ColCountByScreen(cs => cs.Md(3).Lg(3).Sm(1))
+            )
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <p class="encabezado-panel">Detalle Solicitud Adenda</p>
+        </div>
+    </div>
+    <div class="row " style="padding: 10px;">
+        <div class="col-lg-12">
+            @Html.Partial("~/Views/InformePlanAccion/_RecomendacionDetalleAdenda.cshtml")
+        </div>
+
+    </div>
+</div>
+
+
+<div id="Pop" class="col-lg-12 ">
+    @Html.Partial("~/Views/InformePlanAccion/_PopAdenda.cshtml")
+
+</div>
+<script src="@Url.Content("~/Scripts/jquery-confirm.min.js")"></script>
+<script>
+    function EnviarAdenda() {
+        $.confirm({
+            title: "Enviar Adenda",
+            animation: "zoom",
+            closeAnimation: "zoom",
+            animateFromElement: false,
+            content: '<div>¿Está seguro que desea enviar esta solicitud de adenda? <br></div>',
+            type: "orange",
+            buttons: {
+                confirm: {
+                    //btnClass: 'btn-primary',
+                    text: "  Si  ",
+                    action: () => {
+                        CambiarEstadoAdenda('@tipoOperacionEnviado');
+                    }
+                }, cancel: {
+                    text: "  No  "
+                }
+            }
+        });
+    }
+
+    function CambiarEstadoAdenda(codigoEstado)
+    {
+        
+        var codAdenda = @ViewBag.codigoAdenda;
+        MostrarPanelLoad();
+        $.ajax({
+                url: '@Url.Action("CambiarEstadoSolicitudAdenda", "InformePlanAccion")',
+                type: 'POST',
+                async: true,
+                cache: false,
+            data: { tipoOperacion: codigoEstado, codigoSolicitudAdenda: codAdenda, comentario:" "},
+            success: function (response) {
+                if (codigoEstado == 2 || codigoEstado=='2') {
+                    Alert("Se envió la solicitud de adenda exitosamente", "success");
+                }
+                 OcultarPanelLoad();
+                window.location.href = '@Url.Action("DetalleSolicitudAdenda", "InformePlanAccion")?codInf=' + '@ViewBag.codigoInformeEncrip' + '&pa=' + '@ViewBag.codigoPaEncrip' + '&pav=' + '@ViewBag.codigoVersionPaEncrip' + '&codA=' + '@ViewBag.codigoAdendaEncrip';
+                },
+                error: function (error) {
+                    OcultarPanelLoad();
+                    Alert(error.statusText, "error");
+                }
+        });
+    }
+
+    function CerrarPopAdenda() {
+        var popup = $("#PopAdendaPlaAccion").dxPopup("instance");
+        popup.hide();
+    }
+
+
+    function AbrirPopAdenda() {
+
+        MostrarPanelLoad();
+        $.ajax({
+            url: '@Url.Action("GetRecomendacionAdenda", "InformePlanAccion")',
+            type: 'POST',
+            async: true,
+            cache: false,
+            data: { codPa:'@ViewBag.codPa', codPaV:'@ViewBag.codPaV', codigoInforme:'@ViewBag.codigoInforme'},
+            success: function (response)
+			{
+                $("#PopAdendaPlaAccion").dxPopup("instance").option("title", "Crear Detalle Adenda");
+                $("#PopAdendaPlaAccion").dxPopup("instance").show();
+                $("#ContAdenda").html(response);
+                 OcultarPanelLoad();
+            },
+            error: function (error) {
+                OcultarPanelLoad();
+                Alert(error.statusText, "error");
+            }
+        });
+    }
+
+    function SelectionChangedRecPa(e) {
+        if (e.selectedRowsData) {
+
+            RecomendacionSeleccionado = e.selectedRowsData;
+            keySeleccionadoRec = e.selectedRowKeys;
+        }
+
+        if (e.selectedRowsData == undefined) {
+            $("#BtnAgregarSolAden").dxButton("instance").option("disabled", true);
+
+        }
+
+
+        if (e.selectedRowKeys.length > 0) {
+            $("#BtnAgregarSolAden").dxButton("instance").option("disabled", false);
+        }
+    }
+
+    function ExportingRecPA(e) {
+        var workbook = new ExcelJS.Workbook();
+        var worksheet = workbook.addWorksheet('Rec_Hallazo_Plan_Accion');
+
+        DevExpress.excelExporter.exportDataGrid({
+            component: e.component,
+            worksheet: worksheet,
+            autoFilterEnabled: true
+        }).then(function () {
+            workbook.xlsx.writeBuffer().then(function (buffer) {
+                saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Rec_Hallazo_Plan_Accion.xlsx');
+            });
+        });
+        e.cancel = true;
+    }
+
+
+    function RefreshGridRecPA() {
+        $("#GridRecomendacionAdenda").dxDataGrid("instance").refresh();
+    }
+
+
+
+    function ExportToCsvRecPA(e) {
+        var dataGrid = $("#GridRecomendacionAdenda").dxDataGrid("instance");
+        var workbook = new ExcelJS.Workbook();
+        var worksheet = workbook.addWorksheet('Rec_Hallazo_Plan_Accion');
+
+        DevExpress.excelExporter.exportDataGrid({
+            component: dataGrid,
+            worksheet: worksheet,
+        }).then(function () {
+            workbook.csv.writeBuffer().then(function (buffer) {
+                saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Rec_Hallazo_Plan_Accion.csv');
+            });
+        });
+        e.cancel = true;
+    }
+
+
+
+    function ExportToPdfRecPA() {
+        window.jsPDF = window.jspdf.jsPDF;
+        applyPlugin(window.jsPDF);
+        var options = {
+            orientation: 'l',
+            format: 'a4',
+            unit: 'mm',
+        };
+        var doc = new jsPDF(options);
+        doc.setTextColor('#FFFFFF');
+        doc.autoTable({
+            headStyles: { textColor: 21, horizontalPageBreak: true },
+            styles: { textColor: 21, horizontalPageBreak: true },
+            columnStyles: { 0: { halign: 'center' } },
+            body: [
+                [{ content: 'Recomendaciones de Hallazgos de Plan de Acción', colSpan: 2, rowSpan: 20, styles: { halign: 'center' }, lineColor: 11 }],
+            ],
+        });
+        var dataGrid = $("#GridRecomendacionAdenda").dxDataGrid("instance");
+        DevExpress.pdfExporter.exportDataGrid({
+            jsPDFDocument: doc,
+            component: dataGrid,
+            customizeCell: function (options) {
+                test = options;
+                const { gridCell, pdfCell } = options;
+                if (gridCell.rowType === 'data') {
+                    pdfCell.styles = {
+                        font: 'times',
+                        fontSize: 14,
+                        overflow: 'linebreak'
+                    }
+                }
+            }
+        }).then(function () {
+            doc.save("Rec_Hallazo_Plan_Accion.pdf");
+        });
+    }
+
+    function CerrarPopAdenda() {
+        var popup = $("#PopAdendaPlaAccion").dxPopup("instance");
+        popup.hide();
+    }
+
+    function SelectionChangedDetalleAdenda(e) {
+
+        if (e.selectedRowsData[0]) {
+
+            DetalleAdendaSeleccionado = e.selectedRowsData[0];
+            keyDetalleAdenda = e.selectedRowKeys[0];
+        }
+
+        if (e.selectedRowsData[0] == undefined) {
+            $("#BtnAgregarDetallaAdenda").dxButton("instance").option("disabled", true);
+
+        }
+
+        if (e.selectedRowKeys.length == 1) {
+            $("#BtnAgregarDetallaAdenda").dxButton("instance").option("disabled", true);
+        }
+    }
+    
+    function ExportingDetalleAdenda(e) {
+        var workbook = new ExcelJS.Workbook();
+        var worksheet = workbook.addWorksheet('Detalle_Solicitud_adenda');
+
+        DevExpress.excelExporter.exportDataGrid({
+            component: e.component,
+            worksheet: worksheet,
+            autoFilterEnabled: true
+        }).then(function () {
+            workbook.xlsx.writeBuffer().then(function (buffer) {
+                saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Detalle_Solicitud_adenda.xlsx');
+            });
+        });
+        e.cancel = true;
+    }
+
+    function ExportToCsvDetallaAdenda(e) {
+        var dataGrid = $("#GridDetalleSolAdenda").dxDataGrid("instance");
+        var workbook = new ExcelJS.Workbook();
+        var worksheet = workbook.addWorksheet('Detalle_Solicitud_adenda');
+
+        DevExpress.excelExporter.exportDataGrid({
+            component: dataGrid,
+            worksheet: worksheet,
+        }).then(function () {
+            workbook.csv.writeBuffer().then(function (buffer) {
+                saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Detalle_Solicitud_adenda.csv');
+            });
+        });
+        e.cancel = true;
+    }
+
+
+
+    function ExportToPdfDetalleAdenda() {
+        window.jsPDF = window.jspdf.jsPDF;
+        applyPlugin(window.jsPDF);
+        var options = {
+            orientation: 'l',
+            format: 'a4',
+            unit: 'mm',
+        };
+        var doc = new jsPDF(options);
+        doc.setTextColor('#FFFFFF');
+        doc.autoTable({
+            headStyles: { textColor: 21, horizontalPageBreak: true },
+            styles: { textColor: 21, horizontalPageBreak: true },
+            columnStyles: { 0: { halign: 'center' } },
+            body: [
+                [{ content: 'Detalle Solicitudes de adendas de Plan de Acción', colSpan: 2, rowSpan: 20, styles: { halign: 'center' }, lineColor: 11 }],
+            ],
+        });
+        var dataGrid = $("#GridDetalleSolAdenda").dxDataGrid("instance");
+        DevExpress.pdfExporter.exportDataGrid({
+            jsPDFDocument: doc,
+            component: dataGrid,
+            customizeCell: function (options) {
+                test = options;
+                const { gridCell, pdfCell } = options;
+                if (gridCell.rowType === 'data') {
+                    pdfCell.styles = {
+                        font: 'times',
+                        fontSize: 14,
+                        overflow: 'linebreak'
+                    }
+                }
+            }
+        }).then(function () {
+            doc.save("Detalle_Solicitud_adenda.pdf");
+        });
+    }
+
+    function CrearSolicitudAdenda(e) {
+        // se crea cabecera de solicitud de adenda 
+            for (var i = 0; i < keySeleccionadoRec.length; i++) {
+                    $.ajax({
+                        url: '@Url.Action("CrearDetalleSolicitudAdenda", "InformePlanAccion")',
+                        type: 'POST',
+                        async: true,
+                        cache: false,
+                        data: { codAdenda: '@ViewBag.codigoAdendaEncrip', codInforme: keySeleccionadoRec[i].codigoInformeAuditoria, codPa: keySeleccionadoRec[i].codigoPa, codPaV: keySeleccionadoRec[i].codigoPaVersion, codRecomendacion: keySeleccionadoRec[i].codigoRecomendacion, codHallazgo: keySeleccionadoRec[i].codigoHallazgo},
+                        success: function (response)
+			            {
+                            OcultarPanelLoad();
+                            CerrarPopAdenda();
+                            RefreshGridDetalleAdenda();
+                            Alert("La solicitud de adenda se ha registrado exitosamente", "success");
+                        },
+                        error: function (error) {
+                            OcultarPanelLoad();
+                            Alert(error.statusText, "error");
+                        }
+                    });
+                }
+    }
+    
+    function RefreshGridDetalleAdenda() {
+        $("#GridDetalleSolAdenda").dxDataGrid("instance").refresh();
+    }
+</script>

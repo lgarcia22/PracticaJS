@@ -1,0 +1,1359 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="tsc_his_db_dev_entitiesStoreContainer" CdmEntityContainer="tsc_his_db_devEntities">
+    <EntitySetMapping Name="Hallazgo_Informe_Auditoria">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Hallazgo_Informe_Auditoria">
+        <MappingFragment StoreEntitySet="Hallazgo_Informe_Auditoria">
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="codigo_usuario_modificacion" ColumnName="codigo_usuario_modificacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="codigo_usuario_creacion" ColumnName="codigo_usuario_creacion" />
+          <ScalarProperty Name="titulo" ColumnName="titulo" />
+          <ScalarProperty Name="numero" ColumnName="numero" />
+          <ScalarProperty Name="codigo_informe_auditoria" ColumnName="codigo_informe_auditoria" />
+          <ScalarProperty Name="codigo_hallazgo" ColumnName="codigo_hallazgo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Informe_Auditoria">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Informe_Auditoria">
+        <MappingFragment StoreEntitySet="Informe_Auditoria">
+          <ScalarProperty Name="codigo_usuario_modificacion" ColumnName="codigo_usuario_modificacion" />
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="codigo_usuario_creacion" ColumnName="codigo_usuario_creacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="instancia" ColumnName="instancia" />
+          <ScalarProperty Name="codigo_organigrama" ColumnName="codigo_organigrama" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="codigo_geografico" ColumnName="codigo_geografico" />
+          <ScalarProperty Name="codigo_usuario_auditor" ColumnName="codigo_usuario_auditor" />
+          <ScalarProperty Name="codigo_entidad" ColumnName="codigo_entidad" />
+          <ScalarProperty Name="codigo_entidad_version" ColumnName="codigo_entidad_version" />
+          <ScalarProperty Name="codigo_usuario_supervisor_seguimiento" ColumnName="codigo_usuario_supervisor_seguimiento" />
+          <ScalarProperty Name="codigo_usuario_supervisor" ColumnName="codigo_usuario_supervisor" />
+          <ScalarProperty Name="codigo_entidad_auditora" ColumnName="codigo_entidad_auditora" />
+          <ScalarProperty Name="codigo_fuente_financiera" ColumnName="codigo_fuente_financiera" />
+          <ScalarProperty Name="fecha_fin" ColumnName="fecha_fin" />
+          <ScalarProperty Name="fecha_inicio" ColumnName="fecha_inicio" />
+          <ScalarProperty Name="rubro" ColumnName="rubro" />
+          <ScalarProperty Name="tema" ColumnName="tema" />
+          <ScalarProperty Name="fecha_ingreso" ColumnName="fecha_ingreso" />
+          <ScalarProperty Name="numero_oficio_remision" ColumnName="numero_oficio_remision" />
+          <ScalarProperty Name="numero_informe" ColumnName="numero_informe" />
+          <ScalarProperty Name="codigo_informe_auditoria" ColumnName="codigo_informe_auditoria" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Observacion_Informe_Auditoria">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Observacion_Informe_Auditoria">
+        <MappingFragment StoreEntitySet="Observacion_Informe_Auditoria">
+          <ScalarProperty Name="codigo_usuario_modificacion" ColumnName="codigo_usuario_modificacion" />
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="codigo_usuario_creacion" ColumnName="codigo_usuario_creacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="fecha_ingreso" ColumnName="fecha_ingreso" />
+          <ScalarProperty Name="codigo_usuario_elaborador" ColumnName="codigo_usuario_elaborador" />
+          <ScalarProperty Name="codigo_informe_auditoria" ColumnName="codigo_informe_auditoria" />
+          <ScalarProperty Name="codigo_observacion" ColumnName="codigo_observacion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Recomendacion_Informe_Auditoria">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Recomendacion_Informe_Auditoria">
+        <MappingFragment StoreEntitySet="Recomendacion_Informe_Auditoria">
+          <ScalarProperty Name="codigo_usuario_modificacion" ColumnName="codigo_usuario_modificacion" />
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="codigo_usuario_creacion" ColumnName="codigo_usuario_creacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="codigo_recomendacion_padre" ColumnName="codigo_recomendacion_padre" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="dirigido_a" ColumnName="dirigido_a" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="fecha_ingreso" ColumnName="fecha_ingreso" />
+          <ScalarProperty Name="codigo_prioridad_recomendacion" ColumnName="codigo_prioridad_recomendacion" />
+          <ScalarProperty Name="numero" ColumnName="numero" />
+          <ScalarProperty Name="codigo_tipo_recomendacion" ColumnName="codigo_tipo_recomendacion" />
+          <ScalarProperty Name="codigo_informe_auditoria" ColumnName="codigo_informe_auditoria" />
+          <ScalarProperty Name="codigo_hallazgo" ColumnName="codigo_hallazgo" />
+          <ScalarProperty Name="codigo_recomendacion" ColumnName="codigo_recomendacion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tipo_Auditoria_Informe_Auditoria">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Tipo_Auditoria_Informe_Auditoria">
+        <MappingFragment StoreEntitySet="Tipo_Auditoria_Informe_Auditoria">
+          <ScalarProperty Name="codigo_usuario_modificacion" ColumnName="codigo_usuario_modificacion" />
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="codigo_usuario_creacion" ColumnName="codigo_usuario_creacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="codigo_tipo_auditoria" ColumnName="codigo_tipo_auditoria" />
+          <ScalarProperty Name="codigo_informe_auditoria" ColumnName="codigo_informe_auditoria" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Clase_Entidad_Auditora">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Clase_Entidad_Auditora">
+        <MappingFragment StoreEntitySet="Clase_Entidad_Auditora">
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="codigo_usuario_modificacion" ColumnName="codigo_usuario_modificacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="codigo_usuario_creacion" ColumnName="codigo_usuario_creacion" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="codigo_clase_entidad_auditora" ColumnName="codigo_clase_entidad_auditora" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Clasificacion_Entidad">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Clasificacion_Entidad">
+        <MappingFragment StoreEntitySet="Clasificacion_Entidad">
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="codigo_usuario_modificacion" ColumnName="codigo_usuario_modificacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="codigo_usuario_creacion" ColumnName="codigo_usuario_creacion" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="codigo_clasificacion" ColumnName="codigo_clasificacion" />
+          <ScalarProperty Name="codigo_clasificacion_entidad" ColumnName="codigo_clasificacion_entidad" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Dias_Feriados">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Dias_Feriados">
+        <MappingFragment StoreEntitySet="Dias_Feriados">
+          <ScalarProperty Name="codigo_usuario_modificacion" ColumnName="codigo_usuario_modificacion" />
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="codigo_usuario_creacion" ColumnName="codigo_usuario_creacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="fecha_feriado" ColumnName="fecha_feriado" />
+          <ScalarProperty Name="codigo_dia_feriado" ColumnName="codigo_dia_feriado" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Enlaces">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Enlaces">
+        <MappingFragment StoreEntitySet="Enlaces">
+          <ScalarProperty Name="codigo_usuario_modificacion" ColumnName="codigo_usuario_modificacion" />
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="codigo_usuario_creacion" ColumnName="codigo_usuario_creacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="correo_electronico" ColumnName="correo_electronico" />
+          <ScalarProperty Name="telefono" ColumnName="telefono" />
+          <ScalarProperty Name="cargo" ColumnName="cargo" />
+          <ScalarProperty Name="oficina" ColumnName="oficina" />
+          <ScalarProperty Name="codigo_entidad" ColumnName="codigo_entidad" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="numero_identidad" ColumnName="numero_identidad" />
+          <ScalarProperty Name="codigo_enlace" ColumnName="codigo_enlace" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Entidad">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Entidad">
+        <MappingFragment StoreEntitySet="Entidad">
+          <ScalarProperty Name="referencia_externa" ColumnName="referencia_externa" />
+          <ScalarProperty Name="codigo_organigrama_seguimiento" ColumnName="codigo_organigrama_seguimiento" />
+          <ScalarProperty Name="version_actual" ColumnName="version_actual" />
+          <ScalarProperty Name="codigo_usuario_modificacion" ColumnName="codigo_usuario_modificacion" />
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="codigo_usuario_creacion" ColumnName="codigo_usuario_creacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="telefono" ColumnName="telefono" />
+          <ScalarProperty Name="sitio_web" ColumnName="sitio_web" />
+          <ScalarProperty Name="correo_electronico" ColumnName="correo_electronico" />
+          <ScalarProperty Name="siglas" ColumnName="siglas" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="codigo_geografico" ColumnName="codigo_geografico" />
+          <ScalarProperty Name="codigo_clasificacion_entidad" ColumnName="codigo_clasificacion_entidad" />
+          <ScalarProperty Name="codigo_tipo_asignacion_entidad" ColumnName="codigo_tipo_asignacion_entidad" />
+          <ScalarProperty Name="codigo_sector" ColumnName="codigo_sector" />
+          <ScalarProperty Name="codigo_entidad" ColumnName="codigo_entidad" />
+          <ScalarProperty Name="codigo_entidad_version" ColumnName="codigo_entidad_version" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Entidad_Auditora">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Entidad_Auditora">
+        <MappingFragment StoreEntitySet="Entidad_Auditora">
+          <ScalarProperty Name="codigo_usuario_modificacion" ColumnName="codigo_usuario_modificacion" />
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="codigo_usuario_creacion" ColumnName="codigo_usuario_creacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="telefono" ColumnName="telefono" />
+          <ScalarProperty Name="sitio_web" ColumnName="sitio_web" />
+          <ScalarProperty Name="correo_electronico" ColumnName="correo_electronico" />
+          <ScalarProperty Name="siglas" ColumnName="siglas" />
+          <ScalarProperty Name="codigo_entidad" ColumnName="codigo_entidad" />
+          <ScalarProperty Name="codigo_entidad_version" ColumnName="codigo_entidad_version" />
+          <ScalarProperty Name="codigo_clase_entidad_auditora" ColumnName="codigo_clase_entidad_auditora" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="codigo_entidad_auditora" ColumnName="codigo_entidad_auditora" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Estado_Proceso">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Estado_Proceso">
+        <MappingFragment StoreEntitySet="Estado_Proceso">
+          <ScalarProperty Name="codigo_usuario_modificacion" ColumnName="codigo_usuario_modificacion" />
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="codigo_usuario_creacion" ColumnName="codigo_usuario_creacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="estado_final" ColumnName="estado_final" />
+          <ScalarProperty Name="estado_inicial" ColumnName="estado_inicial" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="proceso" ColumnName="proceso" />
+          <ScalarProperty Name="codigo_estado_proceso" ColumnName="codigo_estado_proceso" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Estado_Recomendacion">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Estado_Recomendacion">
+        <MappingFragment StoreEntitySet="Estado_Recomendacion">
+          <ScalarProperty Name="codigo_usuario_modificacion" ColumnName="codigo_usuario_modificacion" />
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="codigo_usuario_creacion" ColumnName="codigo_usuario_creacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="codigo_estado_recomendacion" ColumnName="codigo_estado_recomendacion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Estado_Usuario_Externo">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Estado_Usuario_Externo">
+        <MappingFragment StoreEntitySet="Estado_Usuario_Externo">
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="codigo_estado_usuario_externo" ColumnName="codigo_estado_usuario_externo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Fuente_Financiera">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Fuente_Financiera">
+        <MappingFragment StoreEntitySet="Fuente_Financiera">
+          <ScalarProperty Name="codigo_usuario_modificacion" ColumnName="codigo_usuario_modificacion" />
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="codigo_usuario_creacion" ColumnName="codigo_usuario_creacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="codigo_fuente_financiera" ColumnName="codigo_fuente_financiera" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Geografico">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Geografico">
+        <MappingFragment StoreEntitySet="Geografico">
+          <ScalarProperty Name="codigo_usuario_modificacion" ColumnName="codigo_usuario_modificacion" />
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="codigo_usuario_creacion" ColumnName="codigo_usuario_creacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="nivel" ColumnName="nivel" />
+          <ScalarProperty Name="municipio" ColumnName="municipio" />
+          <ScalarProperty Name="departamento" ColumnName="departamento" />
+          <ScalarProperty Name="codigo_geografico" ColumnName="codigo_geografico" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Nivel_Organizacional">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Nivel_Organizacional">
+        <MappingFragment StoreEntitySet="Nivel_Organizacional">
+          <ScalarProperty Name="codigo_usuario_modificacion" ColumnName="codigo_usuario_modificacion" />
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="codigo_usuario_creacion" ColumnName="codigo_usuario_creacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="nivel" ColumnName="nivel" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="codigo_nivel_organizacional" ColumnName="codigo_nivel_organizacional" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Organigrama">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Organigrama">
+        <MappingFragment StoreEntitySet="Organigrama">
+          <ScalarProperty Name="codigo_usuario_modificacion" ColumnName="codigo_usuario_modificacion" />
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="codigo_usuario_creacion" ColumnName="codigo_usuario_creacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="codigo_usuario_jefe" ColumnName="codigo_usuario_jefe" />
+          <ScalarProperty Name="codigo_organigrama_padre" ColumnName="codigo_organigrama_padre" />
+          <ScalarProperty Name="codigo_nivel_organizacional" ColumnName="codigo_nivel_organizacional" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="codigo_organigrama" ColumnName="codigo_organigrama" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Prioridad_Recomendacion">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Prioridad_Recomendacion">
+        <MappingFragment StoreEntitySet="Prioridad_Recomendacion">
+          <ScalarProperty Name="codigo_usuario_modificacion" ColumnName="codigo_usuario_modificacion" />
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="codigo_usuario_creacion" ColumnName="codigo_usuario_creacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="plazo" ColumnName="plazo" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="codigo_prioridad_recomendacion" ColumnName="codigo_prioridad_recomendacion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sector">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Sector">
+        <MappingFragment StoreEntitySet="Sector">
+          <ScalarProperty Name="codigo_usuario_modificacion" ColumnName="codigo_usuario_modificacion" />
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="codigo_usuario_creacion" ColumnName="codigo_usuario_creacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="codigo_tipo_asignacion_entidad" ColumnName="codigo_tipo_asignacion_entidad" />
+          <ScalarProperty Name="codigo_sector" ColumnName="codigo_sector" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tipo_Asignacion_Entidad">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Tipo_Asignacion_Entidad">
+        <MappingFragment StoreEntitySet="Tipo_Asignacion_Entidad">
+          <ScalarProperty Name="codigo_usuario_modificacion" ColumnName="codigo_usuario_modificacion" />
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="codigo_usuario_creacion" ColumnName="codigo_usuario_creacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="codigo_tipo_asignacion_entidad" ColumnName="codigo_tipo_asignacion_entidad" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tipo_Auditoria">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Tipo_Auditoria">
+        <MappingFragment StoreEntitySet="Tipo_Auditoria">
+          <ScalarProperty Name="codigo_usuario_modificacion" ColumnName="codigo_usuario_modificacion" />
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="codigo_usuario_creacion" ColumnName="codigo_usuario_creacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="codigo_tipo_auditoria" ColumnName="codigo_tipo_auditoria" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tipo_Informe_Seguimiento">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Tipo_Informe_Seguimiento">
+        <MappingFragment StoreEntitySet="Tipo_Informe_Seguimiento">
+          <ScalarProperty Name="codigo_usuario_modificacion" ColumnName="codigo_usuario_modificacion" />
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="codigo_usuario_creacion" ColumnName="codigo_usuario_creacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="codigo_tipo_informe_seguimiento" ColumnName="codigo_tipo_informe_seguimiento" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tipo_Notificacion">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Tipo_Notificacion">
+        <MappingFragment StoreEntitySet="Tipo_Notificacion">
+          <ScalarProperty Name="plazo" ColumnName="plazo" />
+          <ScalarProperty Name="codigo_usuario_modificacion" ColumnName="codigo_usuario_modificacion" />
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="codigo_usuario_creacion" ColumnName="codigo_usuario_creacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="codigo_tipo_notificacion" ColumnName="codigo_tipo_notificacion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tipo_Recomendacion">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Tipo_Recomendacion">
+        <MappingFragment StoreEntitySet="Tipo_Recomendacion">
+          <ScalarProperty Name="codigo_usuario_modificacion" ColumnName="codigo_usuario_modificacion" />
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="codigo_usuario_creacion" ColumnName="codigo_usuario_creacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="codigo_tipo_recomendacion" ColumnName="codigo_tipo_recomendacion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="C__EFMigrationsHistory">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.C__EFMigrationsHistory">
+        <MappingFragment StoreEntitySet="__EFMigrationsHistory">
+          <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
+          <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.sysdiagrams">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="definition" ColumnName="definition" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EmailRequests">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.EmailRequests">
+        <MappingFragment StoreEntitySet="EmailRequests">
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Message_Body" ColumnName="Message_Body" />
+          <ScalarProperty Name="Send_Method" ColumnName="Send_Method" />
+          <ScalarProperty Name="External_Ref" ColumnName="External_Ref" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Subject" ColumnName="Subject" />
+          <ScalarProperty Name="Email_Request_Id" ColumnName="Email_Request_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EmailTemplates">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.EmailTemplates">
+        <MappingFragment StoreEntitySet="EmailTemplates">
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="HTML_Content" ColumnName="HTML_Content" />
+          <ScalarProperty Name="Template_Type_Id" ColumnName="Template_Type_Id" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Template_Id" ColumnName="Template_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EmailTemplatesTypes">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.EmailTemplatesTypes">
+        <MappingFragment StoreEntitySet="EmailTemplatesTypes">
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Email_Template_Type_Id" ColumnName="Email_Template_Type_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ErrorLogs">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.ErrorLogs">
+        <MappingFragment StoreEntitySet="ErrorLogs">
+          <ScalarProperty Name="Error" ColumnName="Error" />
+          <ScalarProperty Name="Message" ColumnName="Message" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Source" ColumnName="Source" />
+          <ScalarProperty Name="Error_Log_Id" ColumnName="Error_Log_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Recipients">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Recipients">
+        <MappingFragment StoreEntitySet="Recipients">
+          <ScalarProperty Name="Sent_At" ColumnName="Sent_At" />
+          <ScalarProperty Name="Result_Message" ColumnName="Result_Message" />
+          <ScalarProperty Name="Sent" ColumnName="Sent" />
+          <ScalarProperty Name="Recipient_Type" ColumnName="Recipient_Type" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Email_Request_Id" ColumnName="Email_Request_Id" />
+          <ScalarProperty Name="Recipient_Id" ColumnName="Recipient_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Bitacora_Errores">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Bitacora_Errores">
+        <MappingFragment StoreEntitySet="Bitacora_Errores">
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="componente" ColumnName="componente" />
+          <ScalarProperty Name="fecha_hora" ColumnName="fecha_hora" />
+          <ScalarProperty Name="codigo_usuario" ColumnName="codigo_usuario" />
+          <ScalarProperty Name="codigo_bitacora_error" ColumnName="codigo_bitacora_error" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Parametros">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Parametros">
+        <MappingFragment StoreEntitySet="Parametros">
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="valor" ColumnName="valor" />
+          <ScalarProperty Name="nombre_modulo" ColumnName="nombre_modulo" />
+          <ScalarProperty Name="nombre_parametro" ColumnName="nombre_parametro" />
+          <ScalarProperty Name="codigo_parametro" ColumnName="codigo_parametro" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Portlet">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Portlet">
+        <MappingFragment StoreEntitySet="Portlet">
+          <ScalarProperty Name="parametro_5" ColumnName="parametro_5" />
+          <ScalarProperty Name="parametro_4" ColumnName="parametro_4" />
+          <ScalarProperty Name="parametro_3" ColumnName="parametro_3" />
+          <ScalarProperty Name="parametro_2" ColumnName="parametro_2" />
+          <ScalarProperty Name="parametro_1" ColumnName="parametro_1" />
+          <ScalarProperty Name="nombre_leyenda" ColumnName="nombre_leyenda" />
+          <ScalarProperty Name="color" ColumnName="color" />
+          <ScalarProperty Name="url_servicio" ColumnName="url_servicio" />
+          <ScalarProperty Name="subtipo_portlet" ColumnName="subtipo_portlet" />
+          <ScalarProperty Name="tipo_portlet" ColumnName="tipo_portlet" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="subdescripcion" ColumnName="subdescripcion" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="codigo_portlet" ColumnName="codigo_portlet" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Notificacion">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Notificacion">
+        <MappingFragment StoreEntitySet="Notificacion">
+          <ScalarProperty Name="codigo_usuario_modificacion" ColumnName="codigo_usuario_modificacion" />
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="codigo_usuario_creacion" ColumnName="codigo_usuario_creacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="observacion_prorroga" ColumnName="observacion_prorroga" />
+          <ScalarProperty Name="observacion" ColumnName="observacion" />
+          <ScalarProperty Name="cargo_recibe" ColumnName="cargo_recibe" />
+          <ScalarProperty Name="nombre_recibe" ColumnName="nombre_recibe" />
+          <ScalarProperty Name="numero_identidad_recibe" ColumnName="numero_identidad_recibe" />
+          <ScalarProperty Name="cargo_entrega" ColumnName="cargo_entrega" />
+          <ScalarProperty Name="nombre_entrega" ColumnName="nombre_entrega" />
+          <ScalarProperty Name="numero_identidad_entrega" ColumnName="numero_identidad_entrega" />
+          <ScalarProperty Name="fecha_presentacion" ColumnName="fecha_presentacion" />
+          <ScalarProperty Name="fecha_vencimiento_prorroga" ColumnName="fecha_vencimiento_prorroga" />
+          <ScalarProperty Name="fecha_prorroga" ColumnName="fecha_prorroga" />
+          <ScalarProperty Name="fecha_vencimiento" ColumnName="fecha_vencimiento" />
+          <ScalarProperty Name="fecha_recepcion" ColumnName="fecha_recepcion" />
+          <ScalarProperty Name="fecha_oficio" ColumnName="fecha_oficio" />
+          <ScalarProperty Name="fecha_notificacion" ColumnName="fecha_notificacion" />
+          <ScalarProperty Name="numero_oficio" ColumnName="numero_oficio" />
+          <ScalarProperty Name="numero_notificacion" ColumnName="numero_notificacion" />
+          <ScalarProperty Name="codigo_informe_seguimiento" ColumnName="codigo_informe_seguimiento" />
+          <ScalarProperty Name="codigo_informe_auditoria" ColumnName="codigo_informe_auditoria" />
+          <ScalarProperty Name="codigo_tipo_notificacion" ColumnName="codigo_tipo_notificacion" />
+          <ScalarProperty Name="codigo_notificacion" ColumnName="codigo_notificacion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Auditoria">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Auditoria">
+        <MappingFragment StoreEntitySet="Auditoria">
+          <ScalarProperty Name="valores_actuales" ColumnName="valores_actuales" />
+          <ScalarProperty Name="valores_anteriores" ColumnName="valores_anteriores" />
+          <ScalarProperty Name="llave" ColumnName="llave" />
+          <ScalarProperty Name="tipo_sentencia" ColumnName="tipo_sentencia" />
+          <ScalarProperty Name="componente" ColumnName="componente" />
+          <ScalarProperty Name="entidad" ColumnName="entidad" />
+          <ScalarProperty Name="modulo" ColumnName="modulo" />
+          <ScalarProperty Name="fecha_hora" ColumnName="fecha_hora" />
+          <ScalarProperty Name="codigo_usuario" ColumnName="codigo_usuario" />
+          <ScalarProperty Name="codigo_auditoria" ColumnName="codigo_auditoria" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Bitacora_Eventos">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Bitacora_Eventos">
+        <MappingFragment StoreEntitySet="Bitacora_Eventos">
+          <ScalarProperty Name="mensaje_evento" ColumnName="mensaje_evento" />
+          <ScalarProperty Name="estado_evento" ColumnName="estado_evento" />
+          <ScalarProperty Name="tipo_evento" ColumnName="tipo_evento" />
+          <ScalarProperty Name="fecha_hora" ColumnName="fecha_hora" />
+          <ScalarProperty Name="direccion_ip" ColumnName="direccion_ip" />
+          <ScalarProperty Name="navegador" ColumnName="navegador" />
+          <ScalarProperty Name="codigo_usuario" ColumnName="codigo_usuario" />
+          <ScalarProperty Name="codigo_bitacora_evento" ColumnName="codigo_bitacora_evento" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Codigo_Verificacion_Usuario">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Codigo_Verificacion_Usuario">
+        <MappingFragment StoreEntitySet="Codigo_Verificacion_Usuario">
+          <ScalarProperty Name="fecha_hora_vencimiento" ColumnName="fecha_hora_vencimiento" />
+          <ScalarProperty Name="fue_enviado" ColumnName="fue_enviado" />
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="codigo_generado" ColumnName="codigo_generado" />
+          <ScalarProperty Name="codigo_usuario" ColumnName="codigo_usuario" />
+          <ScalarProperty Name="secuencia_codigo_verificacion_usuario" ColumnName="secuencia_codigo_verificacion_usuario" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Control">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Control">
+        <MappingFragment StoreEntitySet="Control">
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="codigo_ventana" ColumnName="codigo_ventana" />
+          <ScalarProperty Name="nombre_control" ColumnName="nombre_control" />
+          <ScalarProperty Name="codigo_control" ColumnName="codigo_control" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Control_Contexto">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Control_Contexto">
+        <MappingFragment StoreEntitySet="Control_Contexto">
+          <ScalarProperty Name="valor" ColumnName="valor" />
+          <ScalarProperty Name="nombre_contexto" ColumnName="nombre_contexto" />
+          <ScalarProperty Name="codigo_control" ColumnName="codigo_control" />
+          <ScalarProperty Name="codigo_control_contexto" ColumnName="codigo_control_contexto" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Controlador_Accion">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Controlador_Accion">
+        <MappingFragment StoreEntitySet="Controlador_Accion">
+          <ScalarProperty Name="accion" ColumnName="accion" />
+          <ScalarProperty Name="controlador" ColumnName="controlador" />
+          <ScalarProperty Name="codigo_controlador_accion" ColumnName="codigo_controlador_accion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Grupo">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Grupo">
+        <MappingFragment StoreEntitySet="Grupo">
+          <ScalarProperty Name="ambito" ColumnName="ambito" />
+          <ScalarProperty Name="codigo_usuario_modificacion" ColumnName="codigo_usuario_modificacion" />
+          <ScalarProperty Name="codigo_usuario_creacion" ColumnName="codigo_usuario_creacion" />
+          <ScalarProperty Name="fecha_hora__modificacion" ColumnName="fecha_hora__modificacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="descripcion_corta" ColumnName="descripcion_corta" />
+          <ScalarProperty Name="nombre_grupo" ColumnName="nombre_grupo" />
+          <ScalarProperty Name="codigo_grupo" ColumnName="codigo_grupo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Grupo_Evento">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Grupo_Evento">
+        <MappingFragment StoreEntitySet="Grupo_Evento">
+          <ScalarProperty Name="escenario" ColumnName="escenario" />
+          <ScalarProperty Name="codigo_evento" ColumnName="codigo_evento" />
+          <ScalarProperty Name="codigo_grupo" ColumnName="codigo_grupo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Historico_Estado_Usuario_Externo">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Historico_Estado_Usuario_Externo">
+        <MappingFragment StoreEntitySet="Historico_Estado_Usuario_Externo">
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="codigo_estado_usuario_externo" ColumnName="codigo_estado_usuario_externo" />
+          <ScalarProperty Name="codigo_usuario" ColumnName="codigo_usuario" />
+          <ScalarProperty Name="codigo_historico_estado_usuario_externo" ColumnName="codigo_historico_estado_usuario_externo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Menu">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Menu">
+        <MappingFragment StoreEntitySet="Menu">
+          <ScalarProperty Name="tipo_url" ColumnName="tipo_url" />
+          <ScalarProperty Name="url" ColumnName="url" />
+          <ScalarProperty Name="color" ColumnName="color" />
+          <ScalarProperty Name="orden" ColumnName="orden" />
+          <ScalarProperty Name="icono" ColumnName="icono" />
+          <ScalarProperty Name="titulo" ColumnName="titulo" />
+          <ScalarProperty Name="codigo_menu_padre" ColumnName="codigo_menu_padre" />
+          <ScalarProperty Name="codigo_controlador_accion" ColumnName="codigo_controlador_accion" />
+          <ScalarProperty Name="codigo_ventana" ColumnName="codigo_ventana" />
+          <ScalarProperty Name="codigo_menu" ColumnName="codigo_menu" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Solicitud_Enrolamiento">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Solicitud_Enrolamiento">
+        <MappingFragment StoreEntitySet="Solicitud_Enrolamiento">
+          <ScalarProperty Name="estado_solicitud_enrolamiento" ColumnName="estado_solicitud_enrolamiento" />
+          <ScalarProperty Name="codigo_usuario_modificacion" ColumnName="codigo_usuario_modificacion" />
+          <ScalarProperty Name="codigo_usuario_creacion" ColumnName="codigo_usuario_creacion" />
+          <ScalarProperty Name="observacion" ColumnName="observacion" />
+          <ScalarProperty Name="cargo_recibe" ColumnName="cargo_recibe" />
+          <ScalarProperty Name="nombre_recibe" ColumnName="nombre_recibe" />
+          <ScalarProperty Name="numero_identidad_recibe" ColumnName="numero_identidad_recibe" />
+          <ScalarProperty Name="cargo_entrega" ColumnName="cargo_entrega" />
+          <ScalarProperty Name="nombre_entrega" ColumnName="nombre_entrega" />
+          <ScalarProperty Name="numero_identidad_entrega" ColumnName="numero_identidad_entrega" />
+          <ScalarProperty Name="fecha_recepcion" ColumnName="fecha_recepcion" />
+          <ScalarProperty Name="fecha_oficio" ColumnName="fecha_oficio" />
+          <ScalarProperty Name="numero_oficio" ColumnName="numero_oficio" />
+          <ScalarProperty Name="enlace_documento" ColumnName="enlace_documento" />
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="codigo_entidad_version" ColumnName="codigo_entidad_version" />
+          <ScalarProperty Name="codigo_entidad" ColumnName="codigo_entidad" />
+          <ScalarProperty Name="codigo_solicitud_enrolamiento" ColumnName="codigo_solicitud_enrolamiento" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Solicitud_Enrolamiento_Detalle">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Solicitud_Enrolamiento_Detalle">
+        <MappingFragment StoreEntitySet="Solicitud_Enrolamiento_Detalle">
+          <ScalarProperty Name="correo_secundario_general" ColumnName="correo_secundario_general" />
+          <ScalarProperty Name="correo_general" ColumnName="correo_general" />
+          <ScalarProperty Name="codigo_rol_general" ColumnName="codigo_rol_general" />
+          <ScalarProperty Name="cargo_general" ColumnName="cargo_general" />
+          <ScalarProperty Name="identidad_general" ColumnName="identidad_general" />
+          <ScalarProperty Name="telefono_general" ColumnName="telefono_general" />
+          <ScalarProperty Name="nombre_general" ColumnName="nombre_general" />
+          <ScalarProperty Name="codigo_usuario_general" ColumnName="codigo_usuario_general" />
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="codigo_solicitud_enrolamiento" ColumnName="codigo_solicitud_enrolamiento" />
+          <ScalarProperty Name="codigo_solicitud_enrolamiento_detalle" ColumnName="codigo_solicitud_enrolamiento_detalle" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Usuario">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Usuario">
+        <MappingFragment StoreEntitySet="Usuario">
+          <ScalarProperty Name="fecha_hora_primera_autenticacion" ColumnName="fecha_hora_primera_autenticacion" />
+          <ScalarProperty Name="ruta_encriptada_generada" ColumnName="ruta_encriptada_generada" />
+          <ScalarProperty Name="codigo_estado_usuario_externo" ColumnName="codigo_estado_usuario_externo" />
+          <ScalarProperty Name="referencia_externa_cargo" ColumnName="referencia_externa_cargo" />
+          <ScalarProperty Name="codigo_solicitud_enrolamiento_detalle" ColumnName="codigo_solicitud_enrolamiento_detalle" />
+          <ScalarProperty Name="es_usuario_externo" ColumnName="es_usuario_externo" />
+          <ScalarProperty Name="codigo_usuario_modificacion" ColumnName="codigo_usuario_modificacion" />
+          <ScalarProperty Name="codigo_usuario_creacion" ColumnName="codigo_usuario_creacion" />
+          <ScalarProperty Name="requiere_cambio_clave" ColumnName="requiere_cambio_clave" />
+          <ScalarProperty Name="fecha_hora_inactivacion" ColumnName="fecha_hora_inactivacion" />
+          <ScalarProperty Name="fecha_hora_activacion" ColumnName="fecha_hora_activacion" />
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="correo_electronico" ColumnName="correo_electronico" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="clave" ColumnName="clave" />
+          <ScalarProperty Name="numero_identidad" ColumnName="numero_identidad" />
+          <ScalarProperty Name="telefono" ColumnName="telefono" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="usuario1" ColumnName="usuario" />
+          <ScalarProperty Name="codigo_usuario" ColumnName="codigo_usuario" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Usuario_Entidad">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Usuario_Entidad">
+        <MappingFragment StoreEntitySet="Usuario_Entidad">
+          <ScalarProperty Name="codigo_usuario_modificacion" ColumnName="codigo_usuario_modificacion" />
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="codigo_usuario_creacion" ColumnName="codigo_usuario_creacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="fecha_fin" ColumnName="fecha_fin" />
+          <ScalarProperty Name="fecha_inicio" ColumnName="fecha_inicio" />
+          <ScalarProperty Name="codigo_entidad" ColumnName="codigo_entidad" />
+          <ScalarProperty Name="codigo_entidad_version" ColumnName="codigo_entidad_version" />
+          <ScalarProperty Name="codigo_usuario" ColumnName="codigo_usuario" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Usuario_Grupo">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Usuario_Grupo">
+        <MappingFragment StoreEntitySet="Usuario_Grupo">
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="codigo_usuario_modificacion" ColumnName="codigo_usuario_modificacion" />
+          <ScalarProperty Name="codigo_usuario_creacion" ColumnName="codigo_usuario_creacion" />
+          <ScalarProperty Name="fecha_inactivacion" ColumnName="fecha_inactivacion" />
+          <ScalarProperty Name="fecha_activacion" ColumnName="fecha_activacion" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="codigo_grupo" ColumnName="codigo_grupo" />
+          <ScalarProperty Name="codigo_usuario" ColumnName="codigo_usuario" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Usuario_Organigrama">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Usuario_Organigrama">
+        <MappingFragment StoreEntitySet="Usuario_Organigrama">
+          <ScalarProperty Name="codigo_usuario_modificacion" ColumnName="codigo_usuario_modificacion" />
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="codigo_usuario_creacion" ColumnName="codigo_usuario_creacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="fecha_fin" ColumnName="fecha_fin" />
+          <ScalarProperty Name="fecha_inicio" ColumnName="fecha_inicio" />
+          <ScalarProperty Name="codigo_organigrama" ColumnName="codigo_organigrama" />
+          <ScalarProperty Name="codigo_usuario" ColumnName="codigo_usuario" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Ventana">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Ventana">
+        <MappingFragment StoreEntitySet="Ventana">
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="nombre_ventana" ColumnName="nombre_ventana" />
+          <ScalarProperty Name="codigo_ventana" ColumnName="codigo_ventana" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Actividad">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Actividad">
+        <MappingFragment StoreEntitySet="Actividad">
+          <ScalarProperty Name="clasificacion_informacion" ColumnName="clasificacion_informacion" />
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="codigo_usuario_modificacion" ColumnName="codigo_usuario_modificacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="codigo_usuario_creacion" ColumnName="codigo_usuario_creacion" />
+          <ScalarProperty Name="observacion" ColumnName="observacion" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="numero_actividad" ColumnName="numero_actividad" />
+          <ScalarProperty Name="codigo_plan_accion" ColumnName="codigo_plan_accion" />
+          <ScalarProperty Name="codigo_plan_accion_version" ColumnName="codigo_plan_accion_version" />
+          <ScalarProperty Name="codigo_informe_auditoria" ColumnName="codigo_informe_auditoria" />
+          <ScalarProperty Name="codigo_hallazgo" ColumnName="codigo_hallazgo" />
+          <ScalarProperty Name="codigo_recomendacion" ColumnName="codigo_recomendacion" />
+          <ScalarProperty Name="codigo_actividad" ColumnName="codigo_actividad" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Asignacion_Supervisor_Informe">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Asignacion_Supervisor_Informe">
+        <MappingFragment StoreEntitySet="Asignacion_Supervisor_Informe">
+          <ScalarProperty Name="codigo_plan_accion_version" ColumnName="codigo_plan_accion_version" />
+          <ScalarProperty Name="codigo_plan_accion" ColumnName="codigo_plan_accion" />
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="codigo_usuario_modificacion" ColumnName="codigo_usuario_modificacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="codigo_usuario_creacion" ColumnName="codigo_usuario_creacion" />
+          <ScalarProperty Name="vigente" ColumnName="vigente" />
+          <ScalarProperty Name="numero_orden_trabajo" ColumnName="numero_orden_trabajo" />
+          <ScalarProperty Name="fecha_asignacion" ColumnName="fecha_asignacion" />
+          <ScalarProperty Name="codigo_informe_auditoria" ColumnName="codigo_informe_auditoria" />
+          <ScalarProperty Name="codigo_usuario_supervisor" ColumnName="codigo_usuario_supervisor" />
+          <ScalarProperty Name="codigo_asignacion" ColumnName="codigo_asignacion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Enlace_Evidencia_Recomendacion">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Enlace_Evidencia_Recomendacion">
+        <MappingFragment StoreEntitySet="Enlace_Evidencia_Recomendacion">
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="codigo_usuario_modificacion" ColumnName="codigo_usuario_modificacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="codigo_usuario_creacion" ColumnName="codigo_usuario_creacion" />
+          <ScalarProperty Name="codigo_evidencia" ColumnName="codigo_evidencia" />
+          <ScalarProperty Name="codigo_recomendacion" ColumnName="codigo_recomendacion" />
+          <ScalarProperty Name="codigo_informe_seguimiento" ColumnName="codigo_informe_seguimiento" />
+          <ScalarProperty Name="codigo_informe_auditoria" ColumnName="codigo_informe_auditoria" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Entrevista_Informe_Seguimiento">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Entrevista_Informe_Seguimiento">
+        <MappingFragment StoreEntitySet="Entrevista_Informe_Seguimiento">
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="codigo_usuario_modificacion" ColumnName="codigo_usuario_modificacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="codigo_usuario_creacion" ColumnName="codigo_usuario_creacion" />
+          <ScalarProperty Name="telefono" ColumnName="telefono" />
+          <ScalarProperty Name="correo_electronico" ColumnName="correo_electronico" />
+          <ScalarProperty Name="cargo" ColumnName="cargo" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="numero_identidad" ColumnName="numero_identidad" />
+          <ScalarProperty Name="codigo_informe_seguimiento" ColumnName="codigo_informe_seguimiento" />
+          <ScalarProperty Name="codigo_entrevista" ColumnName="codigo_entrevista" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Evidencia_Seguimiento">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Evidencia_Seguimiento">
+        <MappingFragment StoreEntitySet="Evidencia_Seguimiento">
+          <ScalarProperty Name="codigo_usuario_modificacion" ColumnName="codigo_usuario_modificacion" />
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="codigo_usuario_creacion" ColumnName="codigo_usuario_creacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="codigo_usuario_carga" ColumnName="codigo_usuario_carga" />
+          <ScalarProperty Name="fecha_hora_carga" ColumnName="fecha_hora_carga" />
+          <ScalarProperty Name="tipo_evidencia" ColumnName="tipo_evidencia" />
+          <ScalarProperty Name="referencia_documento" ColumnName="referencia_documento" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="codigo_informe_seguimiento" ColumnName="codigo_informe_seguimiento" />
+          <ScalarProperty Name="codigo_informe_auditoria" ColumnName="codigo_informe_auditoria" />
+          <ScalarProperty Name="codigo_evidencia" ColumnName="codigo_evidencia" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Informe_Seguimiento">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Informe_Seguimiento">
+        <MappingFragment StoreEntitySet="Informe_Seguimiento">
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="codigo_usuario_modificacion" ColumnName="codigo_usuario_modificacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="codigo_usuario_creacion" ColumnName="codigo_usuario_creacion" />
+          <ScalarProperty Name="fue_impreso" ColumnName="fue_impreso" />
+          <ScalarProperty Name="fecha_aprobacion" ColumnName="fecha_aprobacion" />
+          <ScalarProperty Name="instancia" ColumnName="instancia" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="fecha_fin" ColumnName="fecha_fin" />
+          <ScalarProperty Name="fecha_inicio" ColumnName="fecha_inicio" />
+          <ScalarProperty Name="fecha_ingreso" ColumnName="fecha_ingreso" />
+          <ScalarProperty Name="numero_visita" ColumnName="numero_visita" />
+          <ScalarProperty Name="tipo_informe_seguimiento" ColumnName="tipo_informe_seguimiento" />
+          <ScalarProperty Name="codigo_usuario_supervisor" ColumnName="codigo_usuario_supervisor" />
+          <ScalarProperty Name="numero_informe_seguimiento" ColumnName="numero_informe_seguimiento" />
+          <ScalarProperty Name="codigo_informe_auditoria" ColumnName="codigo_informe_auditoria" />
+          <ScalarProperty Name="codigo_informe_seguimiento" ColumnName="codigo_informe_seguimiento" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Observacion_Informe_Seguimiento">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Observacion_Informe_Seguimiento">
+        <MappingFragment StoreEntitySet="Observacion_Informe_Seguimiento">
+          <ScalarProperty Name="codigo_usuario_modificacion" ColumnName="codigo_usuario_modificacion" />
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="codigo_usuario_creacion" ColumnName="codigo_usuario_creacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="observacion" ColumnName="observacion" />
+          <ScalarProperty Name="fecha_ingreso" ColumnName="fecha_ingreso" />
+          <ScalarProperty Name="codigo_usuario_elaborador" ColumnName="codigo_usuario_elaborador" />
+          <ScalarProperty Name="codigo_informe_seguimiento" ColumnName="codigo_informe_seguimiento" />
+          <ScalarProperty Name="codigo_observacion" ColumnName="codigo_observacion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Plan_Accion">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Plan_Accion">
+        <MappingFragment StoreEntitySet="Plan_Accion">
+          <ScalarProperty Name="version_actual" ColumnName="version_actual" />
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="codigo_usuario_modificacion" ColumnName="codigo_usuario_modificacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="codigo_usuario_creacion" ColumnName="codigo_usuario_creacion" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="observacion_aprobacion" ColumnName="observacion_aprobacion" />
+          <ScalarProperty Name="observacion_seguimiento" ColumnName="observacion_seguimiento" />
+          <ScalarProperty Name="observacion_presentacion" ColumnName="observacion_presentacion" />
+          <ScalarProperty Name="nombre_aprueba" ColumnName="nombre_aprueba" />
+          <ScalarProperty Name="numero_identidad_aprueba" ColumnName="numero_identidad_aprueba" />
+          <ScalarProperty Name="fecha_aprobacion" ColumnName="fecha_aprobacion" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="codigo_informe_auditoria" ColumnName="codigo_informe_auditoria" />
+          <ScalarProperty Name="codigo_plan_accion" ColumnName="codigo_plan_accion" />
+          <ScalarProperty Name="codigo_plan_accion_version" ColumnName="codigo_plan_accion_version" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Presentacion_Evidencia">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Presentacion_Evidencia">
+        <MappingFragment StoreEntitySet="Presentacion_Evidencia">
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="codigo_usuario_modificacion" ColumnName="codigo_usuario_modificacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="codigo_usuario_creacion" ColumnName="codigo_usuario_creacion" />
+          <ScalarProperty Name="observacion_presentacion" ColumnName="observacion_presentacion" />
+          <ScalarProperty Name="observacion" ColumnName="observacion" />
+          <ScalarProperty Name="cargo_recibe" ColumnName="cargo_recibe" />
+          <ScalarProperty Name="nombre_recibe" ColumnName="nombre_recibe" />
+          <ScalarProperty Name="numero_identidad_recibe" ColumnName="numero_identidad_recibe" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="fecha_aprobacion" ColumnName="fecha_aprobacion" />
+          <ScalarProperty Name="codigo_usuario_aprueba" ColumnName="codigo_usuario_aprueba" />
+          <ScalarProperty Name="fecha_vencimiento" ColumnName="fecha_vencimiento" />
+          <ScalarProperty Name="fecha_recepcion" ColumnName="fecha_recepcion" />
+          <ScalarProperty Name="fecha_oficio" ColumnName="fecha_oficio" />
+          <ScalarProperty Name="numero_oficio" ColumnName="numero_oficio" />
+          <ScalarProperty Name="codigo_informe_seguimiento" ColumnName="codigo_informe_seguimiento" />
+          <ScalarProperty Name="codigo_informe_auditoria" ColumnName="codigo_informe_auditoria" />
+          <ScalarProperty Name="codigo_presentacion_evidencia" ColumnName="codigo_presentacion_evidencia" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Presentacion_Evidencia_Recomendacion">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Presentacion_Evidencia_Recomendacion">
+        <MappingFragment StoreEntitySet="Presentacion_Evidencia_Recomendacion">
+          <ScalarProperty Name="presentada" ColumnName="presentada" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="codigo_recomendacion" ColumnName="codigo_recomendacion" />
+          <ScalarProperty Name="codigo_informe_seguimiento" ColumnName="codigo_informe_seguimiento" />
+          <ScalarProperty Name="codigo_informe_auditoria" ColumnName="codigo_informe_auditoria" />
+          <ScalarProperty Name="codigo_presentacion_evidencia" ColumnName="codigo_presentacion_evidencia" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Recomendacion_Plan_Accion">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Recomendacion_Plan_Accion">
+        <MappingFragment StoreEntitySet="Recomendacion_Plan_Accion">
+          <ScalarProperty Name="fecha_solicitada" ColumnName="fecha_solicitada" />
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="codigo_usuario_modificacion" ColumnName="codigo_usuario_modificacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="codigo_usuario_creacion" ColumnName="codigo_usuario_creacion" />
+          <ScalarProperty Name="justificacion" ColumnName="justificacion" />
+          <ScalarProperty Name="es_publica" ColumnName="es_publica" />
+          <ScalarProperty Name="observacion" ColumnName="observacion" />
+          <ScalarProperty Name="actividad" ColumnName="actividad" />
+          <ScalarProperty Name="usuario_responsable_ejecucion" ColumnName="usuario_responsable_ejecucion" />
+          <ScalarProperty Name="fecha_cumplimiento" ColumnName="fecha_cumplimiento" />
+          <ScalarProperty Name="codigo_plan_accion" ColumnName="codigo_plan_accion" />
+          <ScalarProperty Name="codigo_plan_accion_version" ColumnName="codigo_plan_accion_version" />
+          <ScalarProperty Name="codigo_informe_auditoria" ColumnName="codigo_informe_auditoria" />
+          <ScalarProperty Name="codigo_hallazgo" ColumnName="codigo_hallazgo" />
+          <ScalarProperty Name="codigo_recomendacion" ColumnName="codigo_recomendacion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Seguimiento_Recomendacion">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Seguimiento_Recomendacion">
+        <MappingFragment StoreEntitySet="Seguimiento_Recomendacion">
+          <ScalarProperty Name="es_heredado" ColumnName="es_heredado" />
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="codigo_usuario_modificacion" ColumnName="codigo_usuario_modificacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="codigo_usuario_creacion" ColumnName="codigo_usuario_creacion" />
+          <ScalarProperty Name="comentario" ColumnName="comentario" />
+          <ScalarProperty Name="observacion" ColumnName="observacion" />
+          <ScalarProperty Name="anexo" ColumnName="anexo" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="fecha_ejecucion" ColumnName="fecha_ejecucion" />
+          <ScalarProperty Name="codigo_informe_auditoria" ColumnName="codigo_informe_auditoria" />
+          <ScalarProperty Name="codigo_recomendacion" ColumnName="codigo_recomendacion" />
+          <ScalarProperty Name="codigo_informe_seguimiento" ColumnName="codigo_informe_seguimiento" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Solicitud_Adenda_Plan_Accion">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Solicitud_Adenda_Plan_Accion">
+        <MappingFragment StoreEntitySet="Solicitud_Adenda_Plan_Accion">
+          <ScalarProperty Name="referencia_documento" ColumnName="referencia_documento" />
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="codigo_usuario_modificacion" ColumnName="codigo_usuario_modificacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="codigo_usuario_creacion" ColumnName="codigo_usuario_creacion" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="observacion_aprobacion" ColumnName="observacion_aprobacion" />
+          <ScalarProperty Name="observacion_presentacion" ColumnName="observacion_presentacion" />
+          <ScalarProperty Name="codigo_usuario_aprueba" ColumnName="codigo_usuario_aprueba" />
+          <ScalarProperty Name="fecha_aprobacion" ColumnName="fecha_aprobacion" />
+          <ScalarProperty Name="cargo_recibe" ColumnName="cargo_recibe" />
+          <ScalarProperty Name="nombre_recibe" ColumnName="nombre_recibe" />
+          <ScalarProperty Name="numero_identidad_recibe" ColumnName="numero_identidad_recibe" />
+          <ScalarProperty Name="cargo_entrega" ColumnName="cargo_entrega" />
+          <ScalarProperty Name="nombre_entrega" ColumnName="nombre_entrega" />
+          <ScalarProperty Name="numero_identidad_entrega" ColumnName="numero_identidad_entrega" />
+          <ScalarProperty Name="fecha_oficio" ColumnName="fecha_oficio" />
+          <ScalarProperty Name="numero_oficio" ColumnName="numero_oficio" />
+          <ScalarProperty Name="fecha_solicitud" ColumnName="fecha_solicitud" />
+          <ScalarProperty Name="codigo_informe_auditoria" ColumnName="codigo_informe_auditoria" />
+          <ScalarProperty Name="codigo_plan_accion" ColumnName="codigo_plan_accion" />
+          <ScalarProperty Name="codigo_plan_accion_version" ColumnName="codigo_plan_accion_version" />
+          <ScalarProperty Name="codigo_solicitud_adenda" ColumnName="codigo_solicitud_adenda" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Solicitud_Adenda_Plan_Accion_Actividad">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Solicitud_Adenda_Plan_Accion_Actividad">
+        <MappingFragment StoreEntitySet="Solicitud_Adenda_Plan_Accion_Actividad">
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="codigo_usuario_modificacion" ColumnName="codigo_usuario_modificacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="codigo_usuario_creacion" ColumnName="codigo_usuario_creacion" />
+          <ScalarProperty Name="clasificacion_informacion" ColumnName="clasificacion_informacion" />
+          <ScalarProperty Name="observacion" ColumnName="observacion" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="numero_actividad" ColumnName="numero_actividad" />
+          <ScalarProperty Name="codigo_plan_accion" ColumnName="codigo_plan_accion" />
+          <ScalarProperty Name="codigo_plan_accion_version" ColumnName="codigo_plan_accion_version" />
+          <ScalarProperty Name="codigo_informe_auditoria" ColumnName="codigo_informe_auditoria" />
+          <ScalarProperty Name="codigo_hallazgo" ColumnName="codigo_hallazgo" />
+          <ScalarProperty Name="codigo_recomendacion" ColumnName="codigo_recomendacion" />
+          <ScalarProperty Name="codigo_actividad" ColumnName="codigo_actividad" />
+          <ScalarProperty Name="codigo_solicitud_adenda" ColumnName="codigo_solicitud_adenda" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Solicitud_Adenda_Plan_Accion_Recomendacion">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Solicitud_Adenda_Plan_Accion_Recomendacion">
+        <MappingFragment StoreEntitySet="Solicitud_Adenda_Plan_Accion_Recomendacion">
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="codigo_usuario_modificacion" ColumnName="codigo_usuario_modificacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="codigo_usuario_creacion" ColumnName="codigo_usuario_creacion" />
+          <ScalarProperty Name="es_publica" ColumnName="es_publica" />
+          <ScalarProperty Name="observacion" ColumnName="observacion" />
+          <ScalarProperty Name="actividad" ColumnName="actividad" />
+          <ScalarProperty Name="usuario_responsable_ejecucion" ColumnName="usuario_responsable_ejecucion" />
+          <ScalarProperty Name="fecha_cumplimiento_aprobada" ColumnName="fecha_cumplimiento_aprobada" />
+          <ScalarProperty Name="fecha_cumplimiento_solicitada" ColumnName="fecha_cumplimiento_solicitada" />
+          <ScalarProperty Name="fecha_cumplimiento_anterior" ColumnName="fecha_cumplimiento_anterior" />
+          <ScalarProperty Name="codigo_plan_accion" ColumnName="codigo_plan_accion" />
+          <ScalarProperty Name="codigo_plan_accion_version" ColumnName="codigo_plan_accion_version" />
+          <ScalarProperty Name="codigo_informe_auditoria" ColumnName="codigo_informe_auditoria" />
+          <ScalarProperty Name="codigo_hallazgo" ColumnName="codigo_hallazgo" />
+          <ScalarProperty Name="codigo_recomendacion" ColumnName="codigo_recomendacion" />
+          <ScalarProperty Name="codigo_solicitud_adenda" ColumnName="codigo_solicitud_adenda" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Solicitud_Evidencia">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Solicitud_Evidencia">
+        <MappingFragment StoreEntitySet="Solicitud_Evidencia">
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="codigo_usuario_modificacion" ColumnName="codigo_usuario_modificacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="codigo_usuario_creacion" ColumnName="codigo_usuario_creacion" />
+          <ScalarProperty Name="observacion_solicitud" ColumnName="observacion_solicitud" />
+          <ScalarProperty Name="observacion" ColumnName="observacion" />
+          <ScalarProperty Name="cargo_recibe" ColumnName="cargo_recibe" />
+          <ScalarProperty Name="nombre_recibe" ColumnName="nombre_recibe" />
+          <ScalarProperty Name="numero_identidad_recibe" ColumnName="numero_identidad_recibe" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="fecha_aprobacion" ColumnName="fecha_aprobacion" />
+          <ScalarProperty Name="codigo_usuario_aprueba" ColumnName="codigo_usuario_aprueba" />
+          <ScalarProperty Name="fecha_vencimiento" ColumnName="fecha_vencimiento" />
+          <ScalarProperty Name="fecha_recepcion" ColumnName="fecha_recepcion" />
+          <ScalarProperty Name="fecha_oficio" ColumnName="fecha_oficio" />
+          <ScalarProperty Name="numero_oficio" ColumnName="numero_oficio" />
+          <ScalarProperty Name="codigo_tipo_notificacion" ColumnName="codigo_tipo_notificacion" />
+          <ScalarProperty Name="codigo_informe_seguimiento" ColumnName="codigo_informe_seguimiento" />
+          <ScalarProperty Name="codigo_informe_auditoria" ColumnName="codigo_informe_auditoria" />
+          <ScalarProperty Name="codigo_solicitud_evidencia" ColumnName="codigo_solicitud_evidencia" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Solicitud_Evidencia_Recomendacion">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Solicitud_Evidencia_Recomendacion">
+        <MappingFragment StoreEntitySet="Solicitud_Evidencia_Recomendacion">
+          <ScalarProperty Name="solicitada" ColumnName="solicitada" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="codigo_recomendacion" ColumnName="codigo_recomendacion" />
+          <ScalarProperty Name="codigo_informe_seguimiento" ColumnName="codigo_informe_seguimiento" />
+          <ScalarProperty Name="codigo_informe_auditoria" ColumnName="codigo_informe_auditoria" />
+          <ScalarProperty Name="codigo_solicitud_evidencia" ColumnName="codigo_solicitud_evidencia" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Solicitud_Prorroga">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Solicitud_Prorroga">
+        <MappingFragment StoreEntitySet="Solicitud_Prorroga">
+          <ScalarProperty Name="dias_prorroga" ColumnName="dias_prorroga" />
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="codigo_usuario_modificacion" ColumnName="codigo_usuario_modificacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="codigo_usuario_creacion" ColumnName="codigo_usuario_creacion" />
+          <ScalarProperty Name="observacion_prorroga" ColumnName="observacion_prorroga" />
+          <ScalarProperty Name="observacion" ColumnName="observacion" />
+          <ScalarProperty Name="cargo_recibe" ColumnName="cargo_recibe" />
+          <ScalarProperty Name="nombre_recibe" ColumnName="nombre_recibe" />
+          <ScalarProperty Name="numero_identidad_recibe" ColumnName="numero_identidad_recibe" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="fecha_aprobacion" ColumnName="fecha_aprobacion" />
+          <ScalarProperty Name="codigo_usuario_aprueba" ColumnName="codigo_usuario_aprueba" />
+          <ScalarProperty Name="fecha_vencimiento_prorroga" ColumnName="fecha_vencimiento_prorroga" />
+          <ScalarProperty Name="fecha_prorroga" ColumnName="fecha_prorroga" />
+          <ScalarProperty Name="fecha_vencimiento" ColumnName="fecha_vencimiento" />
+          <ScalarProperty Name="fecha_recepcion" ColumnName="fecha_recepcion" />
+          <ScalarProperty Name="fecha_oficio" ColumnName="fecha_oficio" />
+          <ScalarProperty Name="numero_oficio" ColumnName="numero_oficio" />
+          <ScalarProperty Name="codigo_informe_auditoria" ColumnName="codigo_informe_auditoria" />
+          <ScalarProperty Name="codigo_solicitud_prorroga" ColumnName="codigo_solicitud_prorroga" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Alerta">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Alerta">
+        <MappingFragment StoreEntitySet="Alerta">
+          <ScalarProperty Name="fecha_hora_lectura" ColumnName="fecha_hora_lectura" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="dias_por_vencer" ColumnName="dias_por_vencer" />
+          <ScalarProperty Name="mensaje" ColumnName="mensaje" />
+          <ScalarProperty Name="fecha_vencimiento" ColumnName="fecha_vencimiento" />
+          <ScalarProperty Name="fecha_notificacion" ColumnName="fecha_notificacion" />
+          <ScalarProperty Name="codigo_informe_seguimiento" ColumnName="codigo_informe_seguimiento" />
+          <ScalarProperty Name="codigo_informe_auditoria" ColumnName="codigo_informe_auditoria" />
+          <ScalarProperty Name="fecha_hora" ColumnName="fecha_hora" />
+          <ScalarProperty Name="codigo_evento" ColumnName="codigo_evento" />
+          <ScalarProperty Name="codigo_usuario" ColumnName="codigo_usuario" />
+          <ScalarProperty Name="codigo_alerta" ColumnName="codigo_alerta" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Configuracion_Alerta">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Configuracion_Alerta">
+        <MappingFragment StoreEntitySet="Configuracion_Alerta">
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="es_plazo_dinamico" ColumnName="es_plazo_dinamico" />
+          <ScalarProperty Name="antes_despues" ColumnName="antes_despues" />
+          <ScalarProperty Name="tipo_alerta" ColumnName="tipo_alerta" />
+          <ScalarProperty Name="tipo_plazo" ColumnName="tipo_plazo" />
+          <ScalarProperty Name="plazo" ColumnName="plazo" />
+          <ScalarProperty Name="codigo_tipo_notificacion" ColumnName="codigo_tipo_notificacion" />
+          <ScalarProperty Name="codigo_evento" ColumnName="codigo_evento" />
+          <ScalarProperty Name="codigo_alerta" ColumnName="codigo_alerta" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Evento">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Evento">
+        <MappingFragment StoreEntitySet="Evento">
+          <ScalarProperty Name="url_navegacion" ColumnName="url_navegacion" />
+          <ScalarProperty Name="asunto" ColumnName="asunto" />
+          <ScalarProperty Name="datos_plantilla" ColumnName="datos_plantilla" />
+          <ScalarProperty Name="sentencia" ColumnName="sentencia" />
+          <ScalarProperty Name="plantilla" ColumnName="plantilla" />
+          <ScalarProperty Name="tipo_plantilla" ColumnName="tipo_plantilla" />
+          <ScalarProperty Name="tipo_evento" ColumnName="tipo_evento" />
+          <ScalarProperty Name="fecha_fin" ColumnName="fecha_fin" />
+          <ScalarProperty Name="fecha_inicio" ColumnName="fecha_inicio" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="codigo_evento" ColumnName="codigo_evento" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Mensaje_Aplicativo">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Mensaje_Aplicativo">
+        <MappingFragment StoreEntitySet="Mensaje_Aplicativo">
+          <ScalarProperty Name="asunto" ColumnName="asunto" />
+          <ScalarProperty Name="fecha_hora_lectura" ColumnName="fecha_hora_lectura" />
+          <ScalarProperty Name="cuerpo_mensaje" ColumnName="cuerpo_mensaje" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="codigo_usuario" ColumnName="codigo_usuario" />
+          <ScalarProperty Name="codigo_evento" ColumnName="codigo_evento" />
+          <ScalarProperty Name="codigo_mensaje_aplicativo" ColumnName="codigo_mensaje_aplicativo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Mensaje_Correo">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Mensaje_Correo">
+        <MappingFragment StoreEntitySet="Mensaje_Correo">
+          <ScalarProperty Name="fecha_hora_envio" ColumnName="fecha_hora_envio" />
+          <ScalarProperty Name="cuerpo_mensaje" ColumnName="cuerpo_mensaje" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="codigo_usuario" ColumnName="codigo_usuario" />
+          <ScalarProperty Name="codigo_evento" ColumnName="codigo_evento" />
+          <ScalarProperty Name="codigo_mensaje_correo" ColumnName="codigo_mensaje_correo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Flujo_Estado_Informe_Auditoria">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Flujo_Estado_Informe_Auditoria">
+        <MappingFragment StoreEntitySet="Flujo_Estado_Informe_Auditoria">
+          <ScalarProperty Name="comentario" ColumnName="comentario" />
+          <ScalarProperty Name="estado_actual" ColumnName="estado_actual" />
+          <ScalarProperty Name="estado_anterior" ColumnName="estado_anterior" />
+          <ScalarProperty Name="fecha_hora" ColumnName="fecha_hora" />
+          <ScalarProperty Name="codigo_usuario" ColumnName="codigo_usuario" />
+          <ScalarProperty Name="codigo_informe_auditoria" ColumnName="codigo_informe_auditoria" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Portlet_Definicion">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Portlet_Definicion">
+        <MappingFragment StoreEntitySet="Portlet_Definicion">
+          <ScalarProperty Name="valor_parametro_5" ColumnName="valor_parametro_5" />
+          <ScalarProperty Name="valor_parametro_4" ColumnName="valor_parametro_4" />
+          <ScalarProperty Name="valor_parametro_3" ColumnName="valor_parametro_3" />
+          <ScalarProperty Name="valor_parametro_2" ColumnName="valor_parametro_2" />
+          <ScalarProperty Name="valor_parametro_1" ColumnName="valor_parametro_1" />
+          <ScalarProperty Name="orden_prioridad" ColumnName="orden_prioridad" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="codigo_portlet" ColumnName="codigo_portlet" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Grupo_Bandeja">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Grupo_Bandeja">
+        <MappingFragment StoreEntitySet="Grupo_Bandeja">
+          <ScalarProperty Name="predominancia" ColumnName="predominancia" />
+          <ScalarProperty Name="bandeja" ColumnName="bandeja" />
+          <ScalarProperty Name="fase" ColumnName="fase" />
+          <ScalarProperty Name="codigo_grupo" ColumnName="codigo_grupo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Organigrama_Entidad_Relacion">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Organigrama_Entidad_Relacion">
+        <MappingFragment StoreEntitySet="Organigrama_Entidad_Relacion">
+          <ScalarProperty Name="codigo_entidad" ColumnName="codigo_entidad" />
+          <ScalarProperty Name="codigo_entidad_version" ColumnName="codigo_entidad_version" />
+          <ScalarProperty Name="codigo_organigrama_segundario" ColumnName="codigo_organigrama_segundario" />
+          <ScalarProperty Name="tipo_asignacion" ColumnName="tipo_asignacion" />
+          <ScalarProperty Name="codigo_organigrama_principal" ColumnName="codigo_organigrama_principal" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Flujo_Estado_Informe_Seguimiento">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Flujo_Estado_Informe_Seguimiento">
+        <MappingFragment StoreEntitySet="Flujo_Estado_Informe_Seguimiento">
+          <ScalarProperty Name="comentario" ColumnName="comentario" />
+          <ScalarProperty Name="estado_actual" ColumnName="estado_actual" />
+          <ScalarProperty Name="estado_anterior" ColumnName="estado_anterior" />
+          <ScalarProperty Name="fecha_hora" ColumnName="fecha_hora" />
+          <ScalarProperty Name="codigo_usuario" ColumnName="codigo_usuario" />
+          <ScalarProperty Name="codigo_informe_seguimiento" ColumnName="codigo_informe_seguimiento" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Flujo_Estado_Plan_Accion">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Flujo_Estado_Plan_Accion">
+        <MappingFragment StoreEntitySet="Flujo_Estado_Plan_Accion">
+          <ScalarProperty Name="comentario" ColumnName="comentario" />
+          <ScalarProperty Name="estado_actual" ColumnName="estado_actual" />
+          <ScalarProperty Name="estado_anterior" ColumnName="estado_anterior" />
+          <ScalarProperty Name="fecha_hora" ColumnName="fecha_hora" />
+          <ScalarProperty Name="codigo_usuario" ColumnName="codigo_usuario" />
+          <ScalarProperty Name="codigo_plan_accion" ColumnName="codigo_plan_accion" />
+          <ScalarProperty Name="codigo_plan_accion_version" ColumnName="codigo_plan_accion_version" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Presentacion_Plan_Accion">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Presentacion_Plan_Accion">
+        <MappingFragment StoreEntitySet="Presentacion_Plan_Accion">
+          <ScalarProperty Name="fecha_hora_modificacion" ColumnName="fecha_hora_modificacion" />
+          <ScalarProperty Name="codigo_usuario_modificacion" ColumnName="codigo_usuario_modificacion" />
+          <ScalarProperty Name="fecha_hora_creacion" ColumnName="fecha_hora_creacion" />
+          <ScalarProperty Name="codigo_usuario_creacion" ColumnName="codigo_usuario_creacion" />
+          <ScalarProperty Name="observacion_presentacion" ColumnName="observacion_presentacion" />
+          <ScalarProperty Name="cargo_recibe" ColumnName="cargo_recibe" />
+          <ScalarProperty Name="nombre_recibe" ColumnName="nombre_recibe" />
+          <ScalarProperty Name="numero_identidad_recibe" ColumnName="numero_identidad_recibe" />
+          <ScalarProperty Name="cargo_entrega" ColumnName="cargo_entrega" />
+          <ScalarProperty Name="nombre_entrega" ColumnName="nombre_entrega" />
+          <ScalarProperty Name="numero_identidad_entrega" ColumnName="numero_identidad_entrega" />
+          <ScalarProperty Name="fecha_oficio" ColumnName="fecha_oficio" />
+          <ScalarProperty Name="numero_oficio" ColumnName="numero_oficio" />
+          <ScalarProperty Name="fecha_presentacion" ColumnName="fecha_presentacion" />
+          <ScalarProperty Name="codigo_informe_auditoria" ColumnName="codigo_informe_auditoria" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Despacho_Correo_Alertas">
+      <EntityTypeMapping TypeName="tsc_his_db_dev_entities.Despacho_Correo_Alertas">
+        <MappingFragment StoreEntitySet="Despacho_Correo_Alertas">
+          <ScalarProperty Name="detalle_envio" ColumnName="detalle_envio" />
+          <ScalarProperty Name="fue_enviado" ColumnName="fue_enviado" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="Control_Controlador_Accion" TypeName="tsc_his_db_dev_entities.Control_Controlador_Accion" StoreEntitySet="Control_Controlador_Accion">
+      <EndProperty Name="Controlador_Accion">
+        <ScalarProperty Name="codigo_controlador_accion" ColumnName="codigo_controlador_accion" />
+      </EndProperty>
+      <EndProperty Name="Control">
+        <ScalarProperty Name="codigo_control" ColumnName="codigo_control" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="Grupo_Control" TypeName="tsc_his_db_dev_entities.Grupo_Control" StoreEntitySet="Grupo_Control">
+      <EndProperty Name="Grupo">
+        <ScalarProperty Name="codigo_grupo" ColumnName="codigo_grupo" />
+      </EndProperty>
+      <EndProperty Name="Control">
+        <ScalarProperty Name="codigo_control" ColumnName="codigo_control" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="Menu_Favorito" TypeName="tsc_his_db_dev_entities.Menu_Favorito" StoreEntitySet="Menu_Favorito">
+      <EndProperty Name="Usuario">
+        <ScalarProperty Name="codigo_usuario" ColumnName="codigo_usuario" />
+      </EndProperty>
+      <EndProperty Name="Menu">
+        <ScalarProperty Name="codigo_menu" ColumnName="codigo_menu" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>

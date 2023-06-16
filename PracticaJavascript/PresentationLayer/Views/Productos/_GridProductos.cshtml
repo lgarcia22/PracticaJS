@@ -1,0 +1,200 @@
+﻿@using DataEntityLayer.Models.Productos;
+@{
+    string idDxGrid = "GridProductos";
+}
+
+@(Html.DevExtreme().DataGrid<ProductosModel>().DataSource(ds => ds
+  .Mvc()
+  .Controller("Productos")
+  .LoadAction("GetProductos")
+  // .InsertAction("AgregarProductos")//metodo que indica que insertará datos al grid
+  //.UpdateAction("ActualizarProductos")//metodo que indica que actualizará datos al grid
+  //.DeleteAction("EliminarProductos")//metodo que indica que actualizará datos al grid
+  .Key("productID"))
+  .ID(idDxGrid)
+  //.Editing(e =>
+  //{
+  //    e.AllowAdding(true);
+  //    e.AllowUpdating(true);
+  //    e.AllowDeleting(true);
+  //    e.Mode(GridEditMode.Row);
+  //})
+  .Columns(columns =>
+  {
+      columns.AddFor(m => m.productID).Width(80);
+      columns.AddFor(m => m.productName).AllowEditing(true);
+      columns.AddFor(m => m.supplier).Lookup(l => l.DataSource(dt =>
+          dt.Mvc().Controller("Productos")
+         .LoadAction("ObtenerProveedor")
+         .Key("SupplierID"))
+         .ValueExpr("SupplierID")
+         .DisplayExpr("CompanyName")
+
+         );
+      columns.AddFor(m => m.category).Lookup(l => l.DataSource(dt =>
+        dt.Mvc().Controller("Productos")
+        .LoadAction("ObtenerCategoria")
+        .Key("CategoryID"))
+        .ValueExpr("CategoryID")
+        .DisplayExpr("CategoryName")
+  );
+      columns.AddFor(m => m.quantityPerUnit).AllowEditing(true);
+      columns.AddFor(m => m.unitPrice).AllowEditing(true);
+      columns.AddFor(m => m.unitsInStock).AllowEditing(true);
+      columns.AddFor(m => m.unitsOnOrder).AllowEditing(true);
+      columns.AddFor(m => m.reorderLevel).AllowEditing(true);
+      columns.AddFor(m => m.discontinued).AllowEditing(true);
+
+      //columns.Add().Type(GridCommandColumnType.Buttons).Buttons(b =>
+      //{
+      //    b.Add().Name(GridColumnButtonName.Save)
+      //    .Text("Guardar").Hint("Guardar");
+
+      //    b.Add().Name(GridColumnButtonName.Edit)
+      //    .Text("Editar").Hint("Editar");
+
+      //    b.Add().Name(GridColumnButtonName.Delete)
+      //    .Text("Eliminar").Hint("Eliminar");
+
+      //    b.Add().Name(GridColumnButtonName.Cancel)
+      //   .Text("Cancelar").Hint("Cancelar");
+
+      //}).Caption("Acciones");
+  })
+  .ShowBorders(true)
+  .SearchPanel(p => p.Visible(true).Width(210).Placeholder("Buscar..."))
+  .Paging(paging => paging.PageSize(10)).LoadPanel(lp => lp.Text("Cargando..."))
+  .FilterRow(f => f.Visible(true).ResetOperationText("Eliminar Filtros")
+  .BetweenStartText("Inicio").BetweenEndText("Fin")
+  .OperationDescriptions(o => o.Between("Entre").LessThan("Menor a")
+  .GreaterThan("Mayor a").Equal("Igual a").Contains("Contiene")
+  .GreaterThanOrEqual("Mayor o igual a").LessThanOrEqual("Menor o igual a")
+  .NotEqual("Distinto a").NotContains("No contiene").StartsWith("Empieza con")
+  .EndsWith("Termina con")))
+  .HeaderFilter(h => h.Visible(true).Texts(t => t.Ok("Aceptar").Cancel("Cancelar")))
+  .ShowColumnLines(true)
+  .ShowRowLines(true)
+  @*.OnRowUpdated(@<Text> function(e) {console.log(e); Alert(e.data.message, "success");}</Text>)
+  .OnRowInserted(@<Text> function(e) {console.log(e); Alert(e.data.message, "success");}</Text>)
+  .OnRowRemoved(@<Text> function(e) {console.log(e); Alert("Registro Eliminado", "success");}</Text>)*@
+  .RowAlternationEnabled(true)
+  .HoverStateEnabled(true)
+  .Pager(pager =>
+  {
+      pager.ShowPageSizeSelector(true);
+      pager.AllowedPageSizes(new List<int> { 5, 10, 20 });
+      pager.ShowInfo(true);
+      pager.Visible(true);pager.InfoText("Página {0} de {1} ({2} registro(s))");
+  })
+  .ColumnResizingMode(ColumnResizingMode.Widget)
+  .AllowColumnReordering(true)
+  .AllowColumnResizing(true)
+  .Selection(s => s.Mode(SelectionMode.Single))
+  .ColumnHidingEnabled(true)
+  .NoDataText("No hay información")
+  .ColumnChooser(c => c.Enabled(true).AllowSearch(true)
+  .Title("Columnas Ocultas")
+  .EmptyPanelText("Arrastre una columna aquí para ocultarla"))
+  .ColumnFixing(c => c.Enabled(true))
+  .OnSelectionChanged("FilaSeleccionada")
+  .Scrolling(scrolling => scrolling
+  .ColumnRenderingMode(GridColumnRenderingMode.Virtual)
+  .ShowScrollbar(ShowScrollbarMode.Always))
+  .Export(e => e.Enabled(true).AllowExportSelectedData(true)
+  .Texts(c => c.ExportAll("Exportar Todo")
+  .ExportSelectedRows("Exportar Filas Seleccionadas")
+  .ExportTo("Exportar XLSX")))
+  .OnExporting(@<text>(e) => ExportarXls("@idDxGrid", "Productos")</text>)
+        .WordWrapEnabled(true)
+        .Toolbar(toolbar =>
+        {
+            toolbar.Items(items =>
+            {
+
+                items.Add().Location(ToolbarItemLocation.Before)
+        .LocateInMenu(ToolbarItemLocateInMenuMode.Auto)
+        .Widget(w =>
+        w.Button()
+        .ID("Detallar")
+        .Icon("fa-solid-eye")
+        .Hint("Detallar")
+        .Text("Detallar")
+        .OnClick("AbrirDetalleProducto")
+        .Disabled(true)
+        );
+
+                items.Add().Location(ToolbarItemLocation.Before)
+        .LocateInMenu(ToolbarItemLocateInMenuMode.Auto)
+        .Widget(w =>
+        w.Button()
+        .ID("Agregar")
+        .Icon("add")
+        .Hint("Agregar")
+        .Text("Agregar")
+        .OnClick("AbrirPopupProductos")
+        );
+
+                items.Add().Location(ToolbarItemLocation.Before)
+        .LocateInMenu(ToolbarItemLocateInMenuMode.Auto)
+        .Widget(w =>
+        w.Button()
+        .ID("Editar")
+        .Icon("edit")
+        //.Icon("fa-solid-eye")
+        .Hint("Editar")
+        .Text("Editar")
+        .OnClick("AbrirPopupEditarProductos")
+        .Disabled(true)
+        );
+
+                items.Add().Location(ToolbarItemLocation.Before)
+        .LocateInMenu(ToolbarItemLocateInMenuMode.Auto)
+        .Widget(w =>
+        w.Button()
+        .ID("Eliminar")
+        .Icon("trash")
+        .Hint("Eliminar")
+        .Text("Eliminar")
+        .OnClick("AbrirPopupEliminarProductos")
+        .Disabled(true)
+        );
+
+                items.Add().Location(ToolbarItemLocation.After)
+          .LocateInMenu(ToolbarItemLocateInMenuMode.Auto)
+          .Widget(w =>
+          w.Button()
+          .ID("Refrescar")
+          .Icon("refresh")
+          .Hint("Refrescar")
+          .Text("")
+          .OnClick(@<text>function(e) { RefrescarGrid("@idDxGrid")}</text>)
+          );
+
+          items.Add()
+          .Location(ToolbarItemLocation.After)
+          .Widget(w =>
+          w.Button()
+          .ID("exportCSV")
+          .Icon("export")
+          .Hint("Exportar CSV")
+          .Text("")
+          .OnClick(@<text>(e) => ExportarCsv("@idDxGrid", "ProductosCSV")</text>)
+          );
+
+          items.Add()
+          .Location(ToolbarItemLocation.After)
+          .Widget(w =>
+          w.Button()
+          .ID("exportPDF")
+          .Icon("pdffile")
+          .Hint("Exportar PDF")
+          .Text("")
+          .OnClick(@<text>(e) => ExportarPdf("@idDxGrid", "ProductosPDF")</text>)
+          );
+
+          items.Add().Name("exportButton").LocateInMenu(ToolbarItemLocateInMenuMode.Auto);
+          items.Add().Name("columnChooserButton").LocateInMenu(ToolbarItemLocateInMenuMode.Auto);
+          items.Add().Name("searchPanel").Location(ToolbarItemLocation.After).LocateInMenu(ToolbarItemLocateInMenuMode.Auto);
+      });
+  })
+)

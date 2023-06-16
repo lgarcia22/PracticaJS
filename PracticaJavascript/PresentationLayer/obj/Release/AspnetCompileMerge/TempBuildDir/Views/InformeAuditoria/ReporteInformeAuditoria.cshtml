@@ -1,0 +1,33 @@
+﻿@using DataAccessLayer.Util;
+@{ 
+    int codigoInforme = ViewBag.codigoInforme;
+    string urlMenuEncrip = ViewBag.urlMenuEncrip;
+    string codInfEncrip = ViewBag.codInfEncrip;
+}
+
+<nav aria-label="breadcrumb" class="menu">
+    <ol class="breadcrumb">
+        @if (ViewBag.urlMenu == UtilClass.bandejaNoNotificado)
+        {
+            <li class="breadcrumb-item"><a href="@Url.Action("DetalleInformeAuditoria","InformeAuditoria" )?codInf=@codInfEncrip&urlMenu=@urlMenuEncrip">Detalle Informe de Auditoría</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Reporte Informe de Auditoría</li>
+        }
+        <li class="breadcrumb-item">
+            @if (ViewBag.urlMenu == UtilClass.bandejaNotificado)
+            {
+                <a href="@Url.Action("Index","InformeAuditoria" )?urlMenu=@ViewBag.urlMenu"> Informes Notificados</a>
+            }
+            @if (ViewBag.urlMenu == UtilClass.bandejaVerificado)
+            {
+                <a href="@Url.Action("Index","InformeAuditoria" )?urlMenu=@ViewBag.urlMenu"> Informes Verificados</a>
+            }
+        </li>
+    </ol>
+</nav>
+@{
+    var viewerRender = Html.DevExpress().WebDocumentViewer(settings =>
+    {
+        settings.Name = "WebDocumentViewer";
+    }).Bind(Model);
+    @viewerRender.GetHtml()
+}

@@ -1,0 +1,123 @@
+﻿@using DataEntityLayer.Models.Pantalla1;
+@{
+    string idDxGrid = "Grid1";
+}
+
+@(Html.DevExtreme().DataGrid<Pantalla1Model>().DataSource(ds => ds
+  .Mvc()
+  .Controller("Pantalla1")
+  .LoadAction("GetPersonas")
+  .Key("Nombre", "Apellido"))
+  .ID(idDxGrid)
+  .Editing(ed =>
+  {
+      ed.AllowUpdating(true);
+      ed.Mode(GridEditMode.Cell);
+  })
+  .Columns(columns =>
+  {
+      columns.AddFor(m => m.Nombre);
+      columns.AddFor(m => m.Apellido);
+      columns.AddFor(m => m.Edad);
+      columns.AddFor(m => m.Identidad);
+      columns.AddFor(m => m.Conyuge);
+      columns.AddFor(m => m.Fecha_Inicial).DataType(GridColumnDataType.Date).Format("dd/MM/yyyy");
+      columns.AddFor(m => m.Fecha_Final).DataType(GridColumnDataType.Date).Format("dd/MM/yyyy");
+
+
+  })
+  .ShowBorders(true)
+  .SearchPanel(p => p.Visible(true).Width(210).Placeholder("Buscar..."))
+  .Paging(paging => paging.PageSize(10)).LoadPanel(lp => lp.Text("Cargando..."))
+  .FilterRow(f => f.Visible(true).ResetOperationText("Eliminar Filtros").BetweenStartText("Inicio").BetweenEndText("Fin").OperationDescriptions(o => o.Between("Entre").LessThan("Menor a").GreaterThan("Mayor a").Equal("Igual a").Contains("Contiene").GreaterThanOrEqual("Mayor o igual a").LessThanOrEqual("Menor o igual a").NotEqual("Distinto a").NotContains("No contiene").StartsWith("Empieza con").EndsWith("Termina con")))
+  .HeaderFilter(h => h.Visible(true).Texts(t => t.Ok("Aceptar").Cancel("Cancelar")))
+  .ShowColumnLines(true)
+  .ShowRowLines(true)
+  .RowAlternationEnabled(true)
+  .HoverStateEnabled(true)
+  .Pager(pager =>
+  {
+      pager.ShowPageSizeSelector(true);
+      pager.AllowedPageSizes(new List<int> { 5, 10, 20 });
+      pager.ShowInfo(true);
+      pager.Visible(true);pager.InfoText("Página {0} de {1} ({2} registro(s))");
+  })
+  .ColumnResizingMode(ColumnResizingMode.Widget)
+  .AllowColumnReordering(true)
+  .AllowColumnResizing(true)
+  .Selection(s => s.Mode(SelectionMode.Multiple))
+  .ColumnHidingEnabled(true)
+  .NoDataText("No hay información")
+  .ColumnChooser(c => c.Enabled(true).AllowSearch(true).Title("Columnas Ocultas").EmptyPanelText("Arrastre una columna aquí para ocultarla"))
+  .ColumnFixing(c => c.Enabled(true))
+  .OnSelectionChanged("SeleccionFila")
+  .Scrolling(scrolling => scrolling.ColumnRenderingMode(GridColumnRenderingMode.Virtual).ShowScrollbar(ShowScrollbarMode.Always))
+  .Export(e => e.Enabled(true).AllowExportSelectedData(true).Texts(c => c.ExportAll("Exportar Todo").ExportSelectedRows("Exportar Filas Seleccionadas").ExportTo("Exportar XLSX")))
+  //.OnExporting(@<text>(e) => ExportToXls("@idDxGrid", "NombrePantalla", "NombrePantalla")</text>)
+  .WordWrapEnabled(true)
+  .Toolbar(toolbar =>
+  {
+      toolbar.Items(items =>
+      {
+
+          items.Add().Location(ToolbarItemLocation.Before)
+           .LocateInMenu(ToolbarItemLocateInMenuMode.Auto)
+           .Widget(w =>
+           w.Button()
+           .ID("Agregar")
+           .Icon("add")
+           .Hint("Agregar")
+           .Text("Agregar")
+           .OnClick(@<text>function(e) { AbrirPopupAgregar()}</text>)
+           );
+
+          items.Add().Location(ToolbarItemLocation.Before)
+           .LocateInMenu(ToolbarItemLocateInMenuMode.Auto)
+           .Widget(w =>
+           w.Button()
+           .ID("boton2")
+           .Icon("add")
+           .Hint("boton2")
+           .Text("boton2")     
+           .Disabled(true)
+           );
+
+          items.Add().Location(ToolbarItemLocation.After)
+            .LocateInMenu(ToolbarItemLocateInMenuMode.Auto)
+            .Widget(w =>
+            w.Button()
+            .ID("Refrescar")
+            .Icon("refresh")
+            .Hint("Refrescar")
+            .Text("")
+            .OnClick(@<text>function(e) { RefrescarGrid("@idDxGrid")}</text>)
+            );
+
+          items.Add()
+          .Location(ToolbarItemLocation.After)
+          .Widget(w =>
+          w.Button()
+          .ID("exportCSV")
+          .Icon("export")
+          .Hint("Exportar CSV")
+          .Text("")
+          //.OnClick(@<text>(e) => ExportarCsv("@idDxGrid", "Seguimiento_Recomendacion")</text>)
+          );
+
+          items.Add()
+          .Location(ToolbarItemLocation.After)
+          .Widget(w =>
+          w.Button()
+          .ID("exportPDF")
+          .Icon("pdffile")
+          .Hint("Exportar PDF")
+          .Text("")
+          //.OnClick(@<text>(e) => ExportarPdf("@idDxGrid", "Seguimiento de Recomendaciones")</text>)
+          );
+
+          items.Add().Name("exportButton").LocateInMenu(ToolbarItemLocateInMenuMode.Auto);
+          items.Add().Name("columnChooserButton").LocateInMenu(ToolbarItemLocateInMenuMode.Auto);
+          items.Add().Name("searchPanel").Location(ToolbarItemLocation.After).LocateInMenu(ToolbarItemLocateInMenuMode.Auto);
+      });
+  })
+)

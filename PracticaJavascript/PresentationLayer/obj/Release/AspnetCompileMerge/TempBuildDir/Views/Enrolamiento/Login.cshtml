@@ -1,0 +1,175 @@
+﻿@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var Error = TempData["ErrorLogin"];
+}
+@using DataEntityLayer.Models;
+@using reCAPTCHA.MVC
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4 col-12 form-signin">
+            <div class="long-title" style="text-align:center; padding-bottom:10px"><h3>Iniciar Sesión</h3></div>
+            @using (Html.BeginForm("Login", "Account", new { url = ViewBag.ReturnURL }, FormMethod.Post, new { @id = "form_login", @onsubmit = "return miFuncion(this)" }))
+            {
+                @(Html.DevExtreme().Form<Login>()
+                                                .ID("form")
+                                                .LabelLocation(FormLabelLocation.Top)
+                                                .LabelMode(FormLabelMode.Outside)
+                                                .Items(items =>
+                                                {
+                                                    items.AddSimpleFor(m => m.usuario).Editor(e => e.TextBox().Name("Usuario")
+                                                    .Buttons(buttons =>
+                                                    {
+                                                        buttons.Add()
+                                                            .Name("usuario")
+                                                            .Location(TextEditorButtonLocation.After)
+                                                            .Widget(w => w.Button()
+                                                                .Type(ButtonType.Back)
+                                                                .Icon("fas fa-user-circle"));
+                                                    }))
+                                                    .ValidationRules(r => r.AddRequired().Message("Usuario requerido"));
+
+                                                    items.AddSimpleFor(m => m.contrasena).Editor(e => e.TextBox().Mode(DevExtreme.AspNet.Mvc.TextBoxMode.Password)
+                                                    .StylingMode(EditorStylingMode.Filled)
+                                                    .ID("password")
+                                                    .Buttons(buttons =>
+                                                    {
+                                                        buttons.Add()
+                                                            .Name("password")
+                                                            .Location(TextEditorButtonLocation.After)
+                                                            .Widget(w => w.Button()
+                                                                .Type(ButtonType.Back)
+                                                                .Icon("fas fa-eye")
+                                                                .OnClick("changePasswordMode"));
+                                                    }))
+                                                    .ValidationRules(r => r.AddRequired().Message("Contraseña requerida")
+                                                    );
+
+                                                    items.AddSimple().Template(new TemplateName("catchat"));
+
+
+                                                    items.AddButton()
+                                                            .HorizontalAlignment(HorizontalAlignment.Right)
+                                                            .ButtonOptions(b => b.Text("Acceder").ElementAttr("name", "BtnAcceder")
+                                                            .Type(DevExtreme.AspNet.Mvc.ButtonType.Default)
+                                                            .UseSubmitBehavior(true)
+                                                        );
+
+                                                })
+                                                    .OnContentReady(@<text>
+                                                        function(e) {
+                                                        e.component.validate();
+                                                        }
+                                                    </text>)
+                        .FormData(Model)
+                )
+            }
+        </div>
+        <div class="col-sm-8 slider " >
+            <div  id="slider">
+
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+
+@using (Html.DevExtreme().NamedTemplate("catchat"))
+{
+    @(Html.DevExtreme().ScrollView().ID("scrollView").Height("auto").ShowScrollbar(ShowScrollbarMode.Never).Width("auto")
+                            .Content(@<text> <div>
+                                    @Html.Recaptcha()
+                                    @Html.ValidationMessage("ReCaptcha", new { @class = "text-danger" })
+                                    <span id="recaptchaMsg" class="text-danger"></span>
+                                </div>
+                            </text>))
+
+}
+
+<script src="https://www.google.com/recaptcha/api.js"></script>
+<script>
+
+    $(document).ready(function ()
+    {
+        renderslider();
+        if ('@Error' != "No data")
+        {
+            Alert('@Error', "error");
+        }
+    });
+
+    function changePasswordMode() {
+        var passwordEditor = $("#password").dxTextBox("instance");
+        passwordEditor.option("mode", passwordEditor.option("mode") === "text" ? "password" : "text");
+    }
+
+    function miFuncion(a) {
+        var response = grecaptcha.getResponse();
+        
+        if (response.length == 0) {
+            $('#recaptchaMsg').text("El Captcha es requerido.");
+            return false;
+            event.preventDefault();
+        } 
+        else {
+            $('#recaptchaMsg').text("");
+            return true;
+        }
+    }
+
+    function renderslider()
+    {
+        $.ajax({
+            url: '@Url.Action("_Slider", "Slider")',
+            type: 'POST',
+            cache: false,
+            success: function (response)
+            {
+                $("#slider").html(response);
+            },
+            error: function (error)
+            {
+                Alert(error.statusText, "error");
+            }
+            });
+     }
+
+     function ValidaUsuario()
+     {
+         var validacion = DevExpress.validationEngine.validateGroup("formLoginValidate");
+         if (validacion.isValid === true)
+         {
+              var datos = $("#formLogin").dxForm("instance").option("formData");
+             $.ajax({
+                url: '@Url.Action("ValidarUsuario", "Account")',
+                type: 'POST',
+                 cache: false,
+                 data: datos,
+                success: function (response)
+                {
+                    redirect(datos);
+                },
+                error: function (error)
+                {
+                    Alert(error.statusText, "error");
+                }
+        });
+         }
+         else
+         {
+             Alert("Complete todos los campos", "error");
+         }
+     }
+
+     function redirect(datos)
+     {
+          window.location.href = '@Url.Action("Login", "Account")?User=' + datos.Usuario + '&Password=' +  datos.Contrasena+ '&Url=' +  '@ViewBag.ReturnURL';
+
+
+     }
+
+</script>
+

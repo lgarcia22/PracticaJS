@@ -1,0 +1,14 @@
+C:\Users\GO-0012\Desktop\Arnold_Colindres\SISERA\sisera-tsc\DataEntityLayer\bin\Release\DataEntityLayer.dll.config
+C:\Users\GO-0012\Desktop\Arnold_Colindres\SISERA\sisera-tsc\DataEntityLayer\bin\Release\DataEntityLayer.dll
+C:\Users\GO-0012\Desktop\Arnold_Colindres\SISERA\sisera-tsc\DataEntityLayer\bin\Release\DataEntityLayer.pdb
+C:\Users\GO-0012\Desktop\Arnold_Colindres\SISERA\sisera-tsc\DataEntityLayer\bin\Release\EntityFramework.dll
+C:\Users\GO-0012\Desktop\Arnold_Colindres\SISERA\sisera-tsc\DataEntityLayer\bin\Release\EntityFramework.SqlServer.dll
+C:\Users\GO-0012\Desktop\Arnold_Colindres\SISERA\sisera-tsc\DataEntityLayer\bin\Release\Newtonsoft.Json.dll
+C:\Users\GO-0012\Desktop\Arnold_Colindres\SISERA\sisera-tsc\DataEntityLayer\bin\Release\EntityFramework.xml
+C:\Users\GO-0012\Desktop\Arnold_Colindres\SISERA\sisera-tsc\DataEntityLayer\bin\Release\EntityFramework.SqlServer.xml
+C:\Users\GO-0012\Desktop\Arnold_Colindres\SISERA\sisera-tsc\DataEntityLayer\bin\Release\Newtonsoft.Json.xml
+C:\Users\GO-0012\Desktop\Arnold_Colindres\SISERA\sisera-tsc\DataEntityLayer\obj\Release\DataEntityLayer.csprojAssemblyReference.cache
+C:\Users\GO-0012\Desktop\Arnold_Colindres\SISERA\sisera-tsc\DataEntityLayer\obj\Release\DataEntityLayer.csproj.CoreCompileInputs.cache
+C:\Users\GO-0012\Desktop\Arnold_Colindres\SISERA\sisera-tsc\DataEntityLayer\obj\Release\DataEntityLayer.csproj.CopyComplete
+C:\Users\GO-0012\Desktop\Arnold_Colindres\SISERA\sisera-tsc\DataEntityLayer\obj\Release\DataEntityLayer.dll
+C:\Users\GO-0012\Desktop\Arnold_Colindres\SISERA\sisera-tsc\DataEntityLayer\obj\Release\DataEntityLayer.pdb

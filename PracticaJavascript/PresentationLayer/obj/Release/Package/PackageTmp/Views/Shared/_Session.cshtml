@@ -1,0 +1,15 @@
+﻿<script type="text/javascript">
+   
+    $(document).ajaxSuccess(function (event, xhr, settings) {
+        if (event.type = "ajaxSuccess" && settings.url !="/Account/RenewSession") {
+              RenovarSesion();
+        }
+    });
+
+    function RenovarSesion()
+    {
+        $.get("@Url.Action("RenewSession", "Account")", function (response) {
+            
+        });
+    }
+</script>

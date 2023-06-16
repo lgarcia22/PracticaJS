@@ -1,0 +1,32 @@
+﻿@(Html.DevExtreme().Popup()
+                                    .ID("PopAdendaPlaAccion")
+                                    .Width("80%")
+                                    .Height("500px")
+                                    .Visible(false)
+                                    .CloseOnOutsideClick(false)
+                                    .Position(pos => pos
+                                    .My(HorizontalAlignment.Center, VerticalAlignment.Center)
+                                    .At(HorizontalAlignment.Center, VerticalAlignment.Center)
+                                    .Of(new JS("window"))).ContentTemplate(new TemplateName("ContenidoAdenda"))
+)
+
+@using (Html.DevExtreme().NamedTemplate("ContenidoAdenda"))
+{
+    @(Html.DevExtreme().ScrollView()
+                       .ScrollByContent(true)
+                       .ScrollByThumb(true)
+                       .Height("100%")
+                       .ReachBottomText("Updating...")
+                       .ShowScrollbar(ShowScrollbarMode.OnScroll)
+                       .Direction(ScrollDirection.Both)
+                       .ID("scrollView")
+                       .Content(@<text>
+                        <div>
+                            <p class="spanInfo"><i  class="fa-solid fa-circle-info iclass "></i>Seleccionar uno o más de un registro y luego dar click en crear</p>
+                        </div>
+                        <div id="ContAdenda" style="padding-right:10px"></div>
+                    
+                    </text>)
+    )
+}
+

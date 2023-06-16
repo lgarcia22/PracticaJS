@@ -1,0 +1,55 @@
+investigar la forma de implementar web token 
+
+
+
+
+eliminar 
+error 
+exception
+succesmessage
+content
+
+typeressult 
+
+agregar 
+coderesult
+status 
+
+
+
+
+clases miscelania dejar en un solo archivo 
+
+
+parte de securidad pendiente validación por contexto
+
+
+
+
+en data acces manejo de regiones en clase scriptsql
+
+tener metodo de manejo de excepciones 
+
+
+mejorar parte de obtener mensajes de retorno 
+
+
+
+
+escribir bitacora 
+
+procedimientos que se deben pasar a procedimiento 
+
+
+
+
+
+grid  documentos 
+admin
+solicitudes
+documentos digitales 
+
+
+ayuda consultar con Isaias
+lista de pendientes metodos que nos debemos de pasar a bd
+

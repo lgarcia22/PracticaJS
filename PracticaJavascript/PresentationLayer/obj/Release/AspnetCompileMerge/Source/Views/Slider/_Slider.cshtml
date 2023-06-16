@@ -1,0 +1,20 @@
+﻿@using  DataEntityLayer.ModelsExtern
+@model SliderModel
+
+
+<div class="widget-container">
+    @(Html.DevExtreme().Gallery()
+                                        .ID("gallery")
+                                        /*.DataSource(ds => ds
+                                        .Mvc()
+                                        .Controller("Slider")
+                                        .LoadAction("GetImg")) */
+                                        .DataSource(Model.url)
+                                        .Height("auto")
+                                        .Loop(true)
+                                        .NoDataText("No hay imagenes disponibles")
+                                        .SlideshowDelay(8000)
+                                        .ShowNavButtons(false)
+                                        .ShowIndicator(true)
+    )
+</div>

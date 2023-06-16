@@ -1,0 +1,244 @@
+﻿@using DataEntityLayer.Models.Informes;
+@using DataAccessLayer.Util;
+@model InformeAuditoria
+
+<div class="row">
+    <div class="col-md-12">
+        <p class="encabezado-panel2">Generales Informe de Auditoría</p>
+    </div>
+</div>
+<div class="row " style="padding: 10px;">
+
+    <div class="col-lg-12">
+        @(Html.DevExtreme().Form<InformeAuditoria>()
+                                                                            .ID("formDatosInformeAuditoria")
+                                                                            .ColCount(3)
+                                                                            .FormData(Model)
+                                                                            .LabelLocation(FormLabelLocation.Left)
+                                                                            .ReadOnly(false)
+                                                                            .ShowColonAfterLabel(true)
+                                                                            .LabelMode(FormLabelMode.Outside)
+                                                                            .Items(items =>
+                                                                            {
+                                                                                items.AddGroup()
+                                                                                .Items(groupItems =>
+                                                                                {
+                                                                                    groupItems.AddSimpleFor(m => m.codigoInformeAuditoria)
+                                                                                            .Editor(e => e.NumberBox()
+                                                                                            .ReadOnly(ViewBag.isEditar)
+                                                                                            ).Visible(false);
+                                                                                    groupItems.AddSimpleFor(m => m.tema).Editor(E => E.TextArea().Name("tema").ID("tema").MaxLength(200)).IsRequired(true).ColSpan(2).Label(l => l.Text("Alcance")).Visible(false);
+                                                                                    groupItems.AddSimpleFor(m => m.codigoFuenteFinanciera).Editor(e => e.SelectBox()
+                                                                                                .Name("codigoFuenteFinanciera")
+                                                                                                .ID("codigoFuenteFinanciera")
+                                                                                                .DataSource(d => d.Mvc()
+                                                                                                                .Controller("Catalogo")
+                                                                                                                .LoadAction("GetFuente").Key("codigoFuenteFinanciera"))
+                                                                                                                .SearchEnabled(true)
+                                                                                                                .ShowClearButton(true)
+                                                                                                                .DisplayExpr("descripcion")
+                                                                                                                .ValueExpr("codigoFuenteFinanciera")
+                                                                                                ).IsRequired(true).ColSpan(1).Visible(false);
+                                                                                    groupItems.AddSimpleFor(m => m.rubro).Editor(E => E.TextArea().Name("rubro").ID("rubro").MaxLength(200)).IsRequired(true).ColSpan(2).Visible(false);
+                                                                                    groupItems.AddSimpleFor(m => m.numeroInforme)
+                                                                                            .Editor(e => e.TextBox()
+                                                                                            .ReadOnly(!ViewBag.isEditarCabI)
+                                                                                            ).IsRequired(true);
+                                                                                    groupItems.AddSimpleFor(m => m.codigoEstado)
+                                                                                           .Editor(e => e.SelectBox()
+                                                                                                                .Name("codigoEstado")
+                                                                                                                .ID("codigoEstado")
+                                                                                                                .DataSource(d => d.Mvc()
+                                                                                                                                .Controller("Catalogo")
+                                                                                                                                .LoadAction("GetEstadoInformeAuditoria").Key("codigoEstadoProceso"))
+                                                                                                                                .SearchEnabled(true)
+                                                                                                                                .ShowClearButton(true)
+                                                                                                                                .DisplayExpr("estadoProceso")
+                                                                                                                                .ValueExpr("codigoEstadoProceso")
+                                                                                                                .ReadOnly(true)
+                                                                                               );
+                                                                                    groupItems.AddSimpleFor(m => m.codigoCompuestoEntidadVersion)
+                                                                                           .Editor(e => e.SelectBox()
+                                                                                                        .Name("codigoEntidad")
+                                                                                                        .ID("codigoEntidad")
+                                                                                                        .DataSource(d => d.Mvc()
+                                                                                                                        .Controller("Catalogo")
+                                                                                                                        .LoadAction("GetEntidadFiscalizada").Key("codigoCompuestoEntidadVersion"))
+                                                                                                                        .SearchEnabled(true)
+                                                                                                                        .ShowClearButton(true)
+                                                                                                                        .DisplayExpr("nombre")
+                                                                                                                        .ValueExpr("codigoCompuestoEntidadVersion")
+                                                                                                                .ReadOnly(true)
+                                                                                               );
+                                                                                    groupItems.AddSimpleFor(m => m.codigoGeografico)
+                                                                                          .Editor(e => e.SelectBox()
+                                                                                                        .Name("codigoGeografico")
+                                                                                                        .ID("codigoGeografico")
+                                                                                                        .DataSource(d => d.Mvc()
+                                                                                                                        .Controller("Catalogo")
+                                                                                                                        .LoadAction("GetDepartamento").Key("codigoGeografico"))
+                                                                                                                        .SearchEnabled(true)
+                                                                                                                        .ShowClearButton(true)
+                                                                                                                        .DisplayExpr("nombre")
+                                                                                                                        .ValueExpr("codigoGeografico")
+                                                                                                               .ReadOnly(true)
+                                                                                              );
+                                                                                    groupItems.AddSimpleFor(m => m.codigoUsuarioAuditor)
+                                                                                           .Editor(e => e.SelectBox()
+                                                                                                        .Name("codigoUsuarioAuditor")
+                                                                                                        .ID("codigoUsuarioAuditor")
+                                                                                                        .DataSource(d => d.Mvc()
+                                                                                                                        .Controller("Catalogo")
+                                                                                                                        .LoadAction("GetUsuario").Key("codigoUsuario"))
+                                                                                                                        .SearchEnabled(true)
+                                                                                                                        .ShowClearButton(true)
+                                                                                                                        .DisplayExpr("usuario")
+                                                                                                                        .ValueExpr("codigoUsuario")
+                                                                                                                .ReadOnly(true)
+                                                                                               );
+                                                                                });
+                                                                                items.AddGroup()
+                                                                                .Items(groupItems =>
+                                                                                {
+                                                                                    groupItems.AddSimpleFor(m => m.fechaIngreso)
+                                                                                            .Editor(e => e.DateBox().ReadOnly(!ViewBag.isEditarCabI).Type(DateBoxType.DateTime)
+                                                                                                .DisplayFormat("dd/MM/yyyy HH:mm:ss")
+                                                                                                ).IsRequired(true);
+                                                                                    groupItems.AddSimpleFor(m => m.fechaInicio)
+                                                                                            .Editor(e => e.DateBox().ReadOnly(true)
+                                                                                                .DisplayFormat("dd/MM/yyyy")
+                                                                                                ).Label(e => e.Text("Periodo de Fiscalización Del"));
+                                                                                    groupItems.AddSimpleFor(m => m.codigoEntidadAuditora)
+                                                                                           .Editor(e => e.SelectBox()
+                                                                                                        .Name("codigoEntidadAuditora")
+                                                                                                        .ID("codigoEntidadAuditora")
+                                                                                                        .DataSource(d => d.Mvc()
+                                                                                                                        .Controller("Catalogo")
+                                                                                                                        .LoadAction("GetEntidadAuditora").Key("codigoEntidad"))
+                                                                                                                        .SearchEnabled(true)
+                                                                                                                        .ShowClearButton(true)
+                                                                                                                        .DisplayExpr("descripcion")
+                                                                                                                        .ValueExpr("codigoEntidad")
+                                                                                                                .ReadOnly(true)
+                                                                                               );
+                                                                                    groupItems.AddSimpleFor(m => m.codigoGeograficoMunicipio)
+                                                                                          .Editor(e => e.SelectBox()
+                                                                                                        .Name("codigoGeograficoMunicipio")
+                                                                                                        .ID("codigoGeograficoMunicipio")
+                                                                                                        .DataSource(d => d.Mvc()
+                                                                                                                        .Controller("Catalogo")
+                                                                                                                        .LoadAction("GetMunicipioGrid").Key("codigoGeografico"))
+                                                                                                                        .SearchEnabled(true)
+                                                                                                                        .ShowClearButton(true)
+                                                                                                                        .DisplayExpr("nombre")
+                                                                                                                        .ValueExpr("codigoGeografico")
+                                                                                                               .ReadOnly(!ViewBag.isEditarCabI)
+                                                                                              );
+                                                                                    groupItems.AddSimpleFor(m => m.codigoUsuarioSupervisor)
+                                                                                           .Editor(e => e.SelectBox()
+                                                                                                        .Name("codigoUsuarioSupervisor")
+                                                                                                        .ID("codigoUsuarioSupervisor")
+                                                                                                        .DataSource(d => d.Mvc()
+                                                                                                                        .Controller("Catalogo")
+                                                                                                                        .LoadAction("GetUsuario").Key("codigoUsuario"))
+                                                                                                                        .SearchEnabled(true)
+                                                                                                                        .ShowClearButton(true)
+                                                                                                                        .DisplayExpr("usuario")
+                                                                                                                        .ValueExpr("codigoUsuario")
+                                                                                                                .ReadOnly(true)
+                                                                                               );
+                                                                                });
+                                                                                items.AddGroup()
+                                                                                .Items(groupItems =>
+                                                                                {
+                                                                                    groupItems.AddSimpleFor(m => m.codigoFuenteFinanciera)
+                                                                                            .Editor(e => e.SelectBox()
+                                                                                                                .Name("codigoFuenteFinanciera")
+                                                                                                                .ID("codigoFuenteFinanciera")
+                                                                                                                .DataSource(d => d.Mvc()
+                                                                                                                                .Controller("Catalogo")
+                                                                                                                                .LoadAction("GetFuente").Key("codigoFuenteFinanciera"))
+                                                                                                                                .SearchEnabled(true)
+                                                                                                                                .ShowClearButton(true)
+                                                                                                                                .DisplayExpr("descripcion")
+                                                                                                                                .ValueExpr("codigoFuenteFinanciera")
+                                                                                                                .ReadOnly(true)
+                                                                                                );
+                                                                                    groupItems.AddSimpleFor(m => m.fechaFin)
+                                                                                            .Editor(e => e.DateBox().ReadOnly(true)
+                                                                                                .DisplayFormat("dd/MM/yyyy")
+                                                                                                ).Label(e => e.Text("Al"));
+                                                                                    groupItems.AddSimpleFor(m => m.numeroOficioRemision)
+                                                                                           .Editor(e => e.TextBox()
+                                                                                           .ReadOnly(!ViewBag.isEditarCabI)
+                                                                                           ).IsRequired(true);
+                                                                                    groupItems.AddSimpleFor(m => m.codigoOrganigrama)
+                                                                                            .Editor(e => e.SelectBox()
+                                                                                                                .Name("codigoOrganigrama")
+                                                                                                                .ID("codigoOrganigrama")
+                                                                                                                .DataSource(d => d.Mvc()
+                                                                                                                                .Controller("Catalogo")
+                                                                                                                                .LoadAction("GetOrganigrama").Key("codigoOrganigrama"))
+                                                                                                                                .SearchEnabled(true)
+                                                                                                                                .ShowClearButton(true)
+                                                                                                                                .DisplayExpr("descripcion")
+                                                                                                                                .ValueExpr("codigoOrganigrama")
+                                                                                                                .ReadOnly(true)
+                                                                                                );
+                                                                                });
+                                                                            }).ColCountByScreen(cs => cs.Md(3).Lg(3).Sm(1))
+        )
+    </div>
+    <div class="dx-field-value col-lg-12">
+        @*boton de guardar edicion*@
+        @(Html.DevExtreme().Button()
+                                                .Text("Actualizar")
+                                                .ID("btnActualizarInforme")
+                                                .Icon("edit")
+                                                .Type(ButtonType.Normal)
+                                                .Width(110)
+                                                .OnClick("ActualizarInforme")
+                                                .Visible(ViewBag.isEditarCabI)
+        )
+    </div>
+</div>
+
+
+
+<div class="row">
+    <div class="col-md-12">
+        <p class="encabezado-panel">Tipo de Auditoría</p>
+    </div>
+</div>
+<div class="row " style="padding: 10px; margin-top: -10px;">
+
+    <div style="padding-left: 0px!important; padding-right:0px !important" class="col-lg-12" id="tipoAudt">
+        <input id="idTipoAuditoria" name="idTipoAuditoria" type="hidden" value="">
+    </div>
+    <div class="dx-field-value col-lg-12">
+        @*boton de guardar edicion*@
+        @(Html.DevExtreme().Button()
+                                                                        .Text("Actualizar")
+                                                                        .ID("btnActualizarTipoA")
+                                                                        .Icon("edit")
+                                                                        .Type(ButtonType.Normal)
+                                                                        .Width(110)
+                                                                        .OnClick("CheckTipoAuditoria")
+                                                                        .Visible(ViewBag.isEditarTipoAu)
+        )
+    </div>
+</div>
+
+@*<div class="row">
+    <div class="col-md-12">
+        <p class="encabezado-panel2">Hallazgos del Informe de Auditoría</p>
+    </div>
+</div>
+<div class="row " style="padding: 10px; margin-top: -10px;">
+
+    <div class="col-lg-12">
+        @Html.Partial("_HallazgosInformeAuditoria", Model)
+    </div>
+</div>*@
+
+

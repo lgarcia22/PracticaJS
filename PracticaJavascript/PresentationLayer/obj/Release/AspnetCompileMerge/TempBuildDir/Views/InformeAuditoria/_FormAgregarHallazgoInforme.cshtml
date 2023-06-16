@@ -1,0 +1,46 @@
+﻿@using DataEntityLayer.Models.Informes;
+
+
+<div>
+    @(Html.DevExtreme().Form<HallazgoInformeAuditoria>()
+                                        .ID("FormAgregarHallazgoInforme")
+                                        .ValidationGroup("FormHallazgoInforme")
+                                        //.FormData(Modelos)
+                                        .LabelLocation(FormLabelLocation.Left)
+                                        .LabelMode(FormLabelMode.Outside)
+                                        .Items(items =>
+                                        {
+
+                                            items.AddGroup()
+                                            .Items(groupItems =>
+                                            {
+                                                groupItems.AddSimpleFor(m => m.numero).Editor(E => E.NumberBox().Name("numero").ID("numero").ReadOnly(true).Value(ViewBag.numeroHallazgo)).IsRequired(true).ColSpan(2);
+                                                groupItems.AddSimpleFor(m => m.titulo).Editor(e => e.TextArea().Name("titulo").ID("titulo").MaxLength(4000).Height(125)).Visible(true).IsRequired(true).ColSpan(2);
+
+                                            }).ColCount(2).ColSpan(1);
+
+                                        })
+    )
+</div>
+
+<div style="padding-top:10px" class="dx-field-value">
+    @(Html.DevExtreme().Button()
+                                                .Text("Cerrar")
+                                                .ID("btnCerrarH")
+                                                //.Icon("fas fa-times")
+                                                .Type(ButtonType.Normal)
+                                                .Width(90)
+                                                .OnClick("CerrarPopAgregarHallazgoInforme")
+
+
+    )
+    @(Html.DevExtreme().Button()
+                                                    .Text("Guardar")
+                                                    .ID("btnGuardarH")
+                                                    .Icon("save")
+                                                    .Type(ButtonType.Normal)
+                                                    .Width(90)
+                                                    .OnClick("InsertHallazgoInformeAuditoria")
+    )
+
+</div>

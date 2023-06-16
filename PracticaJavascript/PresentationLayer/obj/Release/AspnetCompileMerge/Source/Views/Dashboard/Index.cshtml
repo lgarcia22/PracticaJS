@@ -1,0 +1,581 @@
+﻿@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using DataEntityLayer.Models.Dashboard;
+@model Portlet
+
+@{
+
+    List<Portlet> Modelos = ViewBag.Portlets;
+
+}
+
+<div class="container" id="dashboardscreen">
+    <div class="stats graficos row" id="METRICA">
+
+    </div>
+</div>
+
+<script>
+	var model = @Html.Raw(Json.Encode(Modelos));
+	const kpis = model.filter(portlet => portlet.TipoPortlet === 'KPI');
+    const metrica = model.filter(portlet => portlet.TipoPortlet === 'METRICA');
+	const graficas = model.filter(portlet => portlet.TipoPortlet === 'GRAFICA');
+	const tablas = model.filter(portlet => portlet.TipoPortlet === 'TABLA');
+
+	console.log('GRAFICA', graficas);
+	console.log('model', model);
+	console.log('TABLA', tablas);
+    console.log('METRICA', metrica);
+	console.log('KPI', kpis);
+
+	var cantidadGraficosActuales = 0;
+	var cantidadTablasActuales = 0;
+	let infoTablas = [];
+	generarPortlets();
+
+	function generarDataGrid(info, index) {
+		{
+			if (cantidadTablasActuales % 2 === 0) {
+				crearSeccionPar(cantidadTablasActuales);
+			}
+			$("#tabla" + (cantidadTablasActuales + 1)).addClass("graficos");
+			$("#tabla" + (cantidadTablasActuales + 1)).addClass("graficos");
+			$("#coltabla" + (cantidadTablasActuales + 1)).addClass("graficos");
+			$("#tabla" + (cantidadTablasActuales +1)).dxDataGrid({
+				dataSource: info,
+				showBorders: true,
+				allowColumnReordering: true,
+				allowColumnResizing: true,
+				columnAutoWidth: true,
+				paging: {
+					pageSize: 10
+				},
+				pager: {
+					showPageSizeSelector: true,
+					allowedPageSizes: [5, 10, 20],
+					showInfo: true
+				}
+			});
+			$("#tituloTabla" + (cantidadTablasActuales+1)).append(`<h3>${tablas[index].Descripcion}</h3>`)
+			$("#descripcionTabla" + (cantidadTablasActuales+1)).append(`<h5>${tablas[index].SubDescripcion}</h5>`)
+			cantidadTablasActuales++;
+		}
+	}
+
+	function agregarGraficoSeccion(dataSource, infoGrafica) {
+		if (cantidadGraficosActuales % 3 === 0) {
+			crearSeccion(cantidadGraficosActuales);
+		}
+
+		switch (infoGrafica.SubTipo) {
+			case "LINEAL":
+				//generarGraficoLineal(dataSource, infoGrafica);
+				generarGraficoLinealDinamico(dataSource, infoGrafica);
+				break;
+			case "BARRAS":
+				//generarGraficoBarras(dataSource, infoGrafica);
+                generarGraficoBarrasDinamico(dataSource, infoGrafica)
+				break;
+			case "PASTEL":
+                generarGraficoPastel(dataSource, infoGrafica);
+				break;
+			//jcastro #GraficoÁrbol
+			case "ARBOL":
+                generarGraficoArbol(dataSource, infoGrafica);
+                break;
+            case "BARRASDOBLE":
+                generarGraficoDobleBarrasDinamico(dataSource, infoGrafica);
+                break;
+			default:
+				break;
+
+		}
+
+	}
+
+	//GRAFICO PASTEL
+	function generarGraficoPastel(dataSource, infoGrafica) {
+
+		console.log(dataSource);
+		console.log(infoGrafica);
+
+        $("#grafico" + (cantidadGraficosActuales + 1)).addClass("graficos");
+        $("#grafico" + (cantidadGraficosActuales + 1)).dxPieChart({
+			//palette: "dark	",
+			palette: infoGrafica.Color,
+			dataSource: dataSource,
+            title: {
+                text: `<b>${infoGrafica.Descripcion}</b>`,
+                subtitle: {
+                    text: infoGrafica.SubDescripcion
+                }
+            },
+            margin: {
+                bottom: 20
+            },
+            legend: {
+				visible: true,
+                verticalAlignment: "bottom",
+                horizontalAlignment: "center",
+                itemTextPosition: "bottom"
+            },
+            animation: {
+                enabled: false
+            },
+            resolveLabelOverlapping: "shift",
+            "export": {
+                enabled: true
+			},
+            tooltip: {
+                enabled: false
+            },
+			series: [{
+				argumentField: "argument_field",
+                valueField: "value_field",
+                label: {
+                    visible: true,
+                    customizeText: function (arg) {
+                        return arg.argumentText + " (" + arg.percentText + ")";
+                    }
+                }
+			}],
+            onPointClick: function (e) {
+                var point = e.target;
+
+                toggleVisibility(point);
+            },
+            onLegendClick: function (e) {
+                var arg = e.target;
+
+                toggleVisibility(this.getAllSeries()[0].getPointsByArg(arg)[0]);
+            }
+		}).dxPieChart("instance");
+
+        function toggleVisibility(item) {
+            if (item.isVisible()) {
+                item.hide();
+            } else {
+                item.show();
+            }
+        }
+
+		cantidadGraficosActuales++; 
+	}
+	//END GRAFICO PASTEL
+
+    //GRAFICO ARBOL  
+    function generarGraficoArbol(dataSource, infoGrafica) {
+
+        console.log(dataSource);
+        console.log(infoGrafica);
+
+        $("#grafico" + (cantidadGraficosActuales + 1)).addClass("graficos");
+        $("#grafico" + (cantidadGraficosActuales + 1)).dxPieChart({
+
+            palette: "bright",
+            dataSource: dataSource,
+            title: {
+                text: `<b>${infoGrafica.Descripcion}</b>`,
+                subtitle: {
+                    text: infoGrafica.SubDescripcion
+                }
+            },
+            margin: {
+                bottom: 20
+            },
+			legend: {
+				visible: false,
+                verticalAlignment: "bottom",
+                horizontalAlignment: "center",
+                itemTextPosition: "bottom"
+            },
+            animation: {
+                enabled: false
+            },
+            resolveLabelOverlapping: "shift",
+            "export": {
+                enabled: true
+            },
+            tooltip: {
+                enabled: false
+            },
+            series: [{
+                argumentField: "descripcion",
+                valueField: "cantidad",
+                label: {
+                    visible: true,
+                    customizeText: function (arg) {
+                        return arg.argumentText + " (" + arg.valueText + ")";
+                    }
+                }
+            }],
+            onPointClick: function (e) {
+                var point = e.target;
+
+                toggleVisibility(point);
+            },
+            onLegendClick: function (e) {
+                var arg = e.target;
+
+                toggleVisibility(this.getAllSeries()[0].getPointsByArg(arg)[0]);
+            }
+        }).dxPieChart("instance");
+
+        function toggleVisibility(item) {
+            if (item.isVisible()) {
+                item.hide();
+            } else {
+                item.show();
+            }
+        }
+
+        cantidadGraficosActuales++;
+    }
+	//END GRAFICO ÁRBOL
+
+
+	function generarGraficoBarras(dataSource, infoGrafica) {
+		$("#grafico" + (cantidadGraficosActuales + 1)).addClass("graficos");
+		$("#grafico" + (cantidadGraficosActuales + 1)).dxChart({
+			dataSource: dataSource,
+			series: {
+				argumentField: "Rango_Hora",
+				valueField: "Monto",
+				name: "Ventas",
+				type: "bar",
+				color: '#23ede9'
+			},
+			legend: {
+				verticalAlignment: "bottom",
+				horizontalAlignment: "center",
+				itemTextPosition: "bottom"
+			},
+			title: {
+				text: `<b>${infoGrafica.Descripcion}</b>`,
+				subtitle: {
+					text: infoGrafica.SubDescripcion
+				}
+			},
+			"export": {
+				enabled: true
+			},
+			tooltip: {
+				enabled: true
+			}
+
+		});
+
+		cantidadGraficosActuales++;
+	}
+
+    function generarGraficoBarrasDinamico(dataSource, infoGrafica) {
+        $("#grafico" + (cantidadGraficosActuales + 1)).addClass("graficos");
+        $("#grafico" + (cantidadGraficosActuales + 1)).dxChart({
+            dataSource: dataSource,
+            series: {
+                argumentField: "valor_horizontal",
+				valueField: "valor_vertical",
+				name: infoGrafica.NombreLeyenda,
+				type: "bar",
+                color: '#23ede9'
+            },
+            legend: {
+                verticalAlignment: "bottom",
+                horizontalAlignment: "center",
+                itemTextPosition: "bottom"
+            },
+            title: {
+                text: `<b>${infoGrafica.Descripcion}</b>`,
+                subtitle: {
+                    text: infoGrafica.SubDescripcion
+                }
+            },
+            "export": {
+                enabled: true
+            },
+            tooltip: {
+                enabled: true
+            }
+
+        });
+        cantidadGraficosActuales++;
+    }
+
+	function generarGraficoLineal(dataSource, infoGrafica) {
+		$("#grafico" + (cantidadGraficosActuales + 1)).addClass("graficos");
+		$("#grafico" + (cantidadGraficosActuales + 1)).dxChart({
+			palette: "Violet",
+			dataSource: dataSource,
+			commonSeriesSettings: {
+				argumentField: "rango_semana"
+			},
+			margin: {
+				bottom: 20
+			},
+			argumentAxis: {
+				valueMarginsEnabled: false,
+				discreteAxisDivisionMode: "crossLabels",
+				grid: {
+					visible: true
+				}
+			},
+			series: [
+				{ valueField: "1", name: "Estación 1" },
+				{ valueField: "2", name: "Estación 2" }
+			],
+			legend: {
+				verticalAlignment: "bottom",
+				horizontalAlignment: "center",
+				itemTextPosition: "bottom"
+			},
+			title: {
+				text: `<b>${infoGrafica.Descripcion}</b>`,
+				subtitle: {
+					text: infoGrafica.SubDescripcion
+				}
+			},
+			"export": {
+				enabled: true
+			},
+			tooltip: {
+				enabled: true
+			}
+		})
+		cantidadGraficosActuales++;
+	}
+
+	function generarGraficoLinealDinamico(dataSource, infoGrafica) {
+
+        $("#grafico" + (cantidadGraficosActuales + 1)).addClass("graficos");
+        $("#grafico" + (cantidadGraficosActuales + 1)).dxChart({
+            palette: infoGrafica.Color,
+            dataSource: dataSource,
+            commonSeriesSettings: {
+                argumentField: "valor_horizontal"
+            },
+            margin: {
+                bottom: 20
+            },
+            argumentAxis: {
+                valueMarginsEnabled: false,
+                discreteAxisDivisionMode: "crossLabels",
+                grid: {
+                    visible: true
+                }
+            },
+            series: [
+                { valueField: "1", name: infoGrafica.NombreLeyenda + " 1" },
+                { valueField: "2", name: infoGrafica.NombreLeyenda + " 2" }
+            ],
+            legend: {
+                verticalAlignment: "bottom",
+                horizontalAlignment: "center",
+                itemTextPosition: "bottom"
+            },
+            title: {
+                text: `<b>${infoGrafica.Descripcion}</b>`,
+                subtitle: {
+                    text: infoGrafica.SubDescripcion
+                }
+            },
+            "export": {
+                enabled: true
+            },
+            tooltip: {
+                enabled: true
+            }
+        })
+        cantidadGraficosActuales++;
+	}
+
+	function generarGraficoDobleBarrasDinamico(dataSource, infoGrafica) {
+
+        $("#grafico" + (cantidadGraficosActuales + 1)).addClass("graficos");
+        $("#grafico" + (cantidadGraficosActuales + 1)).dxChart({
+            dataSource: dataSource,
+            commonSeriesSettings: {
+                argumentField: "valor_horizontal",
+                type: "bar",
+                hoverMode: "allArgumentPoints",
+                selectionMode: "allArgumentPoints",
+                label: {
+                    visible: true,
+                    format: {
+                        type: "fixedPoint",
+                        precision: 2			//Cantidad de decimales que acepta
+                    }
+                }
+            },
+            series: [
+                { valueField: "valor_vertical_1", name: "" + dataSource[0].etiqueta_vertical_1 },
+                { valueField: "valor_vertical_2", name: "" + dataSource[0].etiqueta_vertical_2 },
+            ],
+            title: {
+                text: `<b>${infoGrafica.Descripcion}</b>`,
+                subtitle: {
+                    text: infoGrafica.SubDescripcion
+                }
+            },
+            legend: {
+                verticalAlignment: "bottom",
+                horizontalAlignment: "center"
+            },
+            "export": {
+                enabled: true
+            },
+            onPointClick: function (e) {
+                e.target.select();
+            }
+        });
+        cantidadGraficosActuales++;
+    }
+
+
+    function crearSeccion(indice) {
+
+        $("#dashboardscreen").append(`<div class="row" id="rowgraficos${indice}">
+
+		<div class="col-lg-4" style="margin-top:10px; padding-right:5px " id="colgrafico${indice + 1}">
+			<div id="grafico${indice + 1}">		</div>
+		</div>
+
+		<div class="col-lg-4" style="margin-top:10px; padding: 0px 5px  " id="colgrafico${indice + 2}">
+			<div id="grafico${indice + 2}">		</div>
+		</div>
+
+		<div class="col-lg-4" style="margin-top:10px; padding-left: 5px" id="colgrafico${indice + 3}">
+			<div  id="grafico${indice + 3}">	</div>
+		</div>
+
+		<div class="col-lg-4" style="margin-top:10px; padding-right:5px " id="colgrafico${indice + 4}">
+			<div id="grafico${indice + 4}">		</div>
+		</div>
+
+		<div class="col-lg-4" style="margin-top:10px; padding-right:5px " id="colgrafico${indice + 5}">
+			<div id="grafico${indice + 5}">		</div>
+		</div>
+
+		<div class="col-lg-4" style="margin-top:10px; padding: 0px 5px  " id="colgrafico${indice + 6}">
+			<div id="grafico${indice + 6}">		</div>
+		</div>
+
+	</div>`)
+
+    }
+
+
+	function crearSeccionPar(indice) {
+		$("#dashboardscreen").append(`	<div class="grid-table" id="rowtabla{indice}">
+		<div  id="coltabla${indice + 1}">
+			<div style="text-align:center" id="tituloTabla${indice + 1}"></div>
+			<div style="text-align:center" id="descripcionTabla${indice + 1}"></div>
+			<div id="tabla${indice + 1}" style="margin-top:10px;"></div>
+		</div>
+		<div id="coltabla${indice + 2}">
+			<div style="text-align:center" id="tituloTabla${indice + 2}"></div>
+			<div style="text-align:center" id="descripcionTabla${indice + 2}"></div>
+			<div id="tabla${indice + 2}" style="margin-top:10px;"  >
+
+			</div>
+
+		</div>
+	</div>`)
+	}
+
+
+	function generarPortlets() {
+		//generar KPIS
+        for (let i = 0; i < metrica.length; i++) {
+				 $.ajax({
+                url: '@Url.Action("GetPortlet", "Dashboard")',
+                type: 'POST',
+                async: true,
+                cache: false,
+                data: { url: metrica[i].Url},
+                success: function (response)
+				{
+					document.getElementById("METRICA").innerHTML += `
+																	<div class="col-sm-3 col-md-4 col-lg-6 col-xl-8" style="height: 150px;">
+																		<div class="sub-title" id="title${i}" ><b>${metrica[i].Descripcion}</b></div>
+																		<div class="sub-title" id="subTitle${i}">${metrica[i].SubDescripcion}</div>
+																		<div class="stat-value" id="METRICA${i}">${response}</div>
+																		<div class="stat-value" > </div>
+																	</div>
+																`
+                },
+					 error: function (error) {
+
+                }
+            });
+
+		}
+
+		//generar Graficos
+		for (let i = 0; i < graficas.length; i++) {
+				 $.ajax({
+                url: '@Url.Action("GetPortlet", "Dashboard")',
+                type: 'POST',
+                async: true,
+					 cache: false,
+					 data: { url: graficas[i].Url },
+                success: function (response)
+				{
+					var jsonResponse = JSON.parse(response)
+					agregarGraficoSeccion( jsonResponse, graficas[i]);
+
+                },
+					 error: function (error) {
+						 console.log(graficas[i].Descripcion, error)
+                }
+            });
+
+		}
+
+		//Generar Tablas
+		for (let i = 0; i < tablas.length; i++) {
+				 $.ajax({
+                url: '@Url.Action("GetPortlet", "Dashboard")',
+                type: 'POST',
+                async: true,
+					 cache: false,
+					 data: { url: tablas[i].Url },
+                success: function (response)
+				{
+					if (response) {
+						infoTablas.push(JSON.parse(response))
+						generarDataGrid(JSON.parse(response), i)
+
+					}
+                },
+					 error: function (error) {
+
+					 }
+            });
+
+		}
+
+	}
+
+
+
+	function getPortlet(url) {
+		 $.ajax({
+                url: '@Url.Action("GetPortlet", "Dashboard")',
+                type: 'POST',
+                async: true,
+                cache: false,
+                data: { url: url},
+                success: function (response)
+				{
+					return response;
+                },
+                error: function (error) {
+                    console.log(error)
+                }
+            });
+	}
+
+</script>

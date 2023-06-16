@@ -1,0 +1,60 @@
+﻿@using DataEntityLayer.Models.Informes;
+@using DataAccessLayer.Util;
+@model RecomendacionHallazgoPa
+@{
+    bool isVisible= ViewBag.urlMenu ==UtilClass.bandejaPaR ? true: false;
+    
+}
+
+<div>
+    @(Html.DevExtreme().Form<RecomendacionHallazgoPa>()
+                                        .ID("FormAgregarActividad")
+                                        .ValidationGroup("FormRecomendacionHallazgo")
+                                        .LabelLocation(FormLabelLocation.Left)
+                                        .LabelMode(FormLabelMode.Outside)
+                                        .FormData(Model)
+                                        .Items(items =>
+                                        {
+
+                                            items.AddGroup()
+                                            .ColCount(2)
+                                            .ColSpan(2)
+                                            .Items(groupItems =>
+                                            {
+                                                groupItems.AddSimpleFor(m => m.codigoInformeAuditoria).Name("codigoInformeAuditoria").Visible(false);
+                                                groupItems.AddSimpleFor(m => m.codigoHallazgo).Name("codigoHallazgo").Visible(false);
+                                                groupItems.AddSimpleFor(m => m.codigoRecomendacion).Name("codigoRecomendacion").Visible(false);
+                                                groupItems.AddSimpleFor(m => m.codigoPa).Name("codigoPa").Visible(false);
+                                                groupItems.AddSimpleFor(m => m.codigoPaVersion).Name("codigoPaVersion").Visible(false);
+                                                groupItems.AddSimpleFor(m => m.dirigidoA).Editor(e=>e.TextBox().ReadOnly(true)).Name("dirigidoA").ColSpan(1);
+                                                groupItems.AddSimpleFor(m => m.isPublica).ColSpan(1).Name("isPublica").Editor(e => e.CheckBox().ReadOnly(ViewBag.isLectura));
+                                                groupItems.AddSimpleFor(m => m.responsableEjecucion).Name("responsableEjecucion").Editor(e=>e.TextBox().ReadOnly(ViewBag.isLectura)).ColSpan(1).IsRequired(true);
+                                                groupItems.AddSimpleFor(m => m.fechaCumplimiento).Name("fechaCumplimiento").Editor(e => e.DateBox().OnValueChanged("OnSelectionChangedFecha").ReadOnly(ViewBag.isLectura)).ColSpan(1);
+                                                groupItems.AddSimpleFor(m => m.actividad).ColSpan(2).Name("actividad").Editor(e => e.TextArea().Height(125).ReadOnly(ViewBag.isLectura)).IsRequired(true);
+                                                
+                                                groupItems.AddSimpleFor(m => m.justificacion).ColSpan(1).Editor(e => e.TextArea().Height(125).ID("justificacion").Name("justificacion").ReadOnly(ViewBag.isLectura));
+                                                groupItems.AddSimpleFor(m => m.observacion).ColSpan(1).Name("observacion").Editor(e => e.TextArea().Height(125).ReadOnly(!ViewBag.observacionesActivo));
+                                            });
+                                        })
+    )
+</div>
+
+<div style="padding-top:10px" class="dx-field-value">
+    @(Html.DevExtreme().Button()
+                                                .Text("Cerrar")
+                                                .ID("btnCerrarActPa")
+                                                //.Icon("fas fa-times")
+                                                .Type(ButtonType.Normal)
+                                                .Width(90)
+                                                .OnClick("CerrarPopCrearActividadPa")
+    )
+    @(Html.DevExtreme().Button()
+                                                    .Text("Actualizar")
+                                                    .ID("btnGuardarActPa")
+                                                    .Icon("save")
+                                                    .Type(ButtonType.Normal)
+                                                    .Width(110)
+                                                    .OnClick("UpdateActividadPa")
+    )
+
+</div>

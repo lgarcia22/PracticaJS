@@ -1,0 +1,76 @@
+﻿@using BussinessLayer.Util;
+
+@{
+    var vNotification = "";
+    var type = "";
+    var notificationColor = ToastType.Custom;
+}
+
+<div class="test"></div>
+<meta http-equiv=”Content-Type” content=”text/html; charset=UTF-8″ />
+
+
+@if (TempData[UtilClass.alertNotification] != null)
+{
+    vNotification = Convert.ToString(TempData["Message"]);
+    type = TempData["Type"].ToString();
+    notificationColor = ToastType.Custom;
+
+    switch (type)
+    {
+        case "error":
+            {
+                notificationColor = ToastType.Error;
+                break;
+            }
+        case "success":
+            {
+                notificationColor = ToastType.Success;
+                break;
+            }
+        case "warning":
+            {
+                notificationColor = ToastType.Warning;
+                break;
+            }
+        case "info":
+            {
+                notificationColor = ToastType.Info;
+                break;
+            }
+    }
+
+}
+
+
+<script>
+    function Alert(mensaje, type)
+    {
+
+        if (type === "Error" || type === "error")
+        {
+            //DevExpress.ui.notify(mensaje, type, 10000);
+            DevExpress.ui.notify({ message: mensaje, closeOnClick: true }, type, 5400000);
+        }
+        else
+        {
+            DevExpress.ui.notify(mensaje, type, 10000);
+        } 
+	}
+
+	function AlertClick(mensaje, type) {
+
+		if (type === "Error" || type === "error") {
+			DevExpress.ui.notify({message: mensaje, closeOnClick:true}, type, 10000);
+		}
+		else {
+			DevExpress.ui.notify({ message: mensaje, closeOnClick: true }, type, 10000);
+		}
+	}
+
+    function Callback(values)
+    {
+        console.log('funciono');
+        Alert("funciono"+values, "success");
+    }
+</script>

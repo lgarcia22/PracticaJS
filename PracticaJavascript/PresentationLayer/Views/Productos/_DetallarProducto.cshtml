@@ -1,0 +1,50 @@
+﻿
+@using DataEntityLayer.Models.Productos;
+@{
+    ViewBag.Title = "Detalle Producto";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int tabIndex = !string.IsNullOrEmpty(Request.QueryString["t"]) ? int.Parse(Request.QueryString["t"]) : 0;
+
+
+}
+<nav aria-label="breadcrumb" class="menu">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item active" aria-current="page">CRUD Productos</li>
+        <li class="breadcrumb-item" id="classManual" style="float:right;">
+            <a style="text-align: right;" title="Manual de Usuario" href="#" target="_blank">
+                <i class="fa fa-book" style="padding-left: inherit;padding-right: inherit;"></i>
+                Manual Usuario
+            </a>
+        </li>
+    </ol>
+</nav>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12" style="padding:5px;">
+            @(Html.DevExtreme().TabPanel()
+                .ID("TabProductos")
+                .SelectedIndex(0)
+                .OnContentReady(@<text>function() { cambiarIndiceTab("TabProductos", @tabIndex)}</text>)    
+                .Loop(false)
+                .AnimationEnabled(true)
+                //.OnTitleClick("OnTabChange")    
+                .SwipeEnabled(false)
+                .Items(items => {
+
+                items.Add().Title("Detalle Producto").
+                    Template(@<text> @Html.Partial("~/Views/Productos/EditarProductoDetalle.cshtml")</text>);  
+                })
+            )
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+     function CerrarDetalle() {
+        window.location.href = '@Url.Action("CerrarDetalle", "Productos")';
+     }
+
+</script>

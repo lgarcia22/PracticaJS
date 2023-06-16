@@ -1,0 +1,144 @@
+C:\Users\GO-0099\Downloads\sisera-tsc\BussinessLayer\bin\Debug\BussinessLayer.dll.config
+C:\Users\GO-0099\Downloads\sisera-tsc\BussinessLayer\bin\Debug\BussinessLayer.dll
+C:\Users\GO-0099\Downloads\sisera-tsc\BussinessLayer\bin\Debug\BussinessLayer.pdb
+C:\Users\GO-0099\Downloads\sisera-tsc\BussinessLayer\bin\Debug\DataAccessLayer.dll
+C:\Users\GO-0099\Downloads\sisera-tsc\BussinessLayer\bin\Debug\DataEntityLayer.dll
+C:\Users\GO-0099\Downloads\sisera-tsc\BussinessLayer\bin\Debug\DevExtreme.AspNet.Data.dll
+C:\Users\GO-0099\Downloads\sisera-tsc\BussinessLayer\bin\Debug\DevExtreme.AspNet.Mvc.dll
+C:\Users\GO-0099\Downloads\sisera-tsc\BussinessLayer\bin\Debug\EntityFramework.dll
+C:\Users\GO-0099\Downloads\sisera-tsc\BussinessLayer\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\GO-0099\Downloads\sisera-tsc\BussinessLayer\bin\Debug\Newtonsoft.Json.dll
+C:\Users\GO-0099\Downloads\sisera-tsc\BussinessLayer\bin\Debug\DataAccessLayer.pdb
+C:\Users\GO-0099\Downloads\sisera-tsc\BussinessLayer\bin\Debug\DataAccessLayer.dll.config
+C:\Users\GO-0099\Downloads\sisera-tsc\BussinessLayer\bin\Debug\DataEntityLayer.pdb
+C:\Users\GO-0099\Downloads\sisera-tsc\BussinessLayer\bin\Debug\DataEntityLayer.dll.config
+C:\Users\GO-0099\Downloads\sisera-tsc\BussinessLayer\bin\Debug\DevExtreme.AspNet.Data.xml
+C:\Users\GO-0099\Downloads\sisera-tsc\BussinessLayer\bin\Debug\DevExtreme.AspNet.Mvc.xml
+C:\Users\GO-0099\Downloads\sisera-tsc\BussinessLayer\bin\Debug\EntityFramework.xml
+C:\Users\GO-0099\Downloads\sisera-tsc\BussinessLayer\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\GO-0099\Downloads\sisera-tsc\BussinessLayer\bin\Debug\Newtonsoft.Json.xml
+C:\Users\GO-0099\Downloads\sisera-tsc\BussinessLayer\obj\Debug\BusinessLayer.csprojAssemblyReference.cache
+C:\Users\GO-0099\Downloads\sisera-tsc\BussinessLayer\obj\Debug\BusinessLayer.csproj.CoreCompileInputs.cache
+C:\Users\GO-0099\Downloads\sisera-tsc\BussinessLayer\obj\Debug\BusinessLayer.csproj.CopyComplete
+C:\Users\GO-0099\Downloads\sisera-tsc\BussinessLayer\obj\Debug\BussinessLayer.dll
+C:\Users\GO-0099\Downloads\sisera-tsc\BussinessLayer\obj\Debug\BussinessLayer.pdb
+C:\Users\GO-0099\Downloads\ProyectoNcapas\BussinessLayer\bin\Debug\BussinessLayer.dll.config
+C:\Users\GO-0099\Downloads\ProyectoNcapas\BussinessLayer\bin\Debug\BussinessLayer.dll
+C:\Users\GO-0099\Downloads\ProyectoNcapas\BussinessLayer\bin\Debug\BussinessLayer.pdb
+C:\Users\GO-0099\Downloads\ProyectoNcapas\BussinessLayer\bin\Debug\DataAccessLayer.dll
+C:\Users\GO-0099\Downloads\ProyectoNcapas\BussinessLayer\bin\Debug\DataEntityLayer.dll
+C:\Users\GO-0099\Downloads\ProyectoNcapas\BussinessLayer\bin\Debug\DevExtreme.AspNet.Data.dll
+C:\Users\GO-0099\Downloads\ProyectoNcapas\BussinessLayer\bin\Debug\DevExtreme.AspNet.Mvc.dll
+C:\Users\GO-0099\Downloads\ProyectoNcapas\BussinessLayer\bin\Debug\EntityFramework.dll
+C:\Users\GO-0099\Downloads\ProyectoNcapas\BussinessLayer\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\GO-0099\Downloads\ProyectoNcapas\BussinessLayer\bin\Debug\Newtonsoft.Json.dll
+C:\Users\GO-0099\Downloads\ProyectoNcapas\BussinessLayer\bin\Debug\DataAccessLayer.pdb
+C:\Users\GO-0099\Downloads\ProyectoNcapas\BussinessLayer\bin\Debug\DataAccessLayer.dll.config
+C:\Users\GO-0099\Downloads\ProyectoNcapas\BussinessLayer\bin\Debug\DataEntityLayer.pdb
+C:\Users\GO-0099\Downloads\ProyectoNcapas\BussinessLayer\bin\Debug\DataEntityLayer.dll.config
+C:\Users\GO-0099\Downloads\ProyectoNcapas\BussinessLayer\bin\Debug\DevExtreme.AspNet.Data.xml
+C:\Users\GO-0099\Downloads\ProyectoNcapas\BussinessLayer\bin\Debug\DevExtreme.AspNet.Mvc.xml
+C:\Users\GO-0099\Downloads\ProyectoNcapas\BussinessLayer\bin\Debug\EntityFramework.xml
+C:\Users\GO-0099\Downloads\ProyectoNcapas\BussinessLayer\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\GO-0099\Downloads\ProyectoNcapas\BussinessLayer\bin\Debug\Newtonsoft.Json.xml
+C:\Users\GO-0099\Downloads\ProyectoNcapas\BussinessLayer\obj\Debug\BusinessLayer.csproj.AssemblyReference.cache
+C:\Users\GO-0099\Downloads\ProyectoNcapas\BussinessLayer\obj\Debug\BusinessLayer.csproj.CoreCompileInputs.cache
+C:\Users\GO-0099\Downloads\ProyectoNcapas\BussinessLayer\obj\Debug\BusinessLayer.csproj.CopyComplete
+C:\Users\GO-0099\Downloads\ProyectoNcapas\BussinessLayer\obj\Debug\BussinessLayer.dll
+C:\Users\GO-0099\Downloads\ProyectoNcapas\BussinessLayer\obj\Debug\BussinessLayer.pdb
+C:\Users\EduardoCastro\Documents\001SISERA\Capacitaciones\ProyectoNcapas\BussinessLayer\bin\Debug\BussinessLayer.dll.config
+C:\Users\EduardoCastro\Documents\001SISERA\Capacitaciones\ProyectoNcapas\BussinessLayer\bin\Debug\BussinessLayer.dll
+C:\Users\EduardoCastro\Documents\001SISERA\Capacitaciones\ProyectoNcapas\BussinessLayer\bin\Debug\BussinessLayer.pdb
+C:\Users\EduardoCastro\Documents\001SISERA\Capacitaciones\ProyectoNcapas\BussinessLayer\bin\Debug\DataAccessLayer.dll
+C:\Users\EduardoCastro\Documents\001SISERA\Capacitaciones\ProyectoNcapas\BussinessLayer\bin\Debug\DataEntityLayer.dll
+C:\Users\EduardoCastro\Documents\001SISERA\Capacitaciones\ProyectoNcapas\BussinessLayer\bin\Debug\DevExtreme.AspNet.Data.dll
+C:\Users\EduardoCastro\Documents\001SISERA\Capacitaciones\ProyectoNcapas\BussinessLayer\bin\Debug\DevExtreme.AspNet.Mvc.dll
+C:\Users\EduardoCastro\Documents\001SISERA\Capacitaciones\ProyectoNcapas\BussinessLayer\bin\Debug\EntityFramework.dll
+C:\Users\EduardoCastro\Documents\001SISERA\Capacitaciones\ProyectoNcapas\BussinessLayer\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\EduardoCastro\Documents\001SISERA\Capacitaciones\ProyectoNcapas\BussinessLayer\bin\Debug\Newtonsoft.Json.dll
+C:\Users\EduardoCastro\Documents\001SISERA\Capacitaciones\ProyectoNcapas\BussinessLayer\bin\Debug\DataAccessLayer.pdb
+C:\Users\EduardoCastro\Documents\001SISERA\Capacitaciones\ProyectoNcapas\BussinessLayer\bin\Debug\DataAccessLayer.dll.config
+C:\Users\EduardoCastro\Documents\001SISERA\Capacitaciones\ProyectoNcapas\BussinessLayer\bin\Debug\DataEntityLayer.pdb
+C:\Users\EduardoCastro\Documents\001SISERA\Capacitaciones\ProyectoNcapas\BussinessLayer\bin\Debug\DataEntityLayer.dll.config
+C:\Users\EduardoCastro\Documents\001SISERA\Capacitaciones\ProyectoNcapas\BussinessLayer\bin\Debug\DevExtreme.AspNet.Data.xml
+C:\Users\EduardoCastro\Documents\001SISERA\Capacitaciones\ProyectoNcapas\BussinessLayer\bin\Debug\DevExtreme.AspNet.Mvc.xml
+C:\Users\EduardoCastro\Documents\001SISERA\Capacitaciones\ProyectoNcapas\BussinessLayer\bin\Debug\EntityFramework.xml
+C:\Users\EduardoCastro\Documents\001SISERA\Capacitaciones\ProyectoNcapas\BussinessLayer\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\EduardoCastro\Documents\001SISERA\Capacitaciones\ProyectoNcapas\BussinessLayer\bin\Debug\Newtonsoft.Json.xml
+C:\Users\EduardoCastro\Documents\001SISERA\Capacitaciones\ProyectoNcapas\BussinessLayer\obj\Debug\BusinessLayer.csproj.AssemblyReference.cache
+C:\Users\EduardoCastro\Documents\001SISERA\Capacitaciones\ProyectoNcapas\BussinessLayer\obj\Debug\BusinessLayer.csproj.CoreCompileInputs.cache
+C:\Users\EduardoCastro\Documents\001SISERA\Capacitaciones\ProyectoNcapas\BussinessLayer\obj\Debug\BusinessLayer.csproj.CopyComplete
+C:\Users\EduardoCastro\Documents\001SISERA\Capacitaciones\ProyectoNcapas\BussinessLayer\obj\Debug\BussinessLayer.dll
+C:\Users\EduardoCastro\Documents\001SISERA\Capacitaciones\ProyectoNcapas\BussinessLayer\obj\Debug\BussinessLayer.pdb
+C:\Users\EduardoCastro\Documents\001_SISERA\Capacitaciones\intro_js\BussinessLayer\bin\Debug\BussinessLayer.dll.config
+C:\Users\EduardoCastro\Documents\001_SISERA\Capacitaciones\intro_js\BussinessLayer\bin\Debug\BussinessLayer.dll
+C:\Users\EduardoCastro\Documents\001_SISERA\Capacitaciones\intro_js\BussinessLayer\bin\Debug\BussinessLayer.pdb
+C:\Users\EduardoCastro\Documents\001_SISERA\Capacitaciones\intro_js\BussinessLayer\bin\Debug\DataAccessLayer.dll
+C:\Users\EduardoCastro\Documents\001_SISERA\Capacitaciones\intro_js\BussinessLayer\bin\Debug\DataEntityLayer.dll
+C:\Users\EduardoCastro\Documents\001_SISERA\Capacitaciones\intro_js\BussinessLayer\bin\Debug\DevExtreme.AspNet.Data.dll
+C:\Users\EduardoCastro\Documents\001_SISERA\Capacitaciones\intro_js\BussinessLayer\bin\Debug\DevExtreme.AspNet.Mvc.dll
+C:\Users\EduardoCastro\Documents\001_SISERA\Capacitaciones\intro_js\BussinessLayer\bin\Debug\EntityFramework.dll
+C:\Users\EduardoCastro\Documents\001_SISERA\Capacitaciones\intro_js\BussinessLayer\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\EduardoCastro\Documents\001_SISERA\Capacitaciones\intro_js\BussinessLayer\bin\Debug\Newtonsoft.Json.dll
+C:\Users\EduardoCastro\Documents\001_SISERA\Capacitaciones\intro_js\BussinessLayer\bin\Debug\DataAccessLayer.pdb
+C:\Users\EduardoCastro\Documents\001_SISERA\Capacitaciones\intro_js\BussinessLayer\bin\Debug\DataAccessLayer.dll.config
+C:\Users\EduardoCastro\Documents\001_SISERA\Capacitaciones\intro_js\BussinessLayer\bin\Debug\DataEntityLayer.pdb
+C:\Users\EduardoCastro\Documents\001_SISERA\Capacitaciones\intro_js\BussinessLayer\bin\Debug\DataEntityLayer.dll.config
+C:\Users\EduardoCastro\Documents\001_SISERA\Capacitaciones\intro_js\BussinessLayer\bin\Debug\DevExtreme.AspNet.Data.xml
+C:\Users\EduardoCastro\Documents\001_SISERA\Capacitaciones\intro_js\BussinessLayer\bin\Debug\DevExtreme.AspNet.Mvc.xml
+C:\Users\EduardoCastro\Documents\001_SISERA\Capacitaciones\intro_js\BussinessLayer\bin\Debug\EntityFramework.xml
+C:\Users\EduardoCastro\Documents\001_SISERA\Capacitaciones\intro_js\BussinessLayer\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\EduardoCastro\Documents\001_SISERA\Capacitaciones\intro_js\BussinessLayer\bin\Debug\Newtonsoft.Json.xml
+C:\Users\EduardoCastro\Documents\001_SISERA\Capacitaciones\intro_js\BussinessLayer\obj\Debug\BusinessLayer.csproj.AssemblyReference.cache
+C:\Users\EduardoCastro\Documents\001_SISERA\Capacitaciones\intro_js\BussinessLayer\obj\Debug\BusinessLayer.csproj.CoreCompileInputs.cache
+C:\Users\EduardoCastro\Documents\001_SISERA\Capacitaciones\intro_js\BussinessLayer\obj\Debug\BusinessLayer.csproj.CopyComplete
+C:\Users\EduardoCastro\Documents\001_SISERA\Capacitaciones\intro_js\BussinessLayer\obj\Debug\BussinessLayer.dll
+C:\Users\EduardoCastro\Documents\001_SISERA\Capacitaciones\intro_js\BussinessLayer\obj\Debug\BussinessLayer.pdb
+C:\Users\lgarcia\Desktop\Nueva carpeta (2)\intro_js\BussinessLayer\bin\Debug\BussinessLayer.dll.config
+C:\Users\lgarcia\Desktop\Nueva carpeta (2)\intro_js\BussinessLayer\bin\Debug\BussinessLayer.dll
+C:\Users\lgarcia\Desktop\Nueva carpeta (2)\intro_js\BussinessLayer\bin\Debug\BussinessLayer.pdb
+C:\Users\lgarcia\Desktop\Nueva carpeta (2)\intro_js\BussinessLayer\bin\Debug\DataAccessLayer.dll
+C:\Users\lgarcia\Desktop\Nueva carpeta (2)\intro_js\BussinessLayer\bin\Debug\DataEntityLayer.dll
+C:\Users\lgarcia\Desktop\Nueva carpeta (2)\intro_js\BussinessLayer\bin\Debug\DevExtreme.AspNet.Data.dll
+C:\Users\lgarcia\Desktop\Nueva carpeta (2)\intro_js\BussinessLayer\bin\Debug\DevExtreme.AspNet.Mvc.dll
+C:\Users\lgarcia\Desktop\Nueva carpeta (2)\intro_js\BussinessLayer\bin\Debug\EntityFramework.dll
+C:\Users\lgarcia\Desktop\Nueva carpeta (2)\intro_js\BussinessLayer\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\lgarcia\Desktop\Nueva carpeta (2)\intro_js\BussinessLayer\bin\Debug\Newtonsoft.Json.dll
+C:\Users\lgarcia\Desktop\Nueva carpeta (2)\intro_js\BussinessLayer\bin\Debug\DataAccessLayer.pdb
+C:\Users\lgarcia\Desktop\Nueva carpeta (2)\intro_js\BussinessLayer\bin\Debug\DataAccessLayer.dll.config
+C:\Users\lgarcia\Desktop\Nueva carpeta (2)\intro_js\BussinessLayer\bin\Debug\DataEntityLayer.pdb
+C:\Users\lgarcia\Desktop\Nueva carpeta (2)\intro_js\BussinessLayer\bin\Debug\DataEntityLayer.dll.config
+C:\Users\lgarcia\Desktop\Nueva carpeta (2)\intro_js\BussinessLayer\bin\Debug\DevExtreme.AspNet.Data.xml
+C:\Users\lgarcia\Desktop\Nueva carpeta (2)\intro_js\BussinessLayer\bin\Debug\DevExtreme.AspNet.Mvc.xml
+C:\Users\lgarcia\Desktop\Nueva carpeta (2)\intro_js\BussinessLayer\bin\Debug\EntityFramework.xml
+C:\Users\lgarcia\Desktop\Nueva carpeta (2)\intro_js\BussinessLayer\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\lgarcia\Desktop\Nueva carpeta (2)\intro_js\BussinessLayer\bin\Debug\Newtonsoft.Json.xml
+C:\Users\lgarcia\Desktop\Nueva carpeta (2)\intro_js\BussinessLayer\obj\Debug\BusinessLayer.csproj.AssemblyReference.cache
+C:\Users\lgarcia\Desktop\Nueva carpeta (2)\intro_js\BussinessLayer\obj\Debug\BusinessLayer.csproj.CoreCompileInputs.cache
+C:\Users\lgarcia\Desktop\Nueva carpeta (2)\intro_js\BussinessLayer\obj\Debug\BusinessLayer.csproj.CopyComplete
+C:\Users\lgarcia\Desktop\Nueva carpeta (2)\intro_js\BussinessLayer\obj\Debug\BussinessLayer.dll
+C:\Users\lgarcia\Desktop\Nueva carpeta (2)\intro_js\BussinessLayer\obj\Debug\BussinessLayer.pdb
+C:\Users\lgarcia\Desktop\Nueva carpeta (2)\PracticaJavascript\PracticaJavascript\BussinessLayer\bin\Debug\BussinessLayer.dll.config
+C:\Users\lgarcia\Desktop\Nueva carpeta (2)\PracticaJavascript\PracticaJavascript\BussinessLayer\bin\Debug\BussinessLayer.dll
+C:\Users\lgarcia\Desktop\Nueva carpeta (2)\PracticaJavascript\PracticaJavascript\BussinessLayer\bin\Debug\BussinessLayer.pdb
+C:\Users\lgarcia\Desktop\Nueva carpeta (2)\PracticaJavascript\PracticaJavascript\BussinessLayer\bin\Debug\DataAccessLayer.dll
+C:\Users\lgarcia\Desktop\Nueva carpeta (2)\PracticaJavascript\PracticaJavascript\BussinessLayer\bin\Debug\DataEntityLayer.dll
+C:\Users\lgarcia\Desktop\Nueva carpeta (2)\PracticaJavascript\PracticaJavascript\BussinessLayer\bin\Debug\DevExtreme.AspNet.Data.dll
+C:\Users\lgarcia\Desktop\Nueva carpeta (2)\PracticaJavascript\PracticaJavascript\BussinessLayer\bin\Debug\DevExtreme.AspNet.Mvc.dll
+C:\Users\lgarcia\Desktop\Nueva carpeta (2)\PracticaJavascript\PracticaJavascript\BussinessLayer\bin\Debug\EntityFramework.dll
+C:\Users\lgarcia\Desktop\Nueva carpeta (2)\PracticaJavascript\PracticaJavascript\BussinessLayer\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\lgarcia\Desktop\Nueva carpeta (2)\PracticaJavascript\PracticaJavascript\BussinessLayer\bin\Debug\Newtonsoft.Json.dll
+C:\Users\lgarcia\Desktop\Nueva carpeta (2)\PracticaJavascript\PracticaJavascript\BussinessLayer\bin\Debug\DataAccessLayer.pdb
+C:\Users\lgarcia\Desktop\Nueva carpeta (2)\PracticaJavascript\PracticaJavascript\BussinessLayer\bin\Debug\DataAccessLayer.dll.config
+C:\Users\lgarcia\Desktop\Nueva carpeta (2)\PracticaJavascript\PracticaJavascript\BussinessLayer\bin\Debug\DataEntityLayer.pdb
+C:\Users\lgarcia\Desktop\Nueva carpeta (2)\PracticaJavascript\PracticaJavascript\BussinessLayer\bin\Debug\DataEntityLayer.dll.config
+C:\Users\lgarcia\Desktop\Nueva carpeta (2)\PracticaJavascript\PracticaJavascript\BussinessLayer\bin\Debug\DevExtreme.AspNet.Data.xml
+C:\Users\lgarcia\Desktop\Nueva carpeta (2)\PracticaJavascript\PracticaJavascript\BussinessLayer\bin\Debug\DevExtreme.AspNet.Mvc.xml
+C:\Users\lgarcia\Desktop\Nueva carpeta (2)\PracticaJavascript\PracticaJavascript\BussinessLayer\bin\Debug\EntityFramework.xml
+C:\Users\lgarcia\Desktop\Nueva carpeta (2)\PracticaJavascript\PracticaJavascript\BussinessLayer\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\lgarcia\Desktop\Nueva carpeta (2)\PracticaJavascript\PracticaJavascript\BussinessLayer\bin\Debug\Newtonsoft.Json.xml
+C:\Users\lgarcia\Desktop\Nueva carpeta (2)\PracticaJavascript\PracticaJavascript\BussinessLayer\obj\Debug\BusinessLayer.csproj.AssemblyReference.cache
+C:\Users\lgarcia\Desktop\Nueva carpeta (2)\PracticaJavascript\PracticaJavascript\BussinessLayer\obj\Debug\BusinessLayer.csproj.CoreCompileInputs.cache
+C:\Users\lgarcia\Desktop\Nueva carpeta (2)\PracticaJavascript\PracticaJavascript\BussinessLayer\obj\Debug\BusinessLayer.csproj.CopyComplete
+C:\Users\lgarcia\Desktop\Nueva carpeta (2)\PracticaJavascript\PracticaJavascript\BussinessLayer\obj\Debug\BussinessLayer.dll
+C:\Users\lgarcia\Desktop\Nueva carpeta (2)\PracticaJavascript\PracticaJavascript\BussinessLayer\obj\Debug\BussinessLayer.pdb

@@ -1,0 +1,134 @@
+﻿@using DataEntityLayer.Models.Informes;
+@using DataAccessLayer.Util;
+<div id="GridInformeAuditoria" style="min-height:320px">
+    @(Html.DevExtreme().DataGrid<RecomendacionHallazgoPa>().DataSource(ds => ds
+                                                                        .Mvc()
+                                                                        .Controller("InformePlanAccion")
+                                                                        .LoadAction("GetHallazgoRecPa")
+                                                                        .LoadParams(new { codInforme = ViewBag.codigoInforme, codPa = ViewBag.codPa, codPaV = ViewBag.codPaV })
+                                                                        .Key("codigoInformeAuditoria", "codigoHallazgo", "codigoRecomendacion", "codigoPa", "codigoPaVersion"))
+                                                                        .ID("GridRecomendacionAdenda")
+                                                                        .Columns(columns =>
+                                                                        {
+                                                                            columns.AddFor(m => m.hallazgo).Visible(true).Width(200).GroupIndex(0).AllowEditing(false);
+                                                                            columns.AddFor(m => m.numero).Visible(true).Width(80).AllowEditing(false);
+                                                                            columns.AddFor(m => m.descripcion).Visible(true).AllowEditing(false);
+                                                                            columns.AddFor(m => m.codigoTipoRecomendacion).Name("codigoTipoRecomendacion").Visible(true).Lookup(lkup => lkup
+                                                                                                                        .DataSource(ds => ds
+                                                                                                                        .Mvc().Controller("Catalogo")
+                                                                                                                        .LoadAction("GetTipoRecomendacion")
+                                                                                                                        .Key("codigoTipoRecomendacion"))
+                                                                                                                        .ValueExpr("codigoTipoRecomendacion")
+                                                                                                                        .DisplayExpr("descripcion")).Width(150).AllowEditing(false);
+                                                                            columns.AddFor(m => m.codigoPrioridadRecomendacion).Name("codigoPrioridadRecomendacion").Visible(true).Lookup(lkup => lkup
+                                                                                                                        .DataSource(ds => ds
+                                                                                                                        .Mvc().Controller("Catalogo")
+                                                                                                                        .LoadAction("GetPrioridadRecomendacion")
+                                                                                                                        .Key("codigoPrioridadRecomendacion"))
+                                                                                                                        .ValueExpr("codigoPrioridadRecomendacion")
+                                                                                                                        .DisplayExpr("descripcion")).Width(120).AllowEditing(false);
+                                                                            columns.AddFor(m => m.estado).Name("estado").Visible(true).Lookup(lkup => lkup
+                                                                                                                        .DataSource(ds => ds
+                                                                                                                        .Mvc().Controller("Catalogo")
+                                                                                                                        .LoadAction("GetEstadoRecomendacionHallazgo")
+                                                                                                                        .Key("estado"))
+                                                                                                                        .ValueExpr("codigoEstadoRecomendacion")
+                                                                                                                        .DisplayExpr("descripcion")).Width(110).AllowEditing(false);
+                                                                            columns.AddFor(m => m.actividad).Visible(true).AllowEditing(false);
+                                                                            columns.AddFor(m => m.isPublica).Visible(false).AllowEditing(false);
+                                                                            columns.AddFor(m => m.responsableEjecucion).Visible(false).AllowEditing(false);
+                                                                            columns.AddFor(m => m.fechaCumplimiento).DataType(GridColumnDataType.Date).Format("dd/MM/yyyy").Visible(true).Width(150).AllowEditing(false);
+                                                                        })
+                                                                        .ShowBorders(true)
+                                                                        .SearchPanel(p => p.Visible(true).Width(210).Placeholder("Buscar..."))
+                                                                        .Paging(paging => paging.PageSize(10))
+                                                                        .FilterRow(f => f.Visible(true))
+                                                                        .HeaderFilter(h => h.Visible(true))
+                                                                        .ShowColumnLines(true)
+                                                                        .ShowRowLines(true)
+                                                                        .RowAlternationEnabled(true)
+                                                                        .HoverStateEnabled(true)
+                                                                        .Pager(pager =>
+                                                                        {
+                                                                            pager.ShowPageSizeSelector(true);
+                                                                            pager.AllowedPageSizes(new List<int> { 5, 10, 20 });
+                                                                            pager.ShowInfo(true);
+                                                                            pager.Visible(true);
+                                                                        }
+                                                                        )
+                                                                        .ColumnResizingMode(ColumnResizingMode.Widget)
+                                                                        .AllowColumnReordering(true)
+                                                                        .AllowColumnResizing(true)
+                                                                        .Selection(s => s.Mode(SelectionMode.Multiple))
+                                                                        .ColumnHidingEnabled(true)
+                                                                        .NoDataText("No hay información")
+                                                                        .ColumnChooser(c => c.Enabled(true).AllowSearch(true))
+                                                                        .ColumnFixing(c => c.Enabled(true))
+                                                                        .OnSelectionChanged("SelectionChangedRecPa")
+                                                                        .Scrolling(scrolling => scrolling.ColumnRenderingMode(GridColumnRenderingMode.Virtual))
+                                                                        .Export(e => e.Enabled(true).AllowExportSelectedData(true))
+                                                                        .OnExporting("ExportingRecPA")
+                                                                        .WordWrapEnabled(true)
+                                                                        .Toolbar(toolbar =>
+                                                                        {
+                                                                            toolbar.Items(items =>
+                                                                            {
+                                                                                items.Add()
+                                                                                .Location(ToolbarItemLocation.Before)
+                                                                                .LocateInMenu(ToolbarItemLocateInMenuMode.Auto)
+                                                                                .Widget(w =>
+                                                                                    w.Button()
+                                                                                        .Icon("plus")
+                                                                                        .Text("Crear")
+                                                                                        .ID("BtnAgregarSolAden")
+                                                                                        .OnClick("CrearSolicitudAdenda")
+                                                                                        .Disabled(true)
+                                                                                );
+                                                                                items.Add().Location(ToolbarItemLocation.After)
+                                                                                .LocateInMenu(ToolbarItemLocateInMenuMode.Auto)
+                                                                                .Widget(w =>
+                                                                                        w.Button()
+                                                                                        .ID("Refrescar")
+                                                                                        .Icon("refresh")
+                                                                                        .Hint("Refrescar")
+                                                                                        .Text("")
+                                                                                        .OnClick("RefreshGridRecPA")
+                                                                                        );
+                                                                                items.Add()
+                                                                                    .Location(ToolbarItemLocation.After)
+                                                                                    .Widget(w =>
+                                                                                        w.Button()
+                                                                                            .ID("exportCSV")
+                                                                                            .Icon("export")
+                                                                                            .Hint("Exportar CSV")
+                                                                                            .Text("")
+                                                                                            .OnClick("ExportToCsvRecPA")
+                                                                                    );
+                                                                                items.Add()
+                                                                                    .Location(ToolbarItemLocation.After)
+                                                                                    .Widget(w =>
+                                                                                        w.Button()
+                                                                                            .ID("exportPDF")
+                                                                                            .Icon("pdffile")
+                                                                                            .Hint("Exportar PDF")
+                                                                                            .Text("")
+                                                                                            .OnClick("ExportToPdfRecPA")
+                                                                                    );
+                                                                                items.Add().Name("exportButton").LocateInMenu(ToolbarItemLocateInMenuMode.Auto);
+                                                                                items.Add().Name("columnChooserButton")
+                                                                                        .LocateInMenu(ToolbarItemLocateInMenuMode.Auto);
+                                                                                items.Add().Name("searchPanel").Location(ToolbarItemLocation.After).LocateInMenu(ToolbarItemLocateInMenuMode.Auto);
+                                                                            });
+                                                                        })
+    )
+</div>
+<div style="padding-top:10px" class="dx-field-value">
+    @(Html.DevExtreme().Button()
+                            .Text("Cerrar")
+                            .ID("btnCerrarRePa")
+                            .Type(ButtonType.Normal)
+                            .Width(90)
+                            .OnClick("CerrarPopAdenda")
+    )
+    
+</div>

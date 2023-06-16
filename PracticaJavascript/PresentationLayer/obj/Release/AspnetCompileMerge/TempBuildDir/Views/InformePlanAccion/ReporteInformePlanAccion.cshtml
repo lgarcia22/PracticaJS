@@ -1,0 +1,20 @@
+﻿@{ 
+    string urlMenuEncrip = ViewBag.urlMenuEncrip;
+    string codInfEncrip = ViewBag.codInfEncrip;
+    string codigoPaEncrip = ViewBag.codigoPaEncrip;
+    string codigoVersionPaEncrip = ViewBag.codigoVersionPaEncrip;
+}
+
+<nav aria-label="breadcrumb" class="menu">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Action("DetallePlanAccionRegistrado","InformePlanAccion" )?codInf=@codInfEncrip&urlMenu=@urlMenuEncrip&pa=@codigoPaEncrip&pav=@codigoVersionPaEncrip">Detalle Plan Acción</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Reporte Informe Plan de Acción</li>
+    </ol>
+</nav>
+@{
+    var viewerRender = Html.DevExpress().WebDocumentViewer(settings =>
+    {
+        settings.Name = "WebDocumentViewer";
+    }).Bind(Model);
+    @viewerRender.GetHtml()
+}

@@ -1,0 +1,351 @@
+﻿@using BussinessLayer.Util;
+
+
+@{
+    ViewBag.Title = "Mantenimientos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    
+    
+
+    string nodeparent;
+    string node;
+
+    if (TempData.ContainsKey("nodeparent") && TempData["nodeparent"] != null)
+    {
+        //nodeparent = Convert.ToInt32(TempData["nodeparent"].ToString());
+        nodeparent = TempData["nodeparent"].ToString();
+    }
+    else
+    {
+        nodeparent = "1";
+    }
+
+
+    if (TempData.ContainsKey("node") && TempData["node"] != null)
+    {
+        node = TempData["node"].ToString();
+    }
+    else
+    {
+        node = "1_1";
+    }
+
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb go_breadcrumb">
+        <li class="breadcrumb-item active" aria-current="page">Mantenimientos</li>
+    </ol>
+</nav>
+
+<div class="row">
+    <div class="col-lg-12" style="padding:5px;">
+        <div class="col-lg-2">
+            @(Html.DevExtreme().TreeView()
+                            .DataSource(d => d.Mvc().Controller("Mantenimiento").LoadAction("GetContentInfo").Key("id"))
+                            .ItemsExpr("items")
+                            .ID("Treeview")
+                            .ExpandedExpr("isExpanded")
+                            .SearchEnabled(true)
+                            .SelectionMode(NavSelectionMode.Single)
+                            .SelectByClick(true)
+                            .ElementAttr("font-size: 15px;")
+                            .SelectedExpr("isSelected")
+                            .DisplayExpr("text")
+                            .KeyExpr("id")
+                            .ParentIdExpr("CategoryId") 
+                            .OnContentReady("ready")
+                            .OnItemClick("treeViewItemClick")
+                            .ExpandEvent(TreeViewExpandEvent.Click)
+            )
+        </div>
+        <div class="col-lg-10">
+            <div id="Mantenimientos"></div>
+        </div>
+    </div>
+</div>
+<div id="Pop" class="col-lg-12 ">
+   @* @Html.Partial("~/Views/Mantenimientos/Usuarios/_PopUsuarios.cshtml")
+    @Html.Partial("~/Views/Mantenimientos/_PopConfirmarEliminar.cshtml")*@
+</div>
+
+<script>
+    
+     var nodeParent;
+    var node;
+    
+    
+    function ready(e)
+    {
+
+        console.log("Ready:");
+        console.log("@nodeparent");
+        console.log("@node");
+        console.log('@ViewBag.urlMenu');
+
+        if (@nodeparent >= 0) { 
+             //$("#Treeview").dxTreeView("collapseAll");
+            nodeParent = "@nodeparent";
+            node = "@node";
+
+
+            $("#Treeview").dxTreeView("expandItem", nodeParent);
+            $("#Treeview").dxTreeView("selectItem", node);
+           
+            //$("#Treeview").dxTreeView("expandAll");
+
+            SeleccionarMantenimiento('@ViewBag.urlMenu', "@nodeparent",  "@node");
+
+        }
+
+    }
+
+    function treeViewItemClick(e)
+    {
+        
+        console.log("URL:");
+        console.log(e.node.itemData.url);
+        console.log("node:");
+        console.log(e.node.key);
+        console.log("node parent:");
+        console.log(e.node.parent);
+        console.log("parent:");
+        console.log(e.node.parent === null ? e.node.key : e.node.parent.key);
+
+
+
+        var parent = e.node.parent === null ? e.node.key : e.node.parent.key;
+
+        if (e.node.itemData.url !== undefined) {
+            nodeParent = e.node.parent.key;
+            node = e.node.key;
+
+            console.log("nodeParent con url definida:");
+            console.log(nodeParent);
+            console.log("node con url definida:");
+            console.log(node);
+
+
+            SeleccionarMantenimiento(e.node.itemData.url, nodeParent, node);
+        }
+
+    }
+
+    function SeleccionarMantenimiento(opcion, nodeparentSend, nodeSend) 
+    {
+        console.log("SeleccionarMantenimiento:");
+        console.log(nodeparentSend);
+        console.log(nodeSend);
+         //$("#Treeview").dxTreeView("expandAll");
+
+    
+       var url = '@Url.Action("_menu_", "Mantenimiento")'.replace("_menu_", opcion);
+        $.ajax({
+                url:url,
+                type: 'POST',
+                cache: false,
+                datadata: { nodeparent: nodeparentSend, node: nodeSend},
+                success: function (response)
+                {
+                    $("#Mantenimientos").html(response);
+                    OcultarPanelLoad();
+                },
+                error: function (error)
+                {
+                    OcultarPanelLoad();
+                    Alert(error.statusText, "error");
+                }
+        });
+    }
+
+   function Eliminar(values,option)
+   {
+       var url = '@Url.Action("_menu_", "Mantenimiento")'.replace("_menu_", option);
+        $.ajax({
+                url:url,
+                type: 'POST',
+                cache: false,
+                data: { key: values},
+                success: function (response)
+                {
+                    Alert("Registro eliminado correctamente", "success");
+                    refreshGrid();
+                    CerrarPopEliminar(option);
+                },
+                error: function (error)
+                {
+                    Alert(error.statusText, "error");
+                }
+                });
+    }
+
+    function refreshGrid()
+    {
+        $("#GridMantenimiento").dxDataGrid("instance").refresh();
+    }
+    
+
+    //--------------------------------------------------------------------------------MANTENIMIENTO DE USUARIOS-----------------------------------------------------------
+    function ActualizarGridUsuarios() {
+        $("#GridMantenimientoUsuarios").dxDataGrid("instance").refresh()
+    }
+
+    function BotonesUsuarios(e) {
+        var toolbarItems = e.toolbarOptions.items
+        toolbarItems.unshift(
+            {
+                location: "before",
+                widget: "dxButton",
+                options: {
+                    icon: "plus",
+                    hint: 'Agregar Usuario',
+                    text: "Agregar",
+                    elementAttr: {
+                        id: "BtnAgregarUsuarios",
+                        name: "BtnAgregarUsuarios"
+                    },
+                    onClick: function () {
+                        AbrirPopUsuarios()
+                    }
+                },
+                locateInMenu: "Auto"
+            },
+            {
+                location: "before",
+                widget: "dxButton",
+                options: {
+                    icon: "glyphicon glyphicon-eye-open	",
+                    hint: 'Detallar Usuario',
+                    text: "Detallar",
+                    disabled: true,
+                    //disabled: true,
+                    elementAttr: {
+                        id: "BtnDetallarUsuario",
+                        name: "BtnDetallarUsuario"
+                    },
+                    onClick: function () {
+                        window.location.href = '@Url.Action("_TabUsuarios", "Usuario")?id=' + UsuarioSeleccionado.codigoUsuario + '&nodeparent=' + nodeParent + '&node=' + node; 
+                    }
+                },
+                locateInMenu: "Auto"
+            },
+            {
+                location: "after",
+                widget: "dxButton",
+                locateInMenu: "auto",
+                options: {
+                    icon: "refresh",
+                    hint: 'Refrescar',
+                    text: "Actualizar",
+                    onClick: function () {
+                        ActualizarGridUsuarios();
+                    }
+                }
+            },
+        );
+    }
+
+    function AbrirPopUsuarios()
+    {
+        MostrarPanelLoad();
+        $.ajax({
+            url: '@Url.Action("_FormAgregarUsuario", "Usuario")',
+            type: 'POST',
+            async: true,
+            cache:false,
+            success: function (response)
+			{
+                $("#PopAgregarUsuario").dxPopup("instance").option("title", "Crear Nuevo Usuario");
+                $("#PopAgregarUsuario").dxPopup("instance").show();
+                $("#ContPopUsuarios").html(response);
+                 OcultarPanelLoad();
+            },
+            error: function (error) {
+                OcultarPanelLoad();
+                Alert(error.statusText, "error");
+            }
+        });
+    }
+
+    function CerrarPopusuarios() {
+        var popup = $("#PopAgregarUsuario").dxPopup("instance");
+        popup.hide();
+    }
+
+    function InsertUsuarios()
+    {
+        MostrarPanelLoad();
+        var form = $("#FormAgregarUsuario").dxForm("instance").option("formData");
+        if (form.CODIGO_USUARIO != null && form.CODIGO_CLIENTE != null && form.CONTRASENA != null && form.CODIGO_PERFIL != null && form.CODIGO_ESTACION != null) {
+            if (form.CONTRASENA == form.CONFIRMAR_CONTRASENA) {
+                $.ajax({
+                    url: '@Url.Action("InsertUsuarios", "Usuario")',
+                    type: 'POST',
+                    async: true,
+                    cache: false,
+                    data: { values: form },
+                    success: function (response) {
+                        CerrarPopusuarios();
+                        OcultarPanelLoad();
+                        Alert("El usuario se ha registrado exitosamente", "success");
+                        ActualizarGridUsuarios();
+                        window.location.href = '@Url.Action("_TabUsuario", "Usuario")?id=' + response;
+                    },
+                    error: function (error) {
+                        OcultarPanelLoad();
+                        Alert(error.statusText, "error");
+                    }
+                });
+            }
+            else {
+                OcultarPanelLoad();
+                Alert('Las contraseñas no coinciden !! ', "error");
+            }
+        }
+        else {
+            OcultarPanelLoad();
+            Alert('Debe llenar todos los campos !! ', "error");
+        }
+
+    }
+
+    function SelectionChangedUsuarios(e) {
+        if (e.selectedRowsData[0]) {
+            UsuarioSeleccionado = e.selectedRowsData[0];
+        }
+
+        if (e.selectedRowsData[0] == undefined) {
+            $("#BtnDetallarUsuario").dxButton("instance").option("disabled", true);
+            $("#BtnAgregarUsuarios").dxButton("instance").option("disabled", false);
+        }
+
+        if (e.selectedRowKeys.length == 1) {
+            $("#BtnDetallarUsuario").dxButton("instance").option("disabled", false);
+            $("#BtnAgregarUsuarios").dxButton("instance").option("disabled", true);
+        }
+
+        if (e.selectedRowKeys.length > 1) {
+            $("#BtnDetallarUsuario").dxButton("instance").option("disabled", true);
+            $("#BtnAgregarUsuarios").dxButton("instance").option("disabled", true);
+        }
+    }
+
+
+    //============================================================ CERRAR POP ELIMINAR  =======================================================
+
+    function CerrarPopEliminar(option) {
+        var nombrePop = "#PopEliminar" + option;
+        $(nombrePop).dxPopup("instance").hide();
+    }
+
+
+    
+     //============================================================  ELIMINAR ESTACIONES DE USUARIO =======================================================
+    //
+        function CerrarPopEliminarEstacionesUsuarios() {
+            $("#PopEliminarEstacionesUsuarios").dxPopup("instance").hide();
+        }
+
+    
+</script>

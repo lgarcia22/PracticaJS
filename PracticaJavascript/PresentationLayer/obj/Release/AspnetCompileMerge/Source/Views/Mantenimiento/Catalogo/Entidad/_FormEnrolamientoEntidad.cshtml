@@ -1,0 +1,168 @@
+﻿@using DataEntityLayer.Models.Solicitudes;
+@using DataEntityLayer.Models.Usuario;
+@using DataAccessLayer.Util;
+@model SolicitudEnrolamientoEntidad
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<UsuarioEnrolamientoEntidad> usuariosEnrolamiento = new List<UsuarioEnrolamientoEntidad>(); 
+}
+
+
+<nav aria-label="breadcrumb" class="menu">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a ref="#">Solicitud Enrolamiento</a>
+
+        </li>
+
+        <li class="breadcrumb-item active" aria-current="page">Enrolamiento Entidad</li>
+    </ol>
+</nav>
+
+<h4>Nueva Solicitd de Enrolamiento</h4>
+
+<div class="row " style="padding: 10px;">
+    <div class="col-lg-12">
+        @(Html.DevExtreme().Form<SolicitudEnrolamientoEntidad>()
+        .ID("FormSolicitudEnrolamiento")
+        .ColCount(2)
+        .FormData(Model)
+        .Width("100%")
+        .LabelLocation(FormLabelLocation.Left)
+        .ShowColonAfterLabel(true)
+        .LabelMode(FormLabelMode.Outside)
+        .Items(items =>
+        {
+            items.AddGroup()
+            .Items(groupItems =>
+            {
+                groupItems.AddSimpleFor(m => m.codigoEntidad).IsRequired(true)
+                .Editor(e => e.SelectBox().Name("codigoEntidad").ID("codigoEntidad").MaxLength(4))
+                .ColSpan(1);
+
+                groupItems.AddSimpleFor(m => m.numeroOficio).IsRequired(true)
+                .Editor(e => e.TextBox().Name("numeroOficio").ID("numeroOficio").MaxLength(50))
+                .ColSpan(1);
+            })
+            .ColCount(2)
+            .ColSpan(2);
+
+            items.AddGroup()
+            .Items(groupItems =>
+            {
+                groupItems.AddSimpleFor(m => m.numeroIdentidadEntrega).IsRequired(true)
+                .Editor(e => e.TextBox().Name("numeroIdentidadEntrega").ID("numeroIdentidadEntrega").MaxLength(13));
+
+                groupItems.AddSimpleFor(m => m.nombreEntrega).IsRequired(true)
+                .Editor(e => e.TextBox().Name("nombreEntrega").ID("nombreEntrega").MaxLength(100));
+
+                groupItems.AddSimpleFor(m => m.cargoEntrega).IsRequired(true)
+                .Editor(e => e.TextBox().Name("cargoEntrega").ID("cargoEntrega").MaxLength(100));
+            })
+            .ColCount(2)
+            .ColSpan(2);
+
+            items.AddGroup()
+            .Items(groupItems =>
+            {
+                groupItems.AddSimpleFor(m => m.numeroIdentidadRecibe).IsRequired(true)
+                .Editor(e => e.TextBox().Name("numeroIdentidadRecibe").ID("numeroIdentidadRecibe").MaxLength(13));
+
+                groupItems.AddSimpleFor(m => m.nombreRecibe).IsRequired(true)
+                .Editor(e => e.TextBox().Name("nombreRecibe").ID("nombreRecibe").MaxLength(100));
+
+                groupItems.AddSimpleFor(m => m.cargoRecibe).IsRequired(true)
+                .Editor(e => e.TextBox().Name("cargoRecibe").ID("cargoRecibe").MaxLength(100));
+            })
+            .ColCount(2)
+            .ColSpan(2);
+
+            items.AddGroup()
+            .Items(groupItems =>
+            {
+                groupItems.AddSimpleFor(m => m.observacion).IsRequired(true)
+                .Editor(e => e.TextArea().Name("observacion").ID("observacion").MaxLength(500).MinHeight(125));
+            })
+            .ColCount(2)
+            .ColSpan(2);
+        })
+        )
+    </div>
+</div>
+
+
+<hr />
+<h4 style="margin-top: 40px">Personas a Enrolar</h4>
+
+<div class="row">
+    <div class="col-lg-12">
+        @(Html.DevExtreme().Button()
+        .Text("Agregar Persona")
+        .Icon("fa-solid fa-plus")
+        .Type(ButtonType.Default)
+        .StylingMode(ButtonStylingMode.Contained)
+        .OnClick("OpenPopPersonaEnrolamientoEntidad")
+        .Height(40)
+        )
+    </div>
+    <div class="col-lg-12">
+        @(Html.DevExtreme().DataGrid()
+        .ID("GridPersonasEnrolamiento")
+        .DataSource(usuariosEnrolamiento)
+        .KeyExpr("numeroIdentidad")
+        .ShowBorders(true)
+        .Columns(c => {
+            c.Add().DataField("nombre");
+            c.Add().DataField("numeroIdentidad");
+            c.Add().DataField("correoPrimario");
+            c.Add().DataField("correoSecundario");
+            c.Add().DataField("telefono");
+            c.Add().DataField("cargo");
+            c.Add().DataField("rol");
+        })
+        .SearchPanel(p => p.Visible(true).Width(210).Placeholder("Buscar..."))
+        .Paging(paging => paging.PageSize(10))
+        .FilterRow(f => f.Visible(true))
+        .HeaderFilter(h => h.Visible(true))
+        .ShowColumnLines(true)
+        .NoDataText("No hay información")
+        )
+    </div>
+</div>
+
+
+<hr />
+<h4 style="margin-top: 40px">Documento de la Solicitud</h4>
+<div class="row">
+    <div class="col-lg-12">
+        <input type="file" />
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12" style="display: flex; justify-content: start; gap: 15px; margin-top: 40px;">
+        @(Html.DevExtreme().Button()
+        .Text("Cancelar")
+        .Type(ButtonType.Normal)
+        .StylingMode(ButtonStylingMode.Contained)
+        .Width(120)
+        )
+
+        @(Html.DevExtreme().Button()
+        .Text("Enviar")
+        .Type(ButtonType.Default)
+        .StylingMode(ButtonStylingMode.Contained)
+        .Width(120)
+        .Height(40)
+        )
+    </div>
+</div>
+
+@(Html.Partial("~/Views/Mantenimiento/Catalogo/Entidad/_PopPersonaEnrolamientoEntidad.cshtml"));
+@* Título *@
+
+<script>
+    function OpenPopPersonaEnrolamientoEntidad() {
+        $("#PopPersonaEnrolamientoEntidad").dxPopup("instance").show();
+    }
+</script>

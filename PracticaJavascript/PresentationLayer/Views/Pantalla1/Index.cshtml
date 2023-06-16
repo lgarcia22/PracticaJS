@@ -1,0 +1,117 @@
+﻿
+@using DataAccessLayer.Util;
+@{
+    ViewBag.Title = "Pantalla1";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+<nav aria-label="breadcrumb" class="menu">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item active" aria-current="page">Pantalla 1</li>
+        <li class="breadcrumb-item" id="classManual" style="float:right;">
+            <a style="text-align: right;" title="Manual de Usuario" href="#" target="_blank">
+                <i class="fa fa-book" style="padding-left: inherit;padding-right: inherit;"></i>
+                Manual Usuario
+            </a>
+        </li>
+    </ol>
+</nav>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12" style="padding:5px;">
+            @Html.Partial("~/Views/Pantalla1/_Grid.cshtml")
+        </div>
+    </div>
+</div>
+
+@Html.Partial("~/Views/Pantalla1/_Popup.cshtml")
+
+
+<script>
+// Todas las funciones de los grids o formularios deben ir en esta sección.
+    function AbrirPopupAgregar() {
+        MostrarPanelLoad();
+        $.ajax({
+            url: '@Url.Action("FormAgregar", "Pantalla1")',
+            type: 'POST',
+            success: function (response)
+            {
+                AbrirPopup("#Popup1", "Un titulo", "#ContPopup1", response);
+                OcultarPanelLoad();
+            },
+            error: function (error) {
+                OcultarPanelLoad();
+                Alert(error.responseText, "error");
+            }
+        });
+    }
+
+    function AbrirPopup(idDxPopup, title, container, content) {
+        if (title) $(idDxPopup).dxPopup("instance").option("title", title);
+
+        $(idDxPopup).dxPopup("instance").show();
+
+        if (container && content) $(container).html(content);
+    }
+    var datosFila;
+
+    function SeleccionFila(e) {
+        console.log(e);
+        if (e.selectedRowsData.length > 1) {
+            $("#boton2").dxButton("instance").option("disabled", true);
+        }
+        else if (e.selectedRowsData[0]) {
+            datosFila = e.selectedRowsData[0];
+            $("#boton2").dxButton("instance").option("disabled", false);
+        }
+        else {
+            $("#boton2").dxButton("instance").option("disabled", true);
+        }
+    }
+
+    function SeleccionSelectbox1(e) {
+        if (e.selectedItem == null) {
+            $("#codigoEmpleado2").dxSelectBox("instance").option("disabled", true);
+            return;
+        }
+        $("#codigoEmpleado2").dxSelectBox("instance").option("value", e.selectedItem.codigoEmpleado);
+        $("#codigoEmpleado2").dxSelectBox("instance").option("disabled", false);
+
+        $.get('@Url.Action("ObtenerJefe","Pantalla1")',
+            { codJefe: e.selectedItem.codigoEmpleado },
+            function (data) {
+                $("#codigoEmpleado2").dxSelectBox({
+                    dataSource: new DevExpress.data.DataSource({
+                        store: data.data
+                    }),
+                    displayExpr: "Nombre",
+                    valueExpr: "codigoEmpleado"
+                });
+            }
+        )
+    }
+
+      function SeleccionSelectbox2(e) {
+        if (e.selectedItem == null) {
+            $("#CodigoMuni2").dxSelectBox("instance").option("disabled", true);
+            return;
+        }
+        $("#CodigoMuni2").dxSelectBox("instance").option("value", e.selectedItem.CodigoDepto);
+        $("#CodigoMuni2").dxSelectBox("instance").option("disabled", false);
+
+        $.get('@Url.Action("GetMunicipio", "Pantalla1")',
+            { CodigoDepto: e.selectedItem.CodigoDepto },
+            function (data) {
+                $("#CodigoMuni2").dxSelectBox({
+                    dataSource: new DevExpress.data.DataSource({
+                        store: data.data
+                    }),
+                    displayExpr: "NombreMuni",
+                    valueExpr: "CodigoMuni"
+                });
+            }
+        )
+      }
+
+</script>

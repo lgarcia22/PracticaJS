@@ -1,0 +1,328 @@
+﻿@using DataAccessLayer.Util;
+@{
+    ViewBag.Title = "Plan de Acción";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string menu = ViewBag.urlMenuEncriptada;
+    string bandeja = UtilClass.bandejaPaA;
+}
+
+<nav aria-label="breadcrumb" class="menu">
+    <ol class="breadcrumb">
+        @if (ViewBag.urlMenu == UtilClass.bandejaPaR)
+        {
+            <li class="breadcrumb-item active" aria-current="page">Planes de Acción</li>
+        }
+        @if (ViewBag.urlMenu == UtilClass.bandejaPaV)
+        {
+            <li class="breadcrumb-item active" aria-current="page">Planes de Acción Verificados</li>
+        }
+        @if (ViewBag.urlMenu == UtilClass.bandejaPaA)
+        {
+            <li class="breadcrumb-item active" aria-current="page">Planes de Acción Aprobados</li>
+        }
+    </ol>
+</nav>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12" style="padding:5px;">
+            @Html.Partial("~/Views/InformePlanAccion/_GridPlanAccion.cshtml", new { urlMenu = ViewBag.urlMenu })
+        </div>
+    </div>
+</div>
+<div id="Pop" class="col-lg-12 ">
+    @Html.Partial("~/Views/InformePlanAccion/_PopPlanAccion.cshtml")
+
+</div>
+
+
+<script src="@Url.Content("~/Scripts/jquery-confirm.min.js")"></script>
+<script>
+        
+    function DetallarPlaAccion() {
+        if ("@ViewBag.urlMenu" =="@bandeja") {
+            window.location.href = '@Url.Action("DetallePlanAccionAprobado", "InformePlanAccion")?codInf=' + keySeleccionado.codInformeEncriptado + '&urlMenu=' + "@menu" + '&pa=' + keySeleccionado.codPaEncriptado + '&pav=' + keySeleccionado.codPaVersionEncriptado;
+        } else {
+            window.location.href = '@Url.Action("DetallePlanAccionRegistrado", "InformePlanAccion")?codInf=' + keySeleccionado.codInformeEncriptado + '&urlMenu=' + "@menu" + '&pa=' + keySeleccionado.codPaEncriptado + '&pav=' + keySeleccionado.codPaVersionEncriptado;
+        }
+        
+    }
+
+    
+    function SelectionChangedPlanAccion(e) {
+        
+        if (e.selectedRowsData[0]) {
+
+            PlanAccionSeleccionado = e.selectedRowsData[0];
+            keySeleccionado = e.selectedRowKeys[0];
+        }
+
+        if (e.selectedRowsData[0] == undefined) {
+            $("#BtnDetallarPa").dxButton("instance").option("disabled", true);
+            $("#BtnAgregarPa").dxButton("instance").option("disabled", false);
+
+        }
+
+        if (e.selectedRowKeys.length == 1) {
+            $("#BtnDetallarPa").dxButton("instance").option("disabled", false);
+            $("#BtnAgregarPa").dxButton("instance").option("disabled", true);
+        }
+
+        if (e.selectedRowKeys.length > 1) {
+            $("#BtnDetallarPa").dxButton("instance").option("disabled", true);
+            $("#BtnAgregarPa").dxButton("instance").option("disabled", true);
+        }
+    }
+
+    function ExportingPa(e) {
+        var workbook = new ExcelJS.Workbook();
+        var worksheet = workbook.addWorksheet('Plan_Accion');
+
+        DevExpress.excelExporter.exportDataGrid({
+            component: e.component,
+            worksheet: worksheet,
+            autoFilterEnabled: true
+        }).then(function () {
+            workbook.xlsx.writeBuffer().then(function (buffer) {
+                saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Plan_Accion.xlsx');
+            });
+        });
+        e.cancel = true;
+    }
+
+    function RefreshGridPa() {
+        $("#GridPlanAccion").dxDataGrid("instance").refresh();
+    }
+
+    function ExportToCsvPa(e) {
+        var dataGrid = $("#GridPlanAccion").dxDataGrid("instance");
+        var workbook = new ExcelJS.Workbook();
+        var worksheet = workbook.addWorksheet('Plan_Accion');
+
+        DevExpress.excelExporter.exportDataGrid({
+            component: dataGrid,
+            worksheet: worksheet,
+        }).then(function () {
+            workbook.csv.writeBuffer().then(function (buffer) {
+                saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Plan_Accion.csv');
+            });
+        });
+        e.cancel = true;
+    }
+
+    function ExportToPdfPa() {
+        window.jsPDF = window.jspdf.jsPDF;
+        applyPlugin(window.jsPDF);
+        var options = {
+            orientation: 'l',
+            format: 'a4',
+            unit: 'mm',
+        };
+        var doc = new jsPDF(options);
+        doc.setTextColor('#FFFFFF');
+        doc.autoTable({
+            headStyles: { textColor: 21, horizontalPageBreak: true },
+            styles: { textColor: 21, horizontalPageBreak: true },
+            columnStyles: { 0: { halign: 'center' } },
+            body: [
+                [{ content: 'Plan de Acción', colSpan: 2, rowSpan: 20, styles: { halign: 'center' }, lineColor: 11 }],
+            ],
+        });
+        var dataGrid = $("#GridPlanAccion").dxDataGrid("instance");
+        DevExpress.pdfExporter.exportDataGrid({
+            jsPDFDocument: doc,
+            component: dataGrid,
+            customizeCell: function (options) {
+                test = options;
+                const { gridCell, pdfCell } = options;
+                if (gridCell.rowType === 'data') {
+                    pdfCell.styles = {
+                        font: 'times',
+                        fontSize: 14,
+                        overflow: 'linebreak'
+                    }
+                }
+            }
+        }).then(function () {
+            doc.save("Plan_Accion.pdf");
+        });
+    }
+
+    //////////////////////////////// crear plan de accion/////////////////////
+    
+
+    function CerrarPopCrearPa() {
+        var popup = $("#PopPlaAccion").dxPopup("instance");
+        popup.hide();
+    }
+    function AbrirPopCrearPa() {
+
+        MostrarPanelLoad();
+        $.ajax({
+            url: '@Url.Action("GetInformeAuditoriaPa", "InformePlanAccion")',
+            type: 'POST',
+            async: true,
+            cache:false,
+            success: function (response)
+			{
+                $("#PopPlaAccion").dxPopup("instance").option("title", "Crear Plan de Acción");
+                $("#PopPlaAccion").dxPopup("instance").show();
+                $("#ContInformePa").html(response);
+                 OcultarPanelLoad();
+            },
+            error: function (error) {
+                OcultarPanelLoad();
+                Alert(error.statusText, "error");
+            }
+        });
+    }
+    
+    function SelectionChangedInfSinPa(e) {
+        if (e.selectedRowsData[0]) {
+
+            InfSinPaSeleccionado = e.selectedRowsData[0];
+        }
+
+        if (e.selectedRowsData[0] == undefined) {
+            $("#BtnAgregarInfPa").dxButton("instance").option("disabled", true);
+           
+        }
+
+        if (e.selectedRowKeys.length == 1) {
+            $("#BtnAgregarInfPa").dxButton("instance").option("disabled", false);
+        }
+
+        if (e.selectedRowKeys.length > 1) {
+            $("#BtnAgregarInfPa").dxButton("instance").option("disabled", true);
+        }
+        
+    }
+
+    
+    function RefreshGridInfSinPa() {
+        $("#GridInformeAuditoriaSinPa").dxDataGrid("instance").refresh();
+    }
+
+    
+    function ExportingInfSinPa(e) {
+        var workbook = new ExcelJS.Workbook();
+        var worksheet = workbook.addWorksheet('Informe_Sin_Plan_Accion');
+
+        DevExpress.excelExporter.exportDataGrid({
+            component: e.component,
+            worksheet: worksheet,
+            autoFilterEnabled: true
+        }).then(function () {
+            workbook.xlsx.writeBuffer().then(function (buffer) {
+                saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Informe_Sin_Plan_Accion.xlsx');
+            });
+        });
+        e.cancel = true;
+    }
+
+    
+
+    function ExportToCsvInfSinPa(e) {
+        var dataGrid = $("#GridInformeAuditoriaSinPa").dxDataGrid("instance");
+        var workbook = new ExcelJS.Workbook();
+        var worksheet = workbook.addWorksheet('Informe_Sin_Plan_Accion');
+
+        DevExpress.excelExporter.exportDataGrid({
+            component: dataGrid,
+            worksheet: worksheet,
+        }).then(function () {
+            workbook.csv.writeBuffer().then(function (buffer) {
+                saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Informe_Sin_Plan_Accion.csv');
+            });
+        });
+        e.cancel = true;
+    }
+
+    function ExportToPdfInfSinPa() {
+        window.jsPDF = window.jspdf.jsPDF;
+        applyPlugin(window.jsPDF);
+        var options = {
+            orientation: 'l',
+            format: 'a4',
+            unit: 'mm',
+        };
+        var doc = new jsPDF(options);
+        doc.setTextColor('#FFFFFF');
+        doc.autoTable({
+            headStyles: { textColor: 21, horizontalPageBreak: true },
+            styles: { textColor: 21, horizontalPageBreak: true },
+            columnStyles: { 0: { halign: 'center' } },
+            body: [
+                [{ content: 'Informes de Auditoría Sin Plan de Acción', colSpan: 2, rowSpan: 20, styles: { halign: 'center' }, lineColor: 11 }],
+            ],
+        });
+        var dataGrid = $("#GridInformeAuditoriaSinPa").dxDataGrid("instance");
+        DevExpress.pdfExporter.exportDataGrid({
+            jsPDFDocument: doc,
+            component: dataGrid,
+            customizeCell: function (options) {
+                test = options;
+                const { gridCell, pdfCell } = options;
+                if (gridCell.rowType === 'data') {
+                    pdfCell.styles = {
+                        font: 'times',
+                        fontSize: 14,
+                        overflow: 'linebreak'
+                    }
+                }
+            }
+        }).then(function () {
+            doc.save("Informe_Sin_Plan_Accion.pdf");
+        });
+    }
+
+    function CrearPlanAccion() {
+
+        $.confirm({
+            title: "Crear Plan de Acción",
+            animation: "zoom",
+            closeAnimation: "zoom",
+            animateFromElement: false,
+            content: '<div>¿Está seguro que desea crear un plan de acción para este informe? <br></div>',
+            type: "orange",
+            buttons: {
+                confirm: {
+                    //btnClass: 'btn-primary',
+                    text: "  Si  ",
+                    action: () => {
+                        CrearPlanAccionInforme();
+                    }
+                }, cancel: {
+                    text: "  No  "
+                }
+            }
+        });
+    }
+    
+    function CrearPlanAccionInforme()
+    {
+
+        MostrarPanelLoad();
+        var codInforme = InfSinPaSeleccionado.codigoInformeAuditoria;
+
+        $.ajax({
+            url: '@Url.Action("InsertPlanAccion", "InformePlanAccion")',
+            type: 'POST',
+            async: true,
+            cache: false,
+            data: { values: codInforme},
+            success: function (response) {
+                CerrarPopCrearPa()
+                OcultarPanelLoad();
+                Alert("El Plan de acción se ha registrado exitosamente", "success");
+                RefreshGridPa();
+            },
+            error: function (error) {
+                OcultarPanelLoad();
+                Alert(error.statusText, "Error al crear el plan de acción");
+            }
+        });
+
+    }
+    
+</script>

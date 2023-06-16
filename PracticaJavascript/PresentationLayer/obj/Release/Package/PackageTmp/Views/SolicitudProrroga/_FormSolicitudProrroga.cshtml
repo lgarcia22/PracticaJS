@@ -1,0 +1,124 @@
+﻿@using DataEntityLayer.Models.Solicitudes;
+@using DataAccessLayer.Util;
+@model SolicitudProrrogaModel
+@{ 
+    int tipoOperacion = ViewBag.TipoOperacion;
+    bool btnGuardarVisible = false;
+    int codigoInforme = 0;
+    bool campoSoloLectura = false;
+
+    if (ViewBag.codigoInforme != null){
+        codigoInforme = Convert.ToInt32(ViewBag.codigoInforme);
+    }
+
+    if (tipoOperacion == UtilClass.tipoOperacionCrear)
+    {
+        btnGuardarVisible = true;
+    }
+    else {
+        campoSoloLectura = true;
+    }
+}
+<script>
+
+    function CerrarPopAgregarSolicitudProrroga() {
+        var popup = $("#PopAgregarSolicitudProrroga").dxPopup("instance");
+        popup.hide();
+    }
+
+    function AgregarSolicitudPa()
+    {
+        MostrarPanelLoad();
+        var form = $("#FormDatosSolicitudProrroga0").dxForm("instance").option("formData");
+
+        if (form.fechaProrroga != null && form.fechaProrroga != "" && form.diaProrroga != null && form.diaProrroga != "")
+        {
+            if (form.observacion == "/n") {
+                form.observacion == null;
+            }
+            form.codigoInformeAuditoria = @codigoInforme;
+            $.ajax({
+                    url: '@Url.Action("AgregarSolicitudProrroga", "SolicitudProrroga")',
+                    type: 'POST',
+                    async: true,
+                    cache: false,
+                    data: { values: form, fechaProrroga: DateTime(form.fechaProrroga)},
+                    success: function (response) {
+                        CerrarPopAgregarSolicitudProrroga();
+                        OcultarPanelLoad();
+                        Alert("La solicitud se ha registrado exitosamente", "success");
+                        setTimeout(location.reload(), 5000);
+                    },
+                    error: function (error) {
+                        OcultarPanelLoad();
+                        Alert(error.statusText, "Error al crear la solicitud de plan de acción");
+                    }
+                });
+        }
+        else {
+            OcultarPanelLoad();
+            Alert('Debe llenar todos los campos !! ', "error");
+        }
+    }
+</script>
+<div class="row " style="padding: 10px;">  
+    <div class="col-lg-12">
+        @(Html.DevExtreme().Form<SolicitudProrrogaModel>()
+                                                            .ID("FormDatosSolicitudProrroga" + Model.codigoSolicitudProrroga)
+                                                            .ColCount(3)
+                                                            .FormData(Model)
+                                                            .LabelLocation(FormLabelLocation.Left)
+                                                            .ShowColonAfterLabel(true)
+                                                            .LabelMode(FormLabelMode.Outside)
+                                                            .Items(items =>
+                                                            {
+                                                               
+                                                                items.AddSimpleFor(m => m.fechaProrroga)
+                                                                           .Editor(e => e.DateBox().Type(DateBoxType.Date)
+                                                                           .Name("fechaProrroga").ID("fechaProrroga")
+                                                                               .DisplayFormat("dd/MM/yyyy HH:mm:ss").ReadOnly(campoSoloLectura)
+                                                                               ).IsRequired(true).ColSpan(1);
+
+                                                              
+                                                                items.AddSimpleFor(m => m.diaProrroga)
+                                                                                   .Editor(e => e.SelectBox()
+                                                                                                .Name("diaProrroga")
+                                                                                                .ID("diaProrroga")
+                                                                                                .DataSource(d => d.Mvc()
+                                                                                                                .Controller("Catalogo")
+                                                                                                                .LoadAction("GetTipoNotificacion").Key("codigoTipoNotificaion"))
+                                                                                                                .SearchEnabled(true)
+                                                                                                                .ShowClearButton(true)
+                                                                                                                .DisplayExpr("plazo")
+                                                                                                                .ValueExpr("codigoTipoNotificaion")
+                                                                                                        .ReadOnly(true)
+                                                                                       );
+
+                                                                items.AddSimpleFor(m => m.observacion).Editor(E => E.TextArea().ReadOnly(campoSoloLectura).Height(125)
+                                                                .Name("observacion").ID("observacion").MaxLength(200)).ColSpan(2);
+
+                                                            }).ColCountByScreen(cs => cs.Md(2).Lg(2).Sm(1))
+        )
+    </div>
+    <div class="dx-field-value col-lg-12">
+        <div class="contendor-botones-form">
+            @(Html.DevExtreme().Button()
+              .Text("Cerrar")
+              .ID("btnCerrarPopSolicitudProrroga" + Model.codigoSolicitudProrroga)
+              .Type(ButtonType.Normal)
+              .Width(110)
+              .Visible(btnGuardarVisible)
+              .OnClick("CerrarPopAgregarSolicitudProrroga"))
+
+            @(Html.DevExtreme().Button()
+                                .Text("Guardar")
+                                .ID("btnGuardarProrroga" + Model.codigoSolicitudProrroga)
+                                .Icon("save")
+                                .Type(ButtonType.Normal)
+                                .Width(110)
+                                .OnClick("AgregarSolicitudPa")
+                                .Visible(btnGuardarVisible)
+                                )
+        </div>
+    </div>
+</div>

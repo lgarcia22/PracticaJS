@@ -1,0 +1,117 @@
+﻿@using DataEntityLayer.Models.Informes;
+@using DataAccessLayer.Util;
+@model PresentacionPlanAccionModel
+@{ 
+    bool camposSoloLectura = true;
+    bool botonActualizarVisible = false;
+    bool botonCrearVisible = false;
+    bool visibleCrear = true;
+    int tipoOperacion = ViewBag.tipoOperacion;
+    int codigoInforme = ViewBag.codigoInforme;
+
+    if (tipoOperacion == UtilClass.tipoOperacionCrear) {
+        camposSoloLectura = false;
+        botonCrearVisible = true;
+        visibleCrear = false;
+    }
+    else if(tipoOperacion == UtilClass.tipoOperacionModificar)
+    {
+        camposSoloLectura = true;
+        botonActualizarVisible = ViewBag.btnEditarPresentacionPaActivo;
+    }
+
+}
+@if(tipoOperacion == UtilClass.tipoOperacionModificar)
+{
+<div class="row">
+    <div class="col-md-12">
+        <p class="encabezado-panel2">Presentación del Plan de Acción</p>
+    </div>
+</div>
+}
+<div class="row " style="padding: 10px;">
+    <div class="col-lg-12">
+        @(Html.DevExtreme().Form<PresentacionPlanAccionModel>()
+        .ID("FormPresentacionPlanAccion" + Model.codigoInformeAuditoria)
+        .ColCount(3)
+        .FormData(Model)
+        .LabelLocation(FormLabelLocation.Left)
+        .ShowColonAfterLabel(true)
+        .LabelMode(FormLabelMode.Outside)
+        .Items(items =>
+        {
+            items.AddGroup()
+            .Items(groupItems =>
+            {
+                groupItems.AddSimpleFor(m => m.numeroOficio).IsRequired(true)
+                       .Editor(e => e.TextBox().ReadOnly(camposSoloLectura).Name("numeroOficio").ID("numeroOficio").MaxLength(50)
+                       ).ColSpan(1);
+                groupItems.AddSimpleFor(m => m.fechaOficio).IsRequired(true)
+                     .Editor(e => e.DateBox().Type(DateBoxType.Date).Name("fechaOficio").ID("fechaOficio")
+                       ).ColSpan(1);
+                groupItems.AddSimpleFor(m => m.fechaPresentacion).IsRequired(true)
+                       .Editor(e => e.DateBox().Type(DateBoxType.Date).Name("fechaPresentacion").ID("fechaPresentacion")
+                       ).ColSpan(1);
+            }).ColCount(3).ColSpan(3);
+
+            items.AddGroup()
+            .Items(groupItems =>
+            {
+                groupItems.AddSimpleFor(m => m.numeroIdentidadEntrega)
+                     .Editor(e => e.TextBox().Name("numeroIdentidadEntrega").ID("numeroIdentidadEntrega").MaxLength(13)
+                     ).ColSpan(2);
+                groupItems.AddSimpleFor(m => m.nombreEntrega)
+                     .Editor(e => e.TextBox().Name("nombreEntrega").ID("nombreEntrega").MaxLength(100)
+                     ).ColSpan(2);
+                groupItems.AddSimpleFor(m => m.cargoEntrega)
+                     .Editor(e => e.TextBox().Name("cargoRecibe").ID("cargoRecibe").MaxLength(50)
+                     ).ColSpan(2);
+            }).ColCount(5).ColSpan(3);
+
+            items.AddGroup()
+            .Items(groupItems =>
+            {
+                groupItems.AddSimpleFor(m => m.numeroIdentidadRecibe).IsRequired(true)
+                      .Editor(e => e.TextBox().Name("numeroIdentidadRecibe").ID("numeroIdentidadRecibe").MaxLength(13)
+                      ).ColSpan(2);
+                groupItems.AddSimpleFor(m => m.nombreRecibe).IsRequired(true)
+                      .Editor(e => e.TextBox().Name("nombreRecibe").ID("nombreRecibe").MaxLength(100)
+                      ).ColSpan(2);
+
+            }).ColCount(5).ColSpan(3);
+            items.AddSimpleFor(m => m.observacion).Editor(E => E.TextArea()
+            .Name("observacion").ID("observacion").MinHeight(125).MaxLength(500)).ColSpan(3);
+
+        }).ColCountByScreen(cs => cs.Md(3).Lg(3).Sm(1))
+        )
+    </div>
+    <div class="dx-field-value col-lg-12">
+        <div class="contendor-botones-form">
+            @(Html.DevExtreme().Button()
+                                .Text("Actualizar")
+                                .ID("btnActualizarPresentacionPa" + Model.codigoInformeAuditoria)
+                                .Icon("edit")
+                                .Type(ButtonType.Normal)
+                                .Width(110)
+                                .OnClick(tipoOperacion == UtilClass.tipoOperacionModificar ? "ActualizarPresentacionPa" : "dummyFunction")
+                                .Visible(botonActualizarVisible)
+                                )
+            @(Html.DevExtreme().Button()
+              .Text("Cerrar")
+              .ID("btnCerrarPopAgregarSolicitud" + Model.codigoInformeAuditoria)
+              .Type(ButtonType.Normal)
+              .Width(110)
+              .Visible(botonCrearVisible)
+              .OnClick("CerrarPopAgregarPresentacionPa"))
+
+            @(Html.DevExtreme().Button()
+                                .Text("Guardar")
+                                .ID("btnGuardarPresentacionPa" + Model.codigoInformeAuditoria)
+                                .Icon("save")
+                                .Type(ButtonType.Normal)
+                                .Width(110)
+                                .OnClick(tipoOperacion == UtilClass.tipoOperacionCrear ? "AgregarPresentacionPa" : "dummyFunction")
+                                .Visible(botonCrearVisible))
+        </div>
+    </div>
+</div>

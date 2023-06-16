@@ -1,0 +1,27 @@
+﻿@(Html.DevExtreme().Popup()
+                                .ID("PopSolicitudPlanAccion")
+                                .Width("83%")
+                                .Height("365px")
+                                .Visible(false)
+                                .CloseOnOutsideClick(false)
+                                .Position(pos => pos
+                                .My(HorizontalAlignment.Center, VerticalAlignment.Center)
+                                .At(HorizontalAlignment.Center, VerticalAlignment.Center)
+                                .Of(new JS("window"))).ContentTemplate(new TemplateName("ContenidoSolicitudPlanAccion"))
+)
+
+@using (Html.DevExtreme().NamedTemplate("ContenidoSolicitudPlanAccion"))
+{
+    @(Html.DevExtreme().ScrollView()
+                .ScrollByContent(true)
+                .ScrollByThumb(true)
+                .Height("100%")
+                .ReachBottomText("Updating...")
+                .ShowScrollbar(ShowScrollbarMode.OnScroll)
+                .Direction(ScrollDirection.Both)
+                .ID("scrollView")
+                .Content(@<text><div id="ContSolicitudPlanAccion" style="padding-right:10px"></div>
+                </text>)
+        )
+}
+

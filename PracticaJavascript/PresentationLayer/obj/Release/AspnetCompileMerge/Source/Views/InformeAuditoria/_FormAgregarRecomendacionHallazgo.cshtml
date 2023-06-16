@@ -1,0 +1,77 @@
+﻿@using DataEntityLayer.Models.Informes;
+
+
+<div>
+    @(Html.DevExtreme().Form<RecomendacionHallazgoInformeAuditoria>()
+                                        .ID("FormAgregarRecomendacionHallazgo")
+                                        .ValidationGroup("FormRecomendacionHallazgo")
+                                        .LabelLocation(FormLabelLocation.Left)
+                                        .LabelMode(FormLabelMode.Outside)
+                                        .Items(items =>
+                                        {
+
+                                            items.AddGroup()
+                                            .Items(groupItems =>
+                                            {
+                                                groupItems.AddSimpleFor(m => m.numero).Editor(E => E.NumberBox().Name("numero").ID("numero").ReadOnly(true).Value(ViewBag.numeroRecomendacion)).IsRequired(true).ColSpan(1).Visible(true);
+                                                groupItems.AddSimpleFor(m => m.codigoTipoRecomendacion).Editor(e => e.SelectBox()
+                                                                                .Name("codigoTipoRecomendacion")
+                                                                                .ID("codigoTipoRecomendacion")
+                                                                                .DataSource(d => d.Mvc()
+                                                                                                .Controller("Catalogo")
+                                                                                                .LoadAction("GetTipoRecomendacion").Key("codigoFuenteFinanciera"))
+                                                                                                .SearchEnabled(true)
+                                                                                                .ShowClearButton(true)
+                                                                                                .DisplayExpr("descripcion")
+                                                                                                .ValueExpr("codigoTipoRecomendacion")
+                                                                                ).IsRequired(true).ColSpan(1);
+
+                                            }).ColCount(2).ColSpan(1)
+
+                                            .Items(groupItems =>
+                                            {
+                                                groupItems.AddSimpleFor(m => m.codigoPrioridadRecomendacion).Editor(e => e.SelectBox()
+                                                                                .Name("codigoPrioridadRecomendacion")
+                                                                                .ID("codigoPrioridadRecomendacion")
+                                                                                .DataSource(d => d.Mvc()
+                                                                                                .Controller("Catalogo")
+                                                                                                .LoadAction("GetPrioridadRecomendacion").Key("codigoPrioridadRecomendacion"))
+                                                                                                .SearchEnabled(true)
+                                                                                                .ShowClearButton(true)
+                                                                                                .DisplayExpr("descripcion")
+                                                                                                .ValueExpr("codigoPrioridadRecomendacion")
+                                                                                ).IsRequired(true).ColSpan(1);
+                                                groupItems.AddSimpleFor(m => m.dirigidoA).Editor(e => e.TextBox().Name("dirigidoA").ID("dirigidoA").MaxLength(200)).Visible(true).IsRequired(true).ColSpan(1);
+
+
+                                            }).ColCount(2).ColSpan(1)
+
+                                            .Items(groupItems =>
+                                            {
+                                                groupItems.AddSimpleFor(m => m.descripcion).Editor(e => e.TextArea().Name("descripcion").ID("descripcion").MaxLength(4000).Height(125)).Visible(true).IsRequired(true).ColSpan(2);
+
+
+                                            }).ColCount(2).ColSpan(1);
+                                        })
+    )
+</div>
+
+<div style="padding-top:10px" class="dx-field-value">
+    @(Html.DevExtreme().Button()
+                                                .Text("Cerrar")
+                                                .ID("btnCerrarRecH")
+                                                //.Icon("fas fa-times")
+                                                .Type(ButtonType.Normal)
+                                                .Width(90)
+                                                .OnClick("CerrarPopAgregarRecomendacionHallazgo")
+    )
+    @(Html.DevExtreme().Button()
+                                                    .Text("Guardar")
+                                                    .ID("btnGuardarRecH")
+                                                    .Icon("save")
+                                                    .Type(ButtonType.Normal)
+                                                    .Width(90)
+                                                    .OnClick("InsertRecomendacionHallazgoInforme")
+    )
+
+</div>

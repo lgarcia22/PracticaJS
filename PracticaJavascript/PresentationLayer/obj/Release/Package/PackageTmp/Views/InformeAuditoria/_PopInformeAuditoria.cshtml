@@ -1,0 +1,27 @@
+﻿@(Html.DevExtreme().Popup()
+                                .ID("PopInformeAuditoria")
+                                .Width("80%")
+                                .Height("590px")
+                                .Visible(false)
+                                .CloseOnOutsideClick(false)
+                                .Position(pos => pos
+                                .My(HorizontalAlignment.Center, VerticalAlignment.Center)
+                                .At(HorizontalAlignment.Center, VerticalAlignment.Center)
+                                .Of(new JS("window"))).ContentTemplate(new TemplateName("ContenidoInforme"))
+)
+
+@using (Html.DevExtreme().NamedTemplate("ContenidoInforme"))
+{
+     @(Html.DevExtreme().ScrollView()
+                .ScrollByContent(true)
+                .ScrollByThumb(true)
+                .Height("100%")
+                .ReachBottomText("Updating...")
+                .ShowScrollbar(ShowScrollbarMode.OnScroll)
+                .Direction(ScrollDirection.Both)
+                .ID("scrollView")
+                .Content(@<text><div id="ContInformeAuditoria" style="padding-right:10px"></div>
+                </text>)
+        )
+}
+

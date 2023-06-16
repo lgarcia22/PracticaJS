@@ -1,0 +1,286 @@
+﻿@using DataAccessLayer.Util;
+
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="@Url.Content("~/Scripts/knockout-3.5.1.js")"></script>
+
+
+    @Scripts.Render("~/Scripts/bundle")
+    @Styles.Render("~/Content/bundle")
+    @Html.DevExpress().GetStyleSheets(
+        new StyleSheet { ExtensionSuite = ExtensionSuite.Report }
+        )
+    @Html.DevExpress().GetScripts(
+            new Script { ExtensionSuite = ExtensionSuite.Report }
+    )
+    @Styles.Render("~/Content/DevExtremeBundle")
+    @Scripts.Render("~/Scripts/DevExtremeBundle")
+    <script type="text/javascript" src="/HIS/Scripts/configuracionIdioma.js"></script>
+    @Styles.Render("~/Content/bundle")
+
+
+
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title </title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.14/jspdf.plugin.autotable.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.10.1/polyfill.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/3.8.0/exceljs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+
+
+    <style>
+        #loader {
+            transition: all 0.3s ease-in-out;
+            opacity: 1;
+            visibility: visible;
+            position: fixed;
+            height: 100vh;
+            width: 100%;
+            background: #fff;
+            z-index: 90000;
+        }
+
+            #loader.fadeOut {
+                opacity: 0;
+                visibility: hidden;
+            }
+
+
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            top: calc(50% - 20px);
+            left: calc(50% - 20px);
+            background-color: #333;
+            border-radius: 100%;
+            -webkit-animation: sk-scaleout 1.0s infinite ease-in-out;
+            animation: sk-scaleout 1.0s infinite ease-in-out;
+        }
+
+        @@-webkit-keyframes sk-scaleout {
+            0% {
+                -webkit-transform: scale(0)
+            }
+
+            100% {
+                -webkit-transform: scale(1.0);
+                opacity: 0;
+            }
+        }
+
+        @@keyframes sk-scaleout {
+            0% {
+                -webkit-transform: scale(0);
+                transform: scale(0);
+            }
+
+            100% {
+                -webkit-transform: scale(1.0);
+                transform: scale(1.0);
+                opacity: 0;
+            }
+        }
+    </style>
+
+</head>
+
+<body class="app">
+    @*<div id='loader'>
+            <div class="spinner"></div>
+        </div>
+
+        <script>
+            window.addEventListener('load', function load() {
+                const loader = document.getElementById('loader');
+                setTimeout(function () {
+                    loader.classList.add('fadeOut');
+                }, 300);
+            });
+        </script>*@
+    @Html.Partial("_NotificationPanel")
+    @Html.Partial("_PanelLoad")
+    @Html.Partial("_ChangePassword")
+    @Html.Partial("_Session")
+    <div>
+        @if (UtilClass.GetUsuarioSesion() != null)
+        {
+            <div class="sidebar">
+                <div class="sidebar-inner">
+                    <!-- ### $Sidebar Header ### -->
+                    <div class="sidebar-logo">
+                        <div class="peers ai-c fxw-nw">
+                            <div class="peer peer-greed">
+                                <a class="sidebar-link td-n" href="/">
+                                    <div class="peers ai-c fxw-nw">
+                                        <div class="peer">
+                                            <div class="logo">
+                                                <img src="~/Content/Image/Logo/logo.jpg" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="peer peer-greed logo">
+                                            <img src="~/Content/Image/Logo/tsc.jpg" alt="">
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="peer">
+                                <div class="mobile-toggle sidebar-toggle">
+                                    <a href="" class="td-n">
+                                        <i class="ti-arrow-circle-left"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @Html.Partial("_sidebar")
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="sidebar2">
+                <div class="logo">
+                    <img src="~/Content/Image/Logo/logo.jpg" alt="">
+                </div>
+            </div>
+        }
+
+
+        @* Navbar *@
+        <div class="page-container">
+            @Html.Partial("_Header")
+
+            <main class='main-content bgc-grey-100'>
+                @RenderBody()
+            </main>
+
+            @if (UtilClass.GetUsuarioSesion() != null)
+            {
+                <footer class="bdT ta-c p-30 lh-0  c-grey-600" style="font-size: 1.15rem !important; z-index: 1; position: relative;">
+                    <p style="margin-top: 16px;">
+                        <strong><span>HIS v3.0 </span></strong>
+                    </p>
+                    <p style="margin-bottom:19px; margin-top: 16px;">
+                        <strong> <span>Tribunal Superior de Cuentas © 2022</span></strong>
+                    </p>
+                </footer>
+            }
+
+        </div>
+    </div>
+
+</body>
+</html>
+<script>
+ 
+    window.jsPDF = window.jspdf.jsPDF;
+    applyPlugin(window.jsPDF);
+    
+    $(function () {
+        acciones();
+    }());
+
+    function DateTime(date) {
+
+        var hoy = new Date(date); var dd = hoy.getDate(); var mm = hoy.getMonth() + 1;
+        var yy = hoy.getFullYear();
+
+        if (dd < 10) { dd = '0' + dd } if (mm < 10) { mm = '0' + mm }
+
+        var hora = hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds();
+        hoy = dd + '/' + mm + '/' + yy + ' ' + hora;
+
+
+        return hoy;
+
+    }
+    function DateShort(date) {
+
+        var hoy = new Date(date); var dd = hoy.getDate(); var mm = hoy.getMonth() + 1;
+        var yy = hoy.getFullYear();
+
+        if (dd < 10) { dd = '0' + dd } if (mm < 10) { mm = '0' + mm }
+
+
+        hoy = dd + '/' + mm + '/' + yy
+
+
+        return hoy;
+
+    }
+
+    function acciones() {
+        
+        $('.sidebar .sidebar-menu li a').on('click', function () {
+            const $this = $(this);
+
+            if ($this.parent().hasClass('open')) {
+                $this
+                    .parent()
+                    .children('.dropdown-menu')
+                    .slideUp(200, () => {
+                        $this.parent().removeClass('open');
+                    });
+            } else {
+                $this
+                    .parent()
+                    .parent()
+                    .children('li.open')
+                    .children('.dropdown-menu')
+                    .slideUp(200);
+
+                $this
+                    .parent()
+                    .parent()
+                    .children('li.open')
+                    .children('a')
+                    .removeClass('open');
+
+                $this
+                    .parent()
+                    .parent()
+                    .children('li.open')
+                    .removeClass('open');
+
+                $this
+                    .parent()
+                    .children('.dropdown-menu')
+                    .slideDown(200, () => {
+                        $this.parent().addClass('open');
+                    });
+            }
+        });
+
+        // Sidebar Activity Class
+        const sidebarLinks = $('.sidebar').find('.sidebar-link');
+
+        sidebarLinks
+            .each((index, el) => {
+                $(el).removeClass('active');
+            })
+            .filter(function () {
+                const href = $(this).attr('href');
+                const pattern = href[0] === '/' ? href.substr(1) : href;
+                return pattern === (window.location.pathname).substr(1);
+            })
+            .addClass('active');
+
+        $('.sidebar-toggle').on('click', e => {
+            $('.app').toggleClass('is-collapsed');
+            e.preventDefault();
+        });
+    }
+</script>
+

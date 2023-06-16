@@ -1,0 +1,32 @@
+﻿@(Html.DevExtreme().Popup()
+                                    .ID("PopPlaAccion")
+                                    .Width("80%")
+                                    .Height("500px")
+                                    .Visible(false)
+                                    .CloseOnOutsideClick(false)
+                                    .Position(pos => pos
+                                    .My(HorizontalAlignment.Center, VerticalAlignment.Center)
+                                    .At(HorizontalAlignment.Center, VerticalAlignment.Center)
+                                    .Of(new JS("window"))).ContentTemplate(new TemplateName("ContenidoPa"))
+)
+
+@using (Html.DevExtreme().NamedTemplate("ContenidoPa"))
+{
+    @(Html.DevExtreme().ScrollView()
+                       .ScrollByContent(true)
+                       .ScrollByThumb(true)
+                       .Height("100%")
+                       .ReachBottomText("Updating...")
+                       .ShowScrollbar(ShowScrollbarMode.OnScroll)
+                       .Direction(ScrollDirection.Both)
+                       .ID("scrollView")
+                       .Content(@<text>
+                        <div>
+                            <p class="spanInfo"><i  class="fa-solid fa-circle-info iclass "></i>En este grid se listan los informes de auditoría que aún no tienen un plan de acción creado seleccione un informe y luego de clic en crear</p>
+                        </div>
+                        <div id="ContInformePa" style="padding-right:10px"></div>
+
+                    </text>)
+    )
+}
+

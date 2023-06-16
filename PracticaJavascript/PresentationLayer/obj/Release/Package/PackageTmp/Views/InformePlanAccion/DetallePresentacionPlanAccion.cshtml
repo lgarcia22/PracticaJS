@@ -1,0 +1,277 @@
+﻿@using DataEntityLayer.Models.Informes;
+@using DataAccessLayer.Util;
+@model InformeAuditoria
+@{
+    ViewBag.Title = "Presentación de Plan de Acción";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string numeroInforme = ViewBag.numeroInforme;
+    int codigoInforme = ViewBag.codigoInforme;
+    string urlMenu = ViewBag.urlMenu;
+    int tipoOperacion = ViewBag.tipoOperacion;
+    PresentacionPlanAccionModel presentacionPa = ViewBag.presentacionPa;
+    bool btnCrearPresentacionPaActivo = ViewBag.btnCrearPresentacionPaActivo;
+    bool btnReporteActivo = ViewBag.btnReporteActivo;
+    string urlMenuEncrip = ViewBag.urlMenuEncrip;
+    string codInfEncrip = ViewBag.codInfEncrip;
+}
+
+<nav aria-label="breadcrumb" class="menu">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Action("Index","InformeAuditoria" )?urlMenu=@urlMenu">Informe de Auditoría</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Detalle Presentación Plan de Acción</li>
+    </ol>
+</nav>
+<div class="Pop">
+    @Html.Partial("~/Views/InformePlanAccion/_PopInformePlanAccion.cshtml")
+</div>
+@if (btnCrearPresentacionPaActivo == true || btnReporteActivo == true)
+{
+    <div class="box">
+        <div class="contendor-botones">
+            @(Html.DevExtreme().Button()
+              .Text("Crear Presentación")
+              .ID("btnAgregarPresentacionPlanAccion")
+              .Icon("add")
+              .Type(ButtonType.Success)
+              .Width(150)
+              .OnClick("AbrirPopAgregarPresentacionPa")
+              .Visible(btnCrearPresentacionPaActivo))
+
+            @(Html.DevExtreme()
+              .Button()
+              .Text("Abrir Reporte")
+              .ID("btnAbrirReportePresentacionPa")
+              .Icon("far fa-file-pdf")
+              .OnClick("AbrirReportePresentacionPlanAccion")
+              .Visible(btnReporteActivo))
+        </div>
+    </div>
+}
+<div style="padding-top: 10px;">
+    @(Html.DevExtreme().TabPanel()
+    .ID("TabDetalleInformeAuditoria")
+    .SelectedIndex(0)
+    .Loop(false)
+    .AnimationEnabled(true)
+    .SwipeEnabled(true)
+    .Items(items =>
+    {
+        items.Add().Title("Detalle").Template(@<text>@Html.Partial("~/Views/InformePlanAccion/_TabPresentacionPlanAccion.cshtml", Model)</text>);
+        items.Add().Title("Bitácora").Template(@<text>@Html.Partial("~/Views/Auditoria/_GridAuditoria.cshtml")</text>);
+    }))
+</div>
+<script>
+     function AbrirPopAgregarPresentacionPa() {
+        MostrarPanelLoad();
+        $.ajax({
+            url: '@Url.Action("FormAgregarPresentacionPlanAccion", "InformePlanAccion")',
+            type: 'POST',
+            async: true,
+            cache: false,
+            data: { codigoInforme: @codigoInforme },
+            success: function (response)
+			{
+                $("#PopAgregarPresentacionPa").dxPopup("instance").option("title", "Crear Presentación de Plan de Acción");
+                $("#PopAgregarPresentacionPa").dxPopup("instance").show();
+                $("#ContAgregarPresentacionPa").html(response);
+                OcultarPanelLoad();
+            },
+            error: function (error) {
+                OcultarPanelLoad();
+                console.log("error", error);
+                Alert(error.statusText, "error");
+            }
+        });
+    };
+    function AbrirReportePresentacionPlanAccion() {
+        MostrarPanelLoad();
+        window.location.href = '@Url.Action("ReportePresentacionPlanAccion", "InformePlanAccion")' + "?" + "ci=" +  "@codInfEncrip" + "&urlMenu=" + "@urlMenuEncrip" ;
+    }
+</script>
+<script src="@Url.Content("~/Scripts/jquery-confirm.min.js")"></script>
+<script>
+
+    function CerrarPopAgregarPresentacionPa() {
+        var popup = $("#PopAgregarPresentacionPa").dxPopup("instance");
+        popup.hide();
+    }
+
+    function dummyFunction() {}
+
+    function AgregarPresentacionPa()
+    {
+        MostrarPanelLoad();
+        var form = $("#FormPresentacionPlanAccion0").dxForm("instance").option("formData");
+
+        if (form.numeroOficio != null && form.numeroOficio != "" && form.numeroIdentidadEntrega != null && form.numeroIdentidadEntrega != ""
+            && form.numeroIdentidadRecibe != null && form.numeroIdentidadRecibe != "" && form.fechaOficio != null && form.fechaOficio != ""
+            && form.nombreEntrega != null && form.nombreEntrega != "" && form.nombreRecibe != null && form.nombreRecibe != ""
+            && form.cargoEntrega != null && form.cargoEntrega != "" && form.observacion != null && form.observacion != "" && form.observacion != "/n"
+            && form.fechaPresentacion != null && form.fechaPresentacion != "" )
+        {
+            form.codigoInformeAuditoria = @codigoInforme;
+            $.ajax({
+             url: '@Url.Action("InsertPresentacionPlanAccion", "InformePlanAccion")',
+                    type: 'POST',
+                    async: true,
+                    cache: false,
+                    data: { values: form, fechaOficio: DateTime(form.fechaOficio), fechaPresentacion: DateTime(form.fechaPresentacion) },
+                    success: function (response) {
+                     CerrarPopAgregarPresentacionPa();
+                     OcultarPanelLoad();
+                     Alert("La presentación del plan de acción se ha registrado exitosamente", "success");
+                     setTimeout(location.reload(), 2000);
+                    },
+                        error: function (error) {
+                         OcultarPanelLoad();
+                         Alert(error.statusText, "Error al crear la presentación de plan de acción");
+                    }
+             });
+         }
+         else {
+             OcultarPanelLoad();
+             Alert('Debe llenar todos los campos !! ', "error");
+         }
+    }
+
+    if (@tipoOperacion == @UtilClass.tipoOperacionModificar)
+    {
+             function ActualizarPresentacionPa()
+             {
+                $.confirm({
+                    title: "Actualizar",
+                    animation: "zoom",
+                    closeAnimation: "zoom",
+                    animateFromElement: false,
+                    content: '<div>¿Está seguro que desea actualizar la Presentación de Plan de Acción? <br></div>',
+                    type: "orange",
+                    buttons:
+                             {
+                                 confirm:
+                                     {
+                                        text: "  Si  ",
+                                        action: () =>
+                                        {
+                                           EditarPresentacionPa();
+                                        }
+                                     }, cancel:
+                                     {
+                                        text: "  No  "
+                                     }
+                             }
+                });
+             }
+
+         function EditarPresentacionPa()
+         {
+             MostrarPanelLoad();
+             var idFormulario = "#FormPresentacionPlanAccion" + @presentacionPa.codigoInformeAuditoria;
+
+             // El código de informe es necesario para identificar de que formulario se debe extraer la información
+             var form = $(idFormulario).dxForm("instance").option("formData");
+
+             if (form.numeroOficio != null && form.numeroOficio != "" && form.numeroIdentidadEntrega != null && form.numeroIdentidadEntrega != ""
+                 && form.numeroIdentidadRecibe != null && form.numeroIdentidadRecibe != "" && form.fechaOficio != null && form.fechaOficio != ""
+                 && form.nombreEntrega != null && form.nombreEntrega != "" && form.nombreRecibe != null && form.nombreRecibe != ""
+                 && form.cargoEntrega != null && form.cargoEntrega != "" && form.observacion != null && form.observacion != "" && form.observacion != "/n"
+                 && form.fechaPresentacion != null && form.fechaPresentacion != "")
+             {
+                $.ajax({
+                 url: '@Url.Action("UpdatePresentacionPlanAccion", "InformePlanAccion")',
+                        type: 'POST',
+                        async: true,
+                        cache: false,
+                        data: { values: form, fechaOficio: DateTime(form.fechaOficio), fechaPresentacion: DateTime(form.fechaPresentacion) },
+                        success: function (response) {
+                         OcultarPanelLoad();
+                         Alert("La presentación del plan de acción se ha actualizado exitosamente", "success");
+                        },
+                            error: function (error) {
+                             OcultarPanelLoad();
+                             Alert(error.statusText, "Error al actualizar la presentación del plan de acción");
+                         }
+                 });
+             }
+             else {
+                 OcultarPanelLoad();
+                 Alert('Debe llenar todos los campos !! ', "error");
+             }
+         }
+
+    }
+
+    function Exporting(e) {
+        var workbook = new ExcelJS.Workbook();
+        var worksheet = workbook.addWorksheet('Bitácora Auditoría');
+
+        DevExpress.excelExporter.exportDataGrid({
+            component: e.component,
+            worksheet: worksheet,
+            autoFilterEnabled: true
+        }).then(function () {
+            workbook.xlsx.writeBuffer().then(function (buffer) {
+                saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Bitácora_Auditoría.xlsx');
+            });
+        });
+        e.cancel = true;
+    }
+
+    function RefreshGridBitacoraAuditoria() {
+        $("#GridBitacoraAuditoria").dxDataGrid("instance").refresh();
+    }
+
+    function ExportToCsvBitacoraAuditoria(e) {
+        var dataGrid = $("#GridBitacoraAuditoria").dxDataGrid("instance");
+        var workbook = new ExcelJS.Workbook();
+        var worksheet = workbook.addWorksheet('Bitacora_Auditoria');
+
+        DevExpress.excelExporter.exportDataGrid({
+            component: dataGrid,
+            worksheet: worksheet,
+        }).then(function () {
+            workbook.csv.writeBuffer().then(function (buffer) {
+                saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Bitácora_Auditoría.csv');
+            });
+        });
+        e.cancel = true;
+    }
+
+    function ExportToPdfBitacoraAuditoria() {
+        window.jsPDF = window.jspdf.jsPDF;
+        applyPlugin(window.jsPDF);
+        var options = {
+            orientation: 'l',
+            format: 'a4',
+            unit: 'mm',
+        };
+        var doc = new jsPDF(options);
+        doc.setTextColor('#FFFFFF');
+        doc.autoTable({
+            headStyles: { textColor: 21, horizontalPageBreak: true },
+            styles: { textColor: 21, horizontalPageBreak: true },
+            columnStyles: { 0: { halign: 'center' } },
+            body: [
+                [{ content: 'Bitácora de Auditoría', colSpan: 2, rowSpan: 20, styles: { halign: 'center' }, lineColor: 11 }],
+            ],
+        });
+        var dataGrid = $("#GridBitacoraAuditoria").dxDataGrid("instance");
+        DevExpress.pdfExporter.exportDataGrid({
+            jsPDFDocument: doc,
+            component: dataGrid,
+            customizeCell: function (options) {
+                test = options;
+                const { gridCell, pdfCell } = options;
+                if (gridCell.rowType === 'data') {
+                    pdfCell.styles = {
+                        font: 'times',
+                        fontSize: 14,
+                        overflow: 'linebreak'
+                    }
+                }
+            }
+        }).then(function () {
+            doc.save("Bitácora_Auditoría.pdf");
+        });
+    }
+
+</script>

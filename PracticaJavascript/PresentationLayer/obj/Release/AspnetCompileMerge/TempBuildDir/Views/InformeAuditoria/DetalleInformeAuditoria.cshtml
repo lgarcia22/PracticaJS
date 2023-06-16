@@ -1,0 +1,898 @@
+﻿@using DataEntityLayer.Models.Informes;
+@using DataAccessLayer.Util;
+@model InformeAuditoria
+
+@{
+    ViewBag.Title = "Detalle Informe Auditoria";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string numeroInforme = ViewBag.numeroInforme;
+    int codigoInforme = int.Parse(ViewBag.codigoInforme);
+    string codigoInformeEncrip =ViewBag.codigoInformeEncrip;
+    int tipoOperacion = UtilClass.tipEstadoRegistrado;
+    int tipoOperacionV = UtilClass.tipEstadoVerificado;
+    int tipoOperacionA= UtilClass.tipEstadoAnulado;
+    string menu = ViewBag.urlMenu;
+    string menuEncrip = ViewBag.urlMenuEncrip;
+    string urlMenuEncrip = ViewBag.urlMenuEncrip;
+    string codInfEncrip = ViewBag.codInfEncrip;
+}
+
+<nav aria-label="breadcrumb" class="menu">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            @if (ViewBag.urlMenu == UtilClass.bandejaNoNotificado)
+            {
+                <a href="@Url.Action("Index","InformeAuditoria" )?urlMenu=@ViewBag.urlMenu"> Informe de Auditoría</a>
+            }
+            @if (ViewBag.urlMenu == UtilClass.bandejaNotificado)
+            {
+                <a href="@Url.Action("Index","InformeAuditoria" )?urlMenu=@ViewBag.urlMenu"> Informe Notificado</a>
+            }
+            @if (ViewBag.urlMenu == UtilClass.bandejaVerificado)
+            {
+                <a href="@Url.Action("Index","InformeAuditoria" )?urlMenu=@ViewBag.urlMenu"> Informe Verificado</a>
+            }
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Detalle Informe</li>
+    </ol>
+</nav>
+
+<div class="box">
+    <div class="contendor-botones">
+        @(Html.DevExtreme()
+                                   .Button()
+                                   .Text("Verificar")
+                                   .Icon("check")
+                                   .ID("btnVerificarInf")
+                                   .Visible(ViewBag.isBtnVerificarInf)
+                                   .OnClick("VerificarInforme")
+        )
+        @(Html.DevExtreme()
+                                   .Button()
+                                   .Text("Reversar Verificación Informe")
+                                   .Icon("revert")
+                                   .ID("btnRevVerificarInf")
+                                   .Visible(ViewBag.btnRevVerificarInf)
+                                   .OnClick("ReversarVerificarInforme")
+        )
+
+        @(Html.DevExtreme()
+                                   .Button()
+                                   .Text("Anular Informe")
+                                   .Icon("remove")
+                                   .ID("btnAnularInf")
+                                   .Visible(ViewBag.isBtnAnularInf)
+                                   .OnClick("AnularInforme")
+        )
+
+        @(Html.DevExtreme()
+                                   .Button()
+                                   .Text("Abrir Reporte")
+                                   .ID("btnAbrirReporte")
+                                   .Icon("far fa-file-pdf")
+                                   .OnClick("AbrirReporteInforme")
+                                   .Visible(ViewBag.isBtnAbrirReporte)
+        )
+    </div>
+</div>
+
+
+<div style="padding-top: 10px;">
+    @(Html.DevExtreme().TabPanel()
+                                                        .ID("TabDetalleInformeAuditoria")
+                                                        .SelectedIndex(0)
+                                                        .Loop(false)
+                                                        .AnimationEnabled(true)
+                                                        .SwipeEnabled(true)
+                                                        .Items(items =>
+                                                        {
+                                                            items.Add().Title("Detalle").Template(@<text> @Html.Partial("~/Views/InformeAuditoria/_TabDetalleInformeAuditoria.cshtml", Model)</text>);
+                                                                    items.Add().Title("Hallazgos").Template(@<text> @Html.Partial("~/Views/InformeAuditoria/_TabHallazgoInformeAuditoria.cshtml", Model)</text>);
+                                                                            items.Add().Title("Observaciones").Template(@<text> @Html.Partial("~/Views/InformeAuditoria/_TabObservacionInformeAuditoria.cshtml", Model)</text>);
+                                                                                    //items.Add().Title("Tipo de Auditoría").Template(@<text> @Html.Partial("~/Views/InformeAuditoria/_TabTipoAuditoria.cshtml")</text>);
+                                                                                            items.Add().Title("Bitácora");
+
+                                                                                        })
+    )
+</div>
+
+
+<div id="Pop" class="col-lg-12 ">
+    @Html.Partial("~/Views/InformeAuditoria/_PopHallazgoInforme.cshtml")
+    @Html.Partial("~/Views/InformeAuditoria/_PopRecomendacionHallazgo.cshtml")
+    @Html.Partial("~/Views/InformeAuditoria/_PopObservacionInforme.cshtml")
+    
+
+   
+
+</div>
+<script src="@Url.Content("~/Scripts/jquery-confirm.min.js")"></script>
+<script>
+    $(document).ready(function () {
+        CargarTipoAuditoria();
+        CargarTipoAuditoriaInforme();
+    });
+
+    //var collapsed = false;
+    //function contentReady(e) {
+    //    console.log("contentReady");
+    //    console.log(e);
+    //    //if (!collapsed) {
+    //    //    collapsed = true;
+    //    //    e.component.expandRow(["EnviroCare"]);
+    //    //}
+    //    e.component.collapseAll(-1);
+    //}
+
+    function CargarTipoAuditoria() {
+        MostrarPanelLoad();
+		$.ajax({
+			method: 'GET',
+			dataType: 'json',
+			url: '@Url.Action("GetTipoAuditoria", "Catalogo")',
+            success: function (response) {
+                for (i = 0; i < response.data.length; i++) {
+                    $("#tipoAudt").append(`<div style="margin-top: 7px !important; padding-bottom: 7px !important;" class="col-md-3 col-lg-4 col-sm-3 col-4"> <label class="checkbox-inline"><input name ="checks[]" class="check" id="chk${response.data[i].codigoTipoAuditoria}" type="checkbox" value="${response.data[i].codigoTipoAuditoria}"> ${response.data[i].descripcion}</label></br></div>`)
+				}
+                OcultarPanelLoad();
+			}
+		});
+    }
+
+    function CargarTipoAuditoriaInforme() {
+		var codInforme = @ViewBag.codigoInforme;
+		$.ajax({
+			method: 'GET',
+			dataType: 'json',
+			data: { codInformeAuditoria: codInforme },
+			url: '@Url.Action("GetTipoAuditoriaInforme", "InformeAuditoria")',
+			success: function (response) {
+                console.log(response.data);
+				checkboxes = document.getElementsByName('checks[]');
+				for (var i = 0, n = checkboxes.length; i < n; i++) {
+					checkboxes[i].checked = false;
+				}
+
+				for (i = 0; i < response.data.length; i++) {
+					//var checkbox = "chk" + response.data[i].codigoTipoAuditoria;
+					//var chk = document.getElementById(checkbox);
+     //               chk.checked = true;
+                    $("#chk" + response.data[i].codigoTipoAuditoria).prop("checked", true);
+				}
+			}
+		});
+	}
+    
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    function AnularInforme() {
+
+        $.confirm({
+            title: "Anular Informe",
+            animation: "zoom",
+            closeAnimation: "zoom",
+            animateFromElement: false,
+            content: '<div>¿Está seguro que desea anular este informe? <br></div>',
+            type: "orange",
+            buttons: {
+                confirm: {
+                    //btnClass: 'btn-primary',
+                    text: "  Si  ",
+                    action: () => {
+                        AnularInformeAuditoria();
+                    }
+                }, cancel: {
+                    text: "  No  "
+                }
+            }
+        });
+    }
+
+    function AnularInformeAuditoria()
+    {
+        var menu = '@menu';
+        var codInforme = @ViewBag.codigoInforme;
+        var codEstado=@tipoOperacionA;
+        MostrarPanelLoad();
+        $.ajax({
+                url: '@Url.Action("CambiarEstadoInforme", "InformeAuditoria")',
+                type: 'POST',
+                async: true,
+                cache: false,
+            data: { tipoOperacion: codEstado, codigoInforme: codInforme, comentario:" "},
+            success: function (response) {
+                    Alert("Se anuló el informe exitosamente", "success");
+                    OcultarPanelLoad();
+                    window.location.href = '@Url.Action("Index", "InformeAuditoria")?urlMenu='+menu;
+                },
+                error: function (error) {
+                    OcultarPanelLoad();
+                    Alert(error.statusText, "error");
+                }
+        });
+    }
+
+    function VerificarInforme() {
+
+        $.confirm({
+            title: "Verificar Informe",
+            animation: "zoom",
+            closeAnimation: "zoom",
+            animateFromElement: false,
+            content: '<div>¿Está seguro que desea verificar este informe? <br></div>',
+            type: "orange",
+            buttons: {
+                confirm: {
+                    //btnClass: 'btn-primary',
+                    text: "  Si  ",
+                    action: () => {
+                        VerificarInformeAuditoria();
+                    }
+                }, cancel: {
+                    text: "  No  "
+                }
+            }
+        });
+    }
+
+    function VerificarInformeAuditoria()
+    {
+        var menu = '@menuEncrip';
+        var codInforme = @ViewBag.codigoInforme;
+        var codEstado=@tipoOperacionV;
+        MostrarPanelLoad();
+        $.ajax({
+                url: '@Url.Action("CambiarEstadoInforme", "InformeAuditoria")',
+                type: 'POST',
+                async: true,
+                cache: false,
+            data: { tipoOperacion: codEstado, codigoInforme: codInforme, comentario:" "},
+            success: function (response) {
+                    Alert("Se verificó el informe exitosamente", "success");
+                    OcultarPanelLoad();
+                window.location.href = '@Url.Action("DetalleInformeAuditoria", "InformeAuditoria")?codInf=' + "@codigoInformeEncrip"+ '&urlMenu=' + menu;
+                },
+                error: function (error) {
+                    OcultarPanelLoad();
+                    Alert(error.statusText, "error");
+                }
+        });
+    }
+
+
+    function ReversarVerificarInforme() {
+
+        $.confirm({
+            title: "Reversar Verificación del Informe",
+            animation: "zoom",
+            closeAnimation: "zoom",
+            animateFromElement: false,
+            content: '<div>¿Está seguro que desea la verificación de  este informe? <br></div>',
+            type: "orange",
+            buttons: {
+                confirm: {
+                    //btnClass: 'btn-primary',
+                    text: "  Si  ",
+                    action: () => {
+                        ReversarVerificarInformeAuditoria();
+                    }
+                }, cancel: {
+                    text: "  No  "
+                }
+            }
+        });
+    }
+
+    function ReversarVerificarInformeAuditoria()
+    {
+        var menu = '@menuEncrip';
+        var codInforme = @ViewBag.codigoInforme;
+        var codEstado=@tipoOperacion;
+        MostrarPanelLoad();
+        $.ajax({
+                url: '@Url.Action("CambiarEstadoInforme", "InformeAuditoria")',
+                type: 'POST',
+                async: true,
+                cache: false,
+            data: { tipoOperacion: codEstado, codigoInforme: codInforme, comentario:" "},
+            success: function (response) {
+                    Alert("Se reversó el informe a estado REGISTRAO exitosamente", "success");
+                    OcultarPanelLoad();
+                window.location.href = '@Url.Action("DetalleInformeAuditoria", "InformeAuditoria")?codInf=' + "@codigoInformeEncrip"+ '&urlMenu=' + menu;
+                },
+                error: function (error) {
+                    OcultarPanelLoad();
+                    Alert(error.statusText, "error");
+                }
+        });
+    }
+
+    
+
+    function ActualizarInforme() {
+
+        $.confirm({
+            title: "Actualizar",
+            animation: "zoom",
+            closeAnimation: "zoom",
+            animateFromElement: false,
+            content: '<div>¿Está seguro que desea actualizar el informe de auditoria? <br></div>',
+            type: "orange",
+            buttons: {
+                confirm: {
+                    //btnClass: 'btn-primary',
+                    text: "  Si  ",
+                    action:  ()=> {
+                        console.log("Actualizar Informe de Auditoria");
+                        ActualizarInformeAuditoria();
+                    }
+                }, cancel: {
+                    text: "  No  "
+                }
+            }
+        });
+    }
+
+    function CheckTipoAuditoria() {
+        var arr = $('[name="checks[]"]:checked').map(function () {
+            return this.value;
+        }).get();
+        var str = arr.join(',');
+        $('#idTipoAuditoria').val(str);
+        if ($('#idTipoAuditoria').val() == null || $('#idTipoAuditoria').val() == '') {
+            Alert('Debe seleccionar al menos un tipo de auditoría !! ', "error");
+        } else {
+            $.confirm({
+                title: "Actualizar",
+                animation: "zoom",
+                closeAnimation: "zoom",
+                animateFromElement: false,
+                content: '<div>¿Está seguro que desea actualizar el tipo de auditoría para este informe de auditoria? <br></div>',
+                type: "orange",
+                buttons: {
+                    confirm: {
+                        //btnClass: 'btn-primary',
+                        text: "  Si  ",
+                        action: () => {
+                            ActualizarTipoAuditoriaInforme();
+                        }
+                    }, cancel: {
+                        text: "  No  "
+                    }
+                }
+            });
+        }
+    }
+
+    function ActualizarTipoAuditoriaInforme()
+    {
+        var idTipoAuditoria = $('#idTipoAuditoria').val();
+        var codInforme = @ViewBag.codigoInforme;
+        MostrarPanelLoad();
+        $.ajax({
+                url: '@Url.Action("UpdateTipoInformeAuditoria", "InformeAuditoria")',
+                type: 'POST',
+                async: true,
+                cache: false,
+            data: { tipoAuditoria: idTipoAuditoria, codigoInforme: codInforme},
+                success: function (response) {
+                    OcultarPanelLoad();
+                    Alert("El tipo de auditoría se ha actualizado exitosamente", "success");
+                    window.location.href = '@Url.Action("DetalleInformeAuditoria", "InformeAuditoria")?codInf=' +"@codigoInformeEncrip"+ '&urlMenu=' + "@menuEncrip";
+                },
+                error: function (error) {
+                    OcultarPanelLoad();
+                    Alert(error.statusText, "error");
+                }
+        });
+    }
+
+    /////////////////////////////////////////actualizar informe de auditoria//////////////////////////////////////////////////
+    function ActualizarInformeAuditoria()
+    {
+        MostrarPanelLoad();
+        var form = $("#formDatosInformeAuditoria").dxForm("instance").option("formData");
+        var entidadVersion = form.codigoCompuestoEntidadVersion;
+
+        var myArray = entidadVersion.split(",");
+        form.codigoEntidadVersion = parseInt(myArray[1]);
+        form.codigoEntidad = parseInt(myArray[0]);
+        if (form.numeroInforme != null && form.numeroInforme != "" && form.numeroOficioRemision != null && form.numeroOficioRemision != "" && form.fechaIngreso != null && form.codigoFuenteFinanciera != null
+            && form.tema != null && form.codigoEstado != null && form.rubro != null && form.fechaInicio != null &&
+            form.fechaFin != null && form.codigoEntidad != null && form.codigoGeografico != null && form.codigoGeograficoMunicipio != null
+            && form.codigoEntidadAuditora != null && form.codigoUsuarioAuditor != null && form.codigoUsuarioSupervisor != null)
+        {
+            $.ajax({
+                    url: '@Url.Action("UpdateInformeAuditoria", "InformeAuditoria")',
+                    type: 'POST',
+                    async: true,
+                    cache: false,
+                data: { values: form, fechaIngreso: DateTime(form.fechaIngreso), fechaInicio: DateShort(form.fechaInicio), fechaFin: DateShort(form.fechaFin)  },
+                    success: function (response) {
+                        OcultarPanelLoad();
+                        Alert("El informe se ha actualizado exitosamente", "success");
+                        window.location.href = '@Url.Action("DetalleInformeAuditoria", "InformeAuditoria")?codInf=' + "@codigoInformeEncrip"+ '&urlMenu=' + "@menuEncrip";
+                    },
+                    error: function (error) {
+                        OcultarPanelLoad();
+                        Alert(error.statusText, "error");
+                    }
+                });
+        }
+        else {
+            OcultarPanelLoad();
+            Alert('Debe llenar todos los campos !! ', "error");
+        }
+
+    }
+
+    /////////////////////////////////////////hallazgos ////////////////////////////////////////////////////////
+    /////////////////////////////////////////Agregar hallazgo //////////////////////////////////////////////////
+
+    function DetalleRecomendacion(numeroHallazgo)
+    {
+        var menu = "@ViewBag.urlMenu";
+        MostrarPanelLoad();
+        $.ajax(
+        {
+            url: '@Url.Action("RecomendacionHallazgoInformeA", "InformeAuditoria")',
+            method: 'GET',
+            cache: false,
+            async: true,
+            data: { codigoHallazgo: numeroHallazgo.codigoHallazgo, urlMenu:menu}
+            }
+        ).done(function (response)
+            {
+               $("#RecomendacionHallazgo").html(response);
+
+            }
+        ).fail(function (error)
+            {
+                OcultarPanelLoad();
+                mostrarError(error.statusText);
+            }
+        );
+        OcultarPanelLoad();
+    }
+
+    function InsertHallazgoInformeAuditoria()
+    {
+        MostrarPanelLoad();
+        var form = $("#FormAgregarHallazgoInforme").dxForm("instance").option("formData");
+        form.codigoInformeAuditoria=@codigoInforme;
+        if (form.titulo != null)
+        {
+            $.ajax({
+                    url: '@Url.Action("InsertHallazgoInforme", "InformeAuditoria")',
+                    type: 'POST',
+                    async: true,
+                    cache: false,
+                data: { values: form },
+                    success: function (response) {
+                        CerrarPopAgregarHallazgoInforme();
+                        OcultarPanelLoad();
+                        Alert("El hallazgo se ha registrado exitosamente", "success");
+                        //RefreshGridRecomendacionHallazgo();
+                        RefreshGridHallazgoInforme();
+                    },
+                    error: function (error) {
+                        OcultarPanelLoad();
+                        Alert(error.statusText, "error");
+                    }
+                });
+        }
+        else {
+            OcultarPanelLoad();
+            Alert('Debe llenar todos los campos !! ', "error");
+        }
+
+    }
+
+    function AbrirPopAgregarHallazgoInforme() {
+        var codInformeA = "@codigoInforme";
+        MostrarPanelLoad();
+        $.ajax({
+            url: '@Url.Action("FormAgregarHallazgoInforme", "InformeAuditoria")',
+            type: 'POST',
+            async: true,
+            cache: false,
+            data: { codInforme: codInformeA},
+            success: function (response)
+            {
+
+                $("#PopHallazgo").dxPopup("instance").option("title", "Crear Nuevo Hallazgo Informe No. " + "@numeroInforme");
+                $("#PopHallazgo").dxPopup("instance").show();
+                $("#ContHallazgoInforme").html(response);
+                 OcultarPanelLoad();
+            },
+            error: function (error) {
+                OcultarPanelLoad();
+                Alert(error.statusText, "error");
+            }
+        });
+    }
+
+    function CerrarPopAgregarHallazgoInforme() {
+        var popup = $("#PopHallazgo").dxPopup("instance");
+        popup.hide();
+    }
+
+    function AbrirPopAgregarRecomendacionHallazgo() {
+        var numHallazgo = $("#numHallazgo").val();
+        var codHallazgoInf = $("#codHallazgo").val();
+        MostrarPanelLoad();
+        $.ajax({
+            url: '@Url.Action("FormAgregarRecomendacionHallazgo", "InformeAuditoria")',
+            type: 'POST',
+            async: true,
+            cache: false,
+            data: { codHallazgo: codHallazgoInf},
+            success: function (response)
+            {
+
+                $("#PopRecomendacionHallazgo").dxPopup("instance").option("title", "Crear Nueva Recomendación Hallazgo No. " + numHallazgo);
+                $("#PopRecomendacionHallazgo").dxPopup("instance").show();
+                $("#ContRecomendacionHallazgo").html(response);
+                 OcultarPanelLoad();
+            },
+            error: function (error) {
+                OcultarPanelLoad();
+                Alert(error.statusText, "error");
+            }
+        });
+    }
+
+
+    function CerrarPopAgregarRecomendacionHallazgo() {
+        var popup = $("#PopRecomendacionHallazgo").dxPopup("instance");
+        popup.hide();
+    }
+
+
+
+    function AbrirPopAgregarObservacionInforme() {
+
+        MostrarPanelLoad();
+        $.ajax({
+            url: '@Url.Action("FormAgregarObservacionInforme", "InformeAuditoria")',
+            type: 'POST',
+            async: true,
+            cache:false,
+            success: function (response)
+            {
+
+                $("#PopObservacion").dxPopup("instance").option("title", "Crear Nueva Observación Informe No. " + "@numeroInforme");
+                $("#PopObservacion").dxPopup("instance").show();
+                $("#ContObservacionInforme").html(response);
+                 OcultarPanelLoad();
+            },
+            error: function (error) {
+                OcultarPanelLoad();
+                Alert(error.statusText, "error");
+            }
+        });
+    }
+
+    function AbrirReporteInforme() {
+        MostrarPanelLoad();
+        window.location.href = '@Url.Action("ReporteInformeAuditoria", "InformeAuditoria")' + "?" + "ci=" +  "@codInfEncrip" + "&urlMenu=" + "@urlMenuEncrip" ;
+    }
+
+    function CerrarPopAgregarObservacionInforme() {
+        var popup = $("#PopObservacion").dxPopup("instance");
+        popup.hide();
+    }
+
+    function RefreshGridObservacionInformeA() {
+        $("#GridObservacionInformeAuditoria").dxDataGrid("instance").refresh();
+    }
+
+    function ExportToCsvObservacionInforme(e) {
+        var dataGrid = $("#GridObservacionInformeAuditoria").dxDataGrid("instance");
+        var workbook = new ExcelJS.Workbook();
+        var worksheet = workbook.addWorksheet('Observacion_Informe');
+
+        DevExpress.excelExporter.exportDataGrid({
+            component: dataGrid,
+            worksheet: worksheet,
+        }).then(function () {
+            workbook.csv.writeBuffer().then(function (buffer) {
+                saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Observacion_Informe.csv');
+            });
+        });
+        e.cancel = true;
+    }
+
+    function ExportToPdfObservacionInforme() {
+        window.jsPDF = window.jspdf.jsPDF;
+        applyPlugin(window.jsPDF);
+        var options = {
+            orientation: 'l',
+            format: 'a4',
+            unit: 'mm',
+        };
+        var doc = new jsPDF(options);
+        doc.setTextColor('#FFFFFF');
+        doc.autoTable({
+            headStyles: { textColor: 21, horizontalPageBreak: true },
+            styles: { textColor: 21, horizontalPageBreak: true },
+            columnStyles: { 0: { halign: 'center' } },
+            body: [
+                [{ content: 'Observaciones del Informe de Auditoría', colSpan: 2, rowSpan: 20, styles: { halign: 'center' }, lineColor: 11 }],
+            ],
+        });
+        var dataGrid = $("#GridObservacionInformeAuditoria").dxDataGrid("instance");
+        DevExpress.pdfExporter.exportDataGrid({
+            jsPDFDocument: doc,
+            component: dataGrid,
+            customizeCell: function (options) {
+                test = options;
+                const { gridCell, pdfCell } = options;
+                if (gridCell.rowType === 'data') {
+                    pdfCell.styles = {
+                        font: 'times',
+                        fontSize: 14,
+                        overflow: 'linebreak'
+                    }
+                }
+            }
+        }).then(function () {
+            doc.save("Observacion_Informe_Auditoria.pdf");
+        });
+    }
+
+
+
+    function ExportingObservacionInforme(e) {
+        var workbook = new ExcelJS.Workbook();
+        var worksheet = workbook.addWorksheet('Observacion_Informe_Auditoria');
+
+        DevExpress.excelExporter.exportDataGrid({
+            component: e.component,
+            worksheet: worksheet,
+            autoFilterEnabled: true
+        }).then(function () {
+            workbook.xlsx.writeBuffer().then(function (buffer) {
+                saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Observacion_Informe_Auditoria.xlsx');
+            });
+        });
+        e.cancel = true;
+    }
+
+    /////////////////////////////////////////Agregar observacion informe //////////////////////////////////////////////////
+    function InsertObservacionInforme()
+    {
+        MostrarPanelLoad();
+        var form = $("#FormAgregarObservacionInforme").dxForm("instance").option("formData");
+        form.codigoInformeAuditoria=@codigoInforme;
+        if (form.fechaIngreso != null && form.codigoUsuarioElaborador != null && form.descripcion != null)
+        {
+            $.ajax({
+                    url: '@Url.Action("InsertObservacionInforme", "InformeAuditoria")',
+                    type: 'POST',
+                    async: true,
+                    cache: false,
+                data: { values: form, fechaIngreso: DateShort(form.fechaIngreso) },
+                    success: function (response) {
+                        CerrarPopAgregarObservacionInforme();
+                        OcultarPanelLoad();
+                        Alert("La Observación se ha registrado exitosamente", "success");
+                        RefreshGridObservacionInformeA();
+                    },
+                    error: function (error) {
+                        OcultarPanelLoad();
+                        Alert(error.statusText, "error");
+                    }
+                });
+        }
+        else {
+            OcultarPanelLoad();
+            Alert('Debe llenar todos los campos !! ', "error");
+        }
+
+    }
+
+    ////////////////////////////////////// Hallazgos ////////////////////////////////////////////////////////////////
+    function RefreshGridHallazgoInforme() {
+
+        var codHallazgo = $("#codHallazgo").val();
+        console.log("Hallazgo expandido" + codHallazgo);
+        $("#GridHallazgoInformeAuditoria").dxDataGrid("instance").refresh();
+        if (codHallazgo > 0) {
+            DetalleRecomendacion(codHallazgo);
+        }
+    }
+
+    function ExportToCsvHallazgo(e) {
+        var dataGrid = $("#GridHallazgoInformeAuditoria").dxDataGrid("instance");
+        var workbook = new ExcelJS.Workbook();
+        var worksheet = workbook.addWorksheet('Hallazgos_Informe');
+
+        DevExpress.excelExporter.exportDataGrid({
+            component: dataGrid,
+            worksheet: worksheet,
+        }).then(function () {
+            workbook.csv.writeBuffer().then(function (buffer) {
+                saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Hallazgos_Informe.csv');
+            });
+        });
+        e.cancel = true;
+    }
+
+
+    function ExportToPdfHallazgo() {
+        window.jsPDF = window.jspdf.jsPDF;
+        applyPlugin(window.jsPDF);
+        var options = {
+            orientation: 'l',
+            format: 'a4',
+            unit: 'mm',
+        };
+        var doc = new jsPDF(options);
+        doc.setTextColor('#FFFFFF');
+        doc.autoTable({
+            headStyles: { textColor: 21, horizontalPageBreak: true },
+            styles: { textColor: 21, horizontalPageBreak: true },
+            columnStyles: { 0: { halign: 'center' } },
+            body: [
+                [{ content: 'Hallazgo del Informe de Auditoría', colSpan: 2, rowSpan: 20, styles: { halign: 'center' }, lineColor: 11 }],
+            ],
+        });
+        var dataGrid = $("#GridHallazgoInformeAuditoria").dxDataGrid("instance");
+        DevExpress.pdfExporter.exportDataGrid({
+            jsPDFDocument: doc,
+            component: dataGrid,
+            customizeCell: function (options) {
+                test = options;
+                const { gridCell, pdfCell } = options;
+                if (gridCell.rowType === 'data') {
+                    pdfCell.styles = {
+                        font: 'times',
+                        fontSize: 14,
+                        overflow: 'linebreak'
+                    }
+                }
+            }
+        }).then(function () {
+            doc.save("Hallazgo_Informe_Auditoria.pdf");
+        });
+    }
+
+
+    function ExportingHallazgo(e) {
+        var workbook = new ExcelJS.Workbook();
+        var worksheet = workbook.addWorksheet('Hallazgos_Informe_Auditoria');
+
+        DevExpress.excelExporter.exportDataGrid({
+            component: e.component,
+            worksheet: worksheet,
+            autoFilterEnabled: true
+        }).then(function () {
+            workbook.xlsx.writeBuffer().then(function (buffer) {
+                saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Hallazgos_Informe_Auditoria.xlsx');
+            });
+        });
+        e.cancel = true;
+    }
+
+
+    ///////////////////////////////Recomendaciones Hallazgo/////////////////////////////////////////
+
+    function RefreshGridRecomendacionHallazgo() {
+        $("#GridRecomendacionHallazgoInformeAuditoria").dxDataGrid("instance").refresh();
+    }
+
+    function ExportToCsvRecomendacionHallazgo(e) {
+        var dataGrid = $("#GridRecomendacionHallazgoInformeAuditoria").dxDataGrid("instance");
+        var workbook = new ExcelJS.Workbook();
+        var worksheet = workbook.addWorksheet('Recomendacion_Hallazgo_Informe_Auditoria');
+
+        DevExpress.excelExporter.exportDataGrid({
+            component: dataGrid,
+            worksheet: worksheet,
+        }).then(function () {
+            workbook.csv.writeBuffer().then(function (buffer) {
+                saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Recomendacion_Hallazgo_Informe_Auditoria.csv');
+            });
+        });
+        e.cancel = true;
+    }
+
+
+    function ExportToPdfRecomendacionHallazgo() {
+        window.jsPDF = window.jspdf.jsPDF;
+        applyPlugin(window.jsPDF);
+        var options = {
+            orientation: 'l',
+            format: 'a4',
+            unit: 'mm',
+        };
+        var doc = new jsPDF(options);
+        doc.setTextColor('#FFFFFF');
+        doc.autoTable({
+            headStyles: { textColor: 21, horizontalPageBreak: true },
+            styles: { textColor: 21, horizontalPageBreak: true },
+            columnStyles: { 0: { halign: 'center' } },
+            body: [
+                [{ content: 'Recomendaciones de Hallazgo del Informe de Auditoría', colSpan: 2, rowSpan: 20, styles: { halign: 'center' }, lineColor: 11 }],
+            ],
+        });
+        var dataGrid = $("#GridRecomendacionHallazgoInformeAuditoria").dxDataGrid("instance");
+        DevExpress.pdfExporter.exportDataGrid({
+            jsPDFDocument: doc,
+            component: dataGrid,
+            customizeCell: function (options) {
+                test = options;
+                const { gridCell, pdfCell } = options;
+                if (gridCell.rowType === 'data') {
+                    pdfCell.styles = {
+                        font: 'times',
+                        fontSize: 14,
+                        overflow: 'linebreak'
+                    }
+                }
+            }
+        }).then(function () {
+            doc.save("Recomendacion_Hallazgo_Informe_Auditoria.pdf");
+        });
+    }
+
+
+    function ExportingRecomendacionHallazgo(e) {
+        var workbook = new ExcelJS.Workbook();
+        var worksheet = workbook.addWorksheet('Recomendacion_Hallazgo_Informe_Auditoria');
+
+        DevExpress.excelExporter.exportDataGrid({
+            component: e.component,
+            worksheet: worksheet,
+            autoFilterEnabled: true
+        }).then(function () {
+            workbook.xlsx.writeBuffer().then(function (buffer) {
+                saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Recomendacion_Hallazgo_Informe_Auditoria.xlsx');
+            });
+        });
+        e.cancel = true;
+    }
+
+    /////////////////////////////////////////Agregar recomendación //////////////////////////////////////////////////
+    function InsertRecomendacionHallazgoInforme()
+    {
+        var numHallazgo = $("#numHallazgo").val();
+        var codHallazgo = $("#codHallazgo").val();
+        //var codInforme = $("#codInforme").val();
+        MostrarPanelLoad();
+        var form = $("#FormAgregarRecomendacionHallazgo").dxForm("instance").option("formData");
+        form.codigoInformeAuditoria =@codigoInforme;
+        form.codigoHallazgo = codHallazgo;
+
+        if (form.codigoTipoRecomendacion != null && form.codigoPrioridadRecomendacion != null &&
+            form.dirigidoA != null && form.descripcion != null)
+        {
+
+            $.ajax({
+                    url: '@Url.Action("InsertRecomendacionHallazgoInforme", "InformeAuditoria")',
+                    type: 'POST',
+                    async: true,
+                    cache: false,
+                data: { values: form },
+                    success: function (response) {
+                        CerrarPopAgregarRecomendacionHallazgo();
+                        Alert("Se ha registrado la recomendación exitosamente", "success");
+                        RefreshGridRecomendacionHallazgo();
+                        OcultarPanelLoad();
+                    },
+                    error: function (error) {
+                        OcultarPanelLoad();
+                        Alert(error.statusText, "error");
+                    }
+                });
+        }
+        else {
+            OcultarPanelLoad();
+            Alert('Debe llenar todos los campos !! ', "error");
+        }
+
+    }
+
+</script>
